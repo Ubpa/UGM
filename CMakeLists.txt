@@ -1,11 +1,9 @@
 # 设置 CMake 的最低版本要求
-cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
-#cmake_policy(VERSION 3.10)
-
-set(PROJECT_NAME "UGM")
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # 设定项目
-project (${PROJECT_NAME} VERSION 1.0)
+project(UGM VERSION 1.0)
+message(STATUS "[Project] ${PROJECT_NAME}")
 
 # 修改默认的安装路径前缀
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -37,12 +35,17 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/lib")
 # 开启 VS 的文件夹功能
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# 添加自定义 CMake 模块 UbpaTool.cmake，内含一些工具函数
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(UbpaTool)
+include(FetchContent)
+FetchContent_Declare(
+  UTemplate
+  GIT_REPOSITORY https://github.com/Ubpa/UTemplate.git
+  GIT_TAG        f7e1c71
+)
+FetchContent_MakeAvailable(UTemplate)
 
 include_directories (
 	${PROJECT_SOURCE_DIR}/include
+	${utemplate_SOURCE_DIR}/include
 	# $ENV{XXX_INCLUDE_PATH}
 	# ...
 )

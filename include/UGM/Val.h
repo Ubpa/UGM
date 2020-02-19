@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Interfaces/IVal.h"
+#include "Interfaces/IArray.h"
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Val : SIIT_CRTP<TemplateList<IVal>, Val<T, N>, T, Size<N>> {
-		using SIIT_CRTP<TemplateList<IVal>, Val<T, N>, T, Size<N>>::SIIT_CRTP;
+	struct Val : SIIT_CRTP<TemplateList<IArray>, Val<T, N>, T, Size<N>> {
+		using SIIT_CRTP<TemplateList<IArray>, Val<T, N>, T, Size<N>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

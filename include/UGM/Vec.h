@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Interfaces/IVec.h"
+#include "Interfaces/ILinear.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Vec : SIIT_CRTP<TemplateList<IVec>, Vec<T, N>, T, Size<N>> {
-		using SIIT_CRTP<TemplateList<IVec>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
+	struct Vec : SIIT_CRTP<TemplateList<ILinear>, Vec<T, N>, T, Size<N>> {
+		using SIIT_CRTP<TemplateList<ILinear>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

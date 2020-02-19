@@ -1,14 +1,14 @@
 #pragma once
 
 #include <UTemplate/SI.h>
-#include "IVal.h"
+#include "IArray.h"
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename T, typename N>
-	struct IScalarMul : SIVT_CRTP<TemplateList<IVal>, Base, Impl, T, N>  {
+	struct IScalarMul : SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>  {
 		static_assert(std::is_floating_point_v<T>, "std::is_floating_point_v<T>");
 
-		using SIVT_CRTP<TemplateList<IVal>, Base, Impl, T, N>::SI_CRTP;
+		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SI_CRTP;
 
 		const Impl operator*(T k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);

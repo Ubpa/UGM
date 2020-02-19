@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Interfaces/ILinear.h"
+#include "Interfaces/IEuclidean.h"
+#include "Interfaces/INorm.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Vec : SIIT_CRTP<TemplateList<ILinear>, Vec<T, N>, T, Size<N>> {
-		using SIIT_CRTP<TemplateList<ILinear>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
+	struct Vec : SIIT_CRTP<TemplateList<INorm, IEuclidean>, Vec<T, N>, T, Size<N>> {
+		using SIIT_CRTP<TemplateList<INorm, IEuclidean>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
 	};
 
 	template<size_t N>
@@ -15,7 +16,7 @@ namespace Ubpa {
 	using Vecf2 = Vecf<2>;
 	using Vecf3 = Vecf<3>;
 
-	template<size_t N>
+	/*template<size_t N>
 	using Veci = Vec<int, N>;
 
 	using Veci1 = Veci<1>;
@@ -27,5 +28,5 @@ namespace Ubpa {
 
 	using Vecu1 = Vecu<1>;
 	using Vecu2 = Vecu<2>;
-	using Vecu3 = Vecu<3>;
+	using Vecu3 = Vecu<3>;*/
 }

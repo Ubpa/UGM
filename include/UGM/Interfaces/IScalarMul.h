@@ -8,24 +8,29 @@ namespace Ubpa {
 	struct IScalarMul : SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>  {
 		static_assert(std::is_floating_point_v<T>, "std::is_floating_point_v<T>");
 
-		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SI_CRTP;
+		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SIVT_CRTP;
 
-		const Impl operator*(T k) const noexcept {
+		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
+		const Impl operator*(U k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
+			auto kT = static_cast<T>(k);
 			Impl rst{};
 			for (size_t i = 0; i < N::value; i++)
-				rst[i] = x[i] * k;
+				rst[i] = x[i] * kT;
 			return rst;
 		}
 
-		Impl& operator*=(T k) noexcept {
+		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
+		Impl& operator*=(U k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
+			auto kT = static_cast<T>(k);
 			for (size_t i = 0; i < N::value; i++)
-				x[i] *= k;
+				x[i] *= kT;
 			return x;
 		}
 
-		friend const Impl operator*(T k, const Impl& x) noexcept {
+		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
+		friend const Impl operator*(U k, const Impl& x) noexcept {
 			return x * k;
 		}
 

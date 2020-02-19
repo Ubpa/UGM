@@ -6,6 +6,6 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename T, typename N>
 	struct ILinear : SIVT_CRTP<TemplateList<IAdd, IScalarMul>, Base, Impl, T, N> {
-		SIVT_CRTP<TemplateList<IAdd, IScalarMul>, Base, Impl, T, N>::SI_CRTP;
+		using SIVT_CRTP<TemplateList<IAdd, IScalarMul>, Base, Impl, T, N>::SIVT_CRTP;
 	};
 }

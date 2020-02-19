@@ -6,7 +6,7 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename T, typename N>
 	struct IAdd : SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>  {
-		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SI_CRTP;
+		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SIVT_CRTP;
 
 		const Impl operator+(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);

@@ -39,7 +39,7 @@ include(FetchContent)
 FetchContent_Declare(
   UTemplate
   GIT_REPOSITORY https://github.com/Ubpa/UTemplate.git
-  GIT_TAG        f7e1c71
+  GIT_TAG        6285de8
 )
 FetchContent_MakeAvailable(UTemplate)
 

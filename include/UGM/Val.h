@@ -1,8 +1,6 @@
 #pragma once
-#ifndef UBPA_GM_VAL_H
-#define UBPA_GM_VAL_H
 
-#include "IVal.h"
+#include "Interfaces/IVal.h"
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
@@ -32,5 +30,3 @@ namespace Ubpa {
 	using Valu2 = Valu<2>;
 	using Valu3 = Valu<3>;
 }
-
-#endif // !UBPA_GM_VAL_H

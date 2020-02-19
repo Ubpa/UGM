@@ -8,6 +8,7 @@ using namespace Ubpa;
 int main() {
 	Valf3 v(1, 2, 3);
 	Valf3 u = { 0,2,3 };
+	cout << sizeof(Valf3) << endl;
 	cout << (u == v ? "u==v" : "u!=v") << endl;
 	cout << (u < v ? "u<v" : "u>=v") << endl;
 	cout << v << endl;

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef UBPA_GM_IVAL_H
-#define UBPA_GM_IVAL_H
 
 #include <array>
 #include <iostream>
@@ -10,12 +8,10 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename T, typename N>
-	struct IVal;
-
-	template<typename Base, typename Impl, typename T, typename N>
 	struct IVal : Base, std::array<T, N::value> {
 		static_assert(std::is_same_v<typename N::type, size_t>, "N::type isn't size_t");
 		static_assert(N::value > 0, "N::value > 0");
+		static_assert(std::is_arithmetic_v<T>, "std::is_arithmetic_v<T>");
 
 		using Base::Base;
 		using value_type = T;
@@ -90,5 +86,3 @@ namespace Ubpa {
 		}
 	};
 }
-
-#endif // !UBPA_GM_IVAL_H

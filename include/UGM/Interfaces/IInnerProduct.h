@@ -33,7 +33,7 @@ namespace Ubpa {
 		}
 
 		// radian
-		static T angle(const Impl& x, const Impl& y) noexcept {
+		static T cos_theta(const Impl& x, const Impl& y) noexcept {
 			T xN = x.norm();
 			T yN = y.norm();
 			T xyN = xN * yN;
@@ -41,9 +41,9 @@ namespace Ubpa {
 			return Impl::dot(x, y) / xyN;
 		}
 
-		T angle(const Impl& y) const noexcept {
+		T cos_theta(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			return angle(x, y);
+			return cos_theta(x, y);
 		}
 
 	private:

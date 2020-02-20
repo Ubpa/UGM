@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IArray.h"
 #include "../IAffine.h"
+#include "IEuclideanV.h"
 
 namespace Ubpa {
 	// euclidean affine space
@@ -11,7 +11,8 @@ namespace Ubpa {
 		using N = At_t<ArgList, 1>;
 		using ImplV = At_t<ArgList, 2>;
 
-		// TODO: static_assert(ImplV contain IEuclideanV)
+		static_assert(ExistInstance_v<typename ImplV::AllVBs, IEuclideanV>,
+			"ExistInstance_v<typename ImplV::AllVBs, IEuclideanV>");
 
 		using SIVT_CRTP<TemplateList<IAffine, IArray>, Base, ImplP, ArgList>::SIVT_CRTP;
 

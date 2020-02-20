@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include <UGM/Vec.h>
+#include <UGM/vec.h>
 
 using namespace std;
 using namespace Ubpa;
 
 int main() {
-	Vecf3 v(1, 2, 3);
-	Vecf3 u = { 0,2,3 };
-	cout << sizeof(Vecf3) << endl;
+	vecf3 v(1, 2, 3);
+	vecf3 u = { 0,2,3 };
+	cout << sizeof(vecf3) << endl;
 
 	// add
 	cout << -v << endl;
@@ -32,7 +32,7 @@ int main() {
 
 	// inner product
 	cout << v.dot(u) << endl;
-	cout << Vecf3::dot(v, u) << endl;
+	cout << vecf3::dot(v, u) << endl;
 	
 	// norm
 	cout << v.norm2() << endl;
@@ -42,17 +42,18 @@ int main() {
 	cout << v << endl;
 
 	// angle
-	cout << Vecf3::angle(v, u) << endl;
-	cout << v.angle(u) << endl;
+	cout << vecf3::cos_theta(v, u) << endl;
+	cout << v.cos_theta(u) << endl;
 
 	// cross
+	cout << vecf3::cross(v, u) << endl;
 	cout << v.cross(u) << endl;
 
-	Vecf3 vs[4];
+	vecf3 vs[4];
 
 	for (size_t i = 0; i < 4; i++)
 		std::cin >> vs[i];
 
 	std::cout << vs[2] + vs[3];
-	std::cout << Vecf3(vs[0][0] + vs[1][0], vs[0][1] + vs[1][1], vs[0][2] + vs[1][2]);
+	std::cout << vecf3(vs[0][0] + vs[1][0], vs[0][1] + vs[1][1], vs[0][2] + vs[1][2]);
 }

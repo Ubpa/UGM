@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Vec.h"
+#include "vec.h"
 #include "Interfaces/IArray/IEuclideanA.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Point : SIIT_CRTP<TemplateList<IEuclideanA>, Point<T, N>, TypeList<T, Size<N>, Vec<T, N>>> {
-		using SIIT_CRTP<TemplateList<IEuclideanA>, Point<T, N>, TypeList<T, Size<N>, Vec<T, N>>>::SIIT_CRTP;
+	struct point : SIIT_CRTP<TemplateList<IEuclideanA>, point<T, N>, TypeList<T, Size<N>, vec<T, N>>> {
+		using SIIT_CRTP<TemplateList<IEuclideanA>, point<T, N>, TypeList<T, Size<N>, vec<T, N>>>::SIIT_CRTP;
 	};
 
 	template<size_t N>
-	using Pointf = Point<float, N>;
+	using pointf = point<float, N>;
 
-	using Pointf1 = Pointf<1>;
-	using Pointf2 = Pointf<2>;
-	using Pointf3 = Pointf<3>;
-	using Pointf4 = Pointf<4>;
+	using pointf1 = pointf<1>;
+	using pointf2 = pointf<2>;
+	using pointf3 = pointf<3>;
+	using pointf4 = pointf<4>;
 }

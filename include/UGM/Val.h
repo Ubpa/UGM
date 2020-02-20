@@ -5,28 +5,28 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Val : SIIT_CRTP<TemplateList<IArray>, Val<T, N>, TypeList<T, Size<N>>> {
-		using SIIT_CRTP<TemplateList<IArray>, Val<T, N>, TypeList<T, Size<N>>>::SIIT_CRTP;
+	struct val : SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<T, Size<N>>> {
+		using SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<T, Size<N>>>::SIIT_CRTP;
 	};
 
 	template<size_t N>
-	using Valf = Val<float, N>;
+	using valf = val<float, N>;
 
-	using Valf1 = Valf<1>;
-	using Valf2 = Valf<2>;
-	using Valf3 = Valf<3>;
-
-	template<size_t N>
-	using Vali = Val<int, N>;
-
-	using Vali1 = Vali<1>;
-	using Vali2 = Vali<2>;
-	using Vali3 = Vali<3>;
+	using valf1 = valf<1>;
+	using valf2 = valf<2>;
+	using valf3 = valf<3>;
 
 	template<size_t N>
-	using Valu = Val<unsigned, N>;
+	using vali = val<int, N>;
 
-	using Valu1 = Valu<1>;
-	using Valu2 = Valu<2>;
-	using Valu3 = Valu<3>;
+	using vali1 = vali<1>;
+	using vali2 = vali<2>;
+	using vali3 = vali<3>;
+
+	template<size_t N>
+	using valu = val<unsigned, N>;
+
+	using valu1 = valu<1>;
+	using valu2 = valu<2>;
+	using valu3 = valu<3>;
 }

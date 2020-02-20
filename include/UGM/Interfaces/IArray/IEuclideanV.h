@@ -7,8 +7,9 @@
 #include "../INorm.h"
 
 namespace Ubpa {
+	// euclidean vector space
 	template<typename Base, typename Impl, typename ArgList>
-	struct IEuclidean : SIVT_CRTP<TemplateList<INorm, IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>, Base, Impl, ArgList> {
+	struct IEuclideanV : SIVT_CRTP<TemplateList<INorm, IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>, Base, Impl, ArgList> {
 		using T = At_t<ArgList, 0>;
 		using N = At_t<ArgList, 1>;
 

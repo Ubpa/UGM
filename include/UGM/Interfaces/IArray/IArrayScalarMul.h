@@ -16,7 +16,7 @@ namespace Ubpa {
 		friend struct IScalarMul;
 
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-		const Impl ImplScalarMul(U k) const noexcept {
+		const Impl impl_scalar_mul(U k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			auto kT = static_cast<T>(k);
 			Impl rst{};
@@ -26,7 +26,7 @@ namespace Ubpa {
 		}
 
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-		Impl& ImplScalarMulToSelf(U k) noexcept {
+		Impl& impl_scalar_mul_to_self(U k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			auto kT = static_cast<T>(k);
 			for (size_t i = 0; i < N::value; i++)

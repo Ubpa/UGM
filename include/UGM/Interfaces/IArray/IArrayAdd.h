@@ -15,7 +15,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IAdd;
 
-		const Impl ImplAdd(const Impl& y) const noexcept {
+		const Impl impl_add(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			Impl rst{};
 			for (size_t i = 0; i < N::value; i++)
@@ -23,14 +23,14 @@ namespace Ubpa {
 			return rst;
 		}
 
-		Impl& ImplAddToSelf(const Impl& y) noexcept {
+		Impl& impl_add_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			for (size_t i = 0; i < N::value; i++)
 				x[i] += y[i];
 			return x;
 		}
 
-		const Impl ImplAddInverse() const noexcept {
+		const Impl impl_add_inverse() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			Impl rst{};
 			for (size_t i = 0; i < N::value; i++)

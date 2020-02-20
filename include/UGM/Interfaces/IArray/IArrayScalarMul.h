@@ -4,12 +4,15 @@
 #include "../IScalarMul.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename T, typename N>
-	struct IArrayScalarMul : SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, T, N>  {
-		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, T, N>::SIVT_CRTP;
+	template<typename Base, typename Impl, typename ArgList>
+	struct IArrayScalarMul : SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>  {
+		using T = At_t<ArgList, 0>;
+		using N = At_t<ArgList, 1>;
+
+		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
 
 	private:
-		template<typename Base, typename Impl, typename T, typename N>
+		template<typename Base, typename Impl, typename ArgList>
 		friend struct IScalarMul;
 
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>

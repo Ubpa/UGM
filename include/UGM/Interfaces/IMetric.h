@@ -1,8 +1,12 @@
 #pragma once
 
+#include <UTemplate/SI.h>
+
 namespace Ubpa {
-	template<typename Base, typename Impl, typename T, typename N>
+	template<typename Base, typename Impl, typename ArgList>
 	struct IMetric : Base {
+		using T = At_t<ArgList, 0>;
+
 		using Base::Base;
 
 		static T distance(const Impl& x, const Impl& y) noexcept {

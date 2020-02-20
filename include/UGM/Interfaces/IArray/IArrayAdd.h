@@ -5,12 +5,14 @@
 #include "../IAdd.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename T, typename N>
-	struct IArrayAdd : SIVT_CRTP<TemplateList<IAdd, IArray>, Base, Impl, T, N>  {
-		using SIVT_CRTP<TemplateList<IAdd, IArray>, Base, Impl, T, N>::SIVT_CRTP;
+	template<typename Base, typename Impl, typename ArgList>
+	struct IArrayAdd : SIVT_CRTP<TemplateList<IAdd, IArray>, Base, Impl, ArgList>  {
+		using N = At_t<ArgList, 1>;
+
+		using SIVT_CRTP<TemplateList<IAdd, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
 
 	private:
-		template<typename Base, typename Impl, typename T, typename N>
+		template<typename Base, typename Impl, typename ArgList>
 		friend struct IAdd;
 
 		const Impl ImplAdd(const Impl& y) const noexcept {

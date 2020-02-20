@@ -4,13 +4,13 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Vec : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, T, Size<N>> {
-		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
+	struct Vec : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, TypeList<T, Size<N>>> {
+		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, TypeList<T, Size<N>>>::SIIT_CRTP;
 	};
 
 	template<typename T>
-	struct Vec<T, 3> : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, T, Size<3>> {
-		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, T, Size<3>>::SIIT_CRTP;
+	struct Vec<T, 3> : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, TypeList<T, Size<3>>> {
+		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, TypeList<T, Size<3>>>::SIIT_CRTP;
 
 		const Vec cross(const Vec& y) const noexcept {
 			const Vec& x = *this;

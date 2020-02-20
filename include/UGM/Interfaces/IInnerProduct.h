@@ -3,9 +3,11 @@
 #include "INorm.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename T, typename N>
-	struct IInnerProduct : SIVT_CRTP<TemplateList<INorm>, Base, Impl, T, N> {
-		using SIVT_CRTP<TemplateList<INorm>, Base, Impl, T, N>::SIVT_CRTP;
+	template<typename Base, typename Impl, typename ArgList>
+	struct IInnerProduct : SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList> {
+		using T = At_t<ArgList, 0>;
+
+		using SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList>::SIVT_CRTP;
 
 		static T dot(const Impl& x, const Impl& y) noexcept {
 			return Impl::impl_dot(x, y);
@@ -45,7 +47,7 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl, typename T, typename N>
+		template<typename Base, typename Impl, typename ArgList>
 		friend struct INorm;
 
 		T impl_norm() const noexcept {

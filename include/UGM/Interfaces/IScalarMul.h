@@ -11,6 +11,7 @@ namespace Ubpa {
 		static_assert(std::is_floating_point_v<F>, "std::is_floating_point_v<T>");
 
 		using Base::Base;
+		using Base::operator*;
 
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
 		const Impl operator*(U k) const noexcept {

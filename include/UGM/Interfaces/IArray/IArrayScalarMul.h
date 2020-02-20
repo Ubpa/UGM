@@ -10,6 +10,7 @@ namespace Ubpa {
 		using F = Arg_F<ArgList>;
 
 		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
+		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::operator*;
 
 	private:
 		template<typename Base, typename Impl, typename ArgList>

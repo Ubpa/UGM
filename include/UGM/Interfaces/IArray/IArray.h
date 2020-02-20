@@ -13,6 +13,11 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
 	struct IArray : Base, std::array<At_t<At_t<ArgList,0>, 0>, At_t<At_t<ArgList, 0>, 1>::value> {
+	private:
+		using Base::operator[];
+	public:
+		using std::array<At_t<At_t<ArgList, 0>, 0>, At_t<At_t<ArgList, 0>, 1>::value>::operator[];
+
 	public:
 		using T = Arg_T<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;

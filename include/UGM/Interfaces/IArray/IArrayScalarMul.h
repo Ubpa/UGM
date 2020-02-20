@@ -6,8 +6,8 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
 	struct IArrayScalarMul : SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>  {
-		using T = At_t<ArgList, 0>;
-		using N = At_t<ArgList, 1>;
+		static constexpr size_t N = Arg_N<ArgList>;
+		using F = Arg_F<ArgList>;
 
 		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
 
@@ -18,19 +18,19 @@ namespace Ubpa {
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
 		const Impl impl_scalar_mul(U k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			auto kT = static_cast<T>(k);
+			auto kF = static_cast<F>(k);
 			Impl rst{};
-			for (size_t i = 0; i < N::value; i++)
-				rst[i] = x[i] * kT;
+			for (size_t i = 0; i < N; i++)
+				rst[i] = x[i] * kF;
 			return rst;
 		}
 
 		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
 		Impl& impl_scalar_mul_to_self(U k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-			auto kT = static_cast<T>(k);
-			for (size_t i = 0; i < N::value; i++)
-				x[i] *= kT;
+			auto kF = static_cast<F>(k);
+			for (size_t i = 0; i < N; i++)
+				x[i] *= kF;
 			return x;
 		}
 	};

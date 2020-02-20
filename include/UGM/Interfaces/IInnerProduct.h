@@ -5,43 +5,43 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
 	struct IInnerProduct : SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList> {
-		using T = At_t<ArgList, 0>;
+		using F = Arg_F<ArgList>;
 
 		using SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList>::SIVT_CRTP;
 
-		static T dot(const Impl& x, const Impl& y) noexcept {
+		static F dot(const Impl& x, const Impl& y) noexcept {
 			return Impl::impl_dot(x, y);
 		}
 
-		T dot(const Impl& y) const noexcept {
+		F dot(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return dot(x, y);
 		}
 
-		T norm2() const noexcept {
+		F norm2() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return dot(x, x);
 		}
 
-		static T distance2(const Impl& x, const Impl& y) noexcept {
+		static F distance2(const Impl& x, const Impl& y) noexcept {
 			return (x - y).norm2();
 		}
 
-		T distance2(const Impl& y) const noexcept {
+		F distance2(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return distance2(x, y);
 		}
 
 		// radian
-		static T cos_theta(const Impl& x, const Impl& y) noexcept {
-			T xN = x.norm();
-			T yN = y.norm();
-			T xyN = xN * yN;
-			assert(xyN != static_cast<T>(0));
+		static F cos_theta(const Impl& x, const Impl& y) noexcept {
+			F xN = x.norm();
+			F yN = y.norm();
+			F xyN = xN * yN;
+			assert(xyN != static_cast<F>(0));
 			return Impl::dot(x, y) / xyN;
 		}
 
-		T cos_theta(const Impl& y) const noexcept {
+		F cos_theta(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return cos_theta(x, y);
 		}
@@ -50,7 +50,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct INorm;
 
-		T impl_norm() const noexcept {
+		F impl_norm() const noexcept {
 			return std::sqrt(norm2());
 		}
 	};

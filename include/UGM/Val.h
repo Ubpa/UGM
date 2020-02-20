@@ -5,8 +5,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<T, Size<N>>> {
-		using SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<T, Size<N>>>::SIIT_CRTP;
+	struct val : SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
+		using SIIT_CRTP<TemplateList<IArray>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

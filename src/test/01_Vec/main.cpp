@@ -40,8 +40,13 @@ int main() {
 	cout << v.normalize() << endl;
 	v.normalize_self();
 	cout << v << endl;
+
+	// angle
 	cout << Vecf3::angle(v, u) << endl;
 	cout << v.angle(u) << endl;
+
+	// cross
+	cout << v.cross(u) << endl;
 
 	Vecf3 vs[4];
 

@@ -8,24 +8,24 @@ namespace Ubpa {
 		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
 	};
 
+	template<typename T>
+	struct Vec<T, 3> : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, T, Size<3>> {
+		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, 3>, T, Size<3>>::SIIT_CRTP;
+
+		const Vec cross(const Vec& y) const noexcept {
+			const Vec& x = *this;
+			return Vec{
+				x[1] * y[2] - x[2] * y[1],
+				x[2] * y[0] - x[0] * y[2],
+				x[0] * y[1] - x[1] * y[0]
+			};
+		}
+	};
+
 	template<size_t N>
 	using Vecf = Vec<float, N>;
 
 	using Vecf1 = Vecf<1>;
 	using Vecf2 = Vecf<2>;
 	using Vecf3 = Vecf<3>;
-
-	/*template<size_t N>
-	using Veci = Vec<int, N>;
-
-	using Veci1 = Veci<1>;
-	using Veci2 = Veci<2>;
-	using Veci3 = Veci<3>;
-
-	template<size_t N>
-	using Vecu = Vec<unsigned, N>;
-
-	using Vecu1 = Vecu<1>;
-	using Vecu2 = Vecu<2>;
-	using Vecu3 = Vecu<3>;*/
 }

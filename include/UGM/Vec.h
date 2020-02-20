@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Interfaces/IEuclidean.h"
-#include "Interfaces/INorm.h"
+#include "Interfaces/IArray/IEuclidean.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct Vec : SIIT_CRTP<TemplateList<INorm, IEuclidean>, Vec<T, N>, T, Size<N>> {
-		using SIIT_CRTP<TemplateList<INorm, IEuclidean>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
+	struct Vec : SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, T, Size<N>> {
+		using SIIT_CRTP<TemplateList<IEuclidean>, Vec<T, N>, T, Size<N>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

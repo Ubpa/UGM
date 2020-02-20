@@ -15,7 +15,7 @@ int main() {
 	cin >> v;
 	cout << v << endl;
 	cout << u << endl;
-	cout << v.Abs() << endl;
+	cout << v.abs() << endl;
 	cout << Valf3(abs(v[0]), abs(v[1]), abs(v[2])) << endl;
-	cout << v.MaxDim() << endl;
+	cout << v.max_dim() << endl;
 }

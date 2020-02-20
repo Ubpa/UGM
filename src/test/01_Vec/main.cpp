@@ -31,17 +31,17 @@ int main() {
 	cout << v << endl;
 
 	// inner product
-	cout << v.Dot(u) << endl;
-	cout << Vecf3::Dot(v, u) << endl;
-
+	cout << v.dot(u) << endl;
+	cout << Vecf3::dot(v, u) << endl;
+	
 	// norm
-	cout << v.Norm2() << endl;
-	cout << v.Norm() << endl;
-	cout << v.Normalize() << endl;
-	v.NormalizeSelf();
+	cout << v.norm2() << endl;
+	cout << v.norm() << endl;
+	cout << v.normalize() << endl;
+	v.normalize_self();
 	cout << v << endl;
-	cout << Vecf3::Angle(v, u) << endl;
-	cout << v.Angle(u) << endl;
+	cout << Vecf3::angle(v, u) << endl;
+	cout << v.angle(u) << endl;
 
 	Vecf3 vs[4];
 

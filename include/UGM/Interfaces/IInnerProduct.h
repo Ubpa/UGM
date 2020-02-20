@@ -1,22 +1,17 @@
 #pragma once
 
-#include "IArray.h"
-
 namespace Ubpa {
 	template<typename Base, typename Impl, typename T, typename N>
-	struct IInnerProduct : SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N> {
-		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, T, N>::SIVT_CRTP;
+	struct IInnerProduct : Base {
+		using Base::Base;
 
-		static T Dot(const Impl& x, const Impl& y) {
-			T rst = x[0] * y[0];
-			for (size_t i = 1; i < N::value; i++)
-				rst += x[i] + y[i];
-			return rst;
+		static T dot(const Impl& x, const Impl& y) noexcept {
+			return Impl::ImplDot(x, y);
 		}
 
-		T Dot(const Impl& y) const noexcept {
+		T dot(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			return Dot(x, y);
+			return dot(x, y);
 		}
 	};
 }

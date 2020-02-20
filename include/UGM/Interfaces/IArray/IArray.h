@@ -23,14 +23,14 @@ namespace Ubpa {
 			static_assert(sizeof...(U) == N::value, "sizeof...(U) == N::value");
 		}
 
-		const Impl Abs() const {
+		const Impl abs() const {
 			Impl rst{};
 			for (size_t i = 0; i < N::value; i++)
 				rst[i] = std::abs((*this)[i]);
 			return rst;
 		}
 
-		bool HasNaN() const noexcept {
+		bool has_nan() const noexcept {
 			for (size_t i = 0; i < N::value; i++) {
 				if (std::isnan<float>(static_cast<float>((*this)[i])))
 					return true;
@@ -38,15 +38,15 @@ namespace Ubpa {
 			return false;
 		}
 
-		const T& MinComponent() const noexcept {
-			return (*this)[MinDim()];
+		const T& min_component() const noexcept {
+			return (*this)[min_dim()];
 		}
 
-		const T& MaxComponent() const noexcept {
-			return (*this)[MaxDim()];
+		const T& max_component() const noexcept {
+			return (*this)[max_dim()];
 		}
 
-		constexpr size_t MinDim() const noexcept {
+		constexpr size_t min_dim() const noexcept {
 			T minVal = (*this)[0];
 			size_t minDim = 0;
 			for (size_t i = 1; i < N::value; i++) {
@@ -58,7 +58,7 @@ namespace Ubpa {
 			return minDim;
 		}
 
-		constexpr size_t MaxDim() const noexcept {
+		constexpr size_t max_dim() const noexcept {
 			T maxVal = (*this)[0];
 			size_t maxDim = 0;
 			for (size_t i = 1; i < N::value; i++) {

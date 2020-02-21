@@ -5,8 +5,6 @@
 using namespace std;
 using namespace Ubpa;
 
-struct Rst :matf3 {};
-
 int main() {
 	vecf3 c0 = { 1,2,3 };
 	vecf3 c1 = { 4,5,6 };
@@ -18,4 +16,6 @@ int main() {
 	cout << m0 - m1 << endl;
 	cout << 3 * m0 << endl;
 	cout << m0 * m1 << endl;
+	cin >> m0;
+	cout << m0;
 }

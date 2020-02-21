@@ -2,11 +2,12 @@
 
 #include "vec.h"
 #include "Interfaces/IArray/IEuclideanA.h"
+#include "Interfaces/IArray/IArrayInOut.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct point : SIIT_CRTP<TemplateList<IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
-		using SIIT_CRTP<TemplateList<IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
+	struct point : SIIT_CRTP<TemplateList<IArrayInOut, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
+		using SIIT_CRTP<TemplateList<IArrayInOut, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

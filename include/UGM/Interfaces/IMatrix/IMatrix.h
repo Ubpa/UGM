@@ -12,6 +12,7 @@ namespace Ubpa {
 
 		static constexpr size_t N = Arg_N<ArgList>;
 
+		static_assert(N == 3 || N == 4, "N == 3 || N == 4");
 		static_assert(Arg_T<ArgList>::N == N, "Arg_T<ArgList>::N == N");
 
 		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, ArgList>::SIVT_CRTP;

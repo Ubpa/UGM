@@ -81,19 +81,19 @@ namespace Ubpa {
 			return maxDim;
 		}*/
 
-		friend std::ostream& operator<<(std::ostream& os, const Impl& x) {
-			// for-loop will be optimized in -02 (release)
-			for (auto i = static_cast<size_t>(0); i < N - 1; i++)
-				os << x[i] << ", ";
-			os << x[N - 1];
-			return os;
-		}
+		//friend std::ostream& operator<<(std::ostream& os, const Impl& x) {
+		//	// for-loop will be optimized in -02 (release)
+		//	for (auto i = static_cast<size_t>(0); i < N - 1; i++)
+		//		os << x[i] << ", ";
+		//	os << x[N - 1];
+		//	return os;
+		//}
 
-		friend std::istream& operator>>(std::istream& is, Impl& x) {
-			// for-loop will be optimized in -02 (release)
-			for (auto i = static_cast<size_t>(0); i < N; i++)
-				is >> x[i];
-			return is;
-		}
+		//friend std::istream& operator>>(std::istream& is, Impl& x) {
+		//	// for-loop will be optimized in -02 (release)
+		//	for (auto i = static_cast<size_t>(0); i < N; i++)
+		//		is >> x[i];
+		//	return is;
+		//}
 	};
 }

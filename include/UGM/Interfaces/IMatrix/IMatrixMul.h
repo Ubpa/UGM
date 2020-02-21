@@ -2,9 +2,9 @@
 
 #include "IMatrix.h"
 #include "../IMul.h"
+#include "IMatrixMul_detail.h"
 
 namespace Ubpa {
-
 	template<typename Base, typename Impl, typename ArgList>
 	struct IMatrixMul : SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList> {
 		static constexpr size_t N = Arg_N<ArgList>;
@@ -29,6 +29,11 @@ namespace Ubpa {
 				}
 			}
 			return rst;
+		}
+
+		const Impl impl_inverse() const noexcept {
+			auto& m = static_cast<const Impl&>(*this);
+			return detail::run_inverse(m);
 		}
 	};
 }

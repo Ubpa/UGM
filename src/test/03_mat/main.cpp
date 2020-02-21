@@ -18,4 +18,9 @@ int main() {
 	cout << m0 * m1 << endl;
 	cin >> m0;
 	cout << m0;
+	cout << m0(0, 1) << endl;
+	cout << m0.inverse();
+	matf4 m4;
+	cin >> m4;
+	cout << m4.inverse();
 }

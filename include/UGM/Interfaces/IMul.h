@@ -14,8 +14,8 @@ namespace Ubpa {
 			return static_cast<Impl*>(this)->impl_add_to_self(y);
 		}*/
 
-		/*const Impl inverse() const noexcept {
-			return static_cast<Impl*>(this)->inverse(y);
-		}*/
+		const Impl inverse() const noexcept {
+			return static_cast<const Impl*>(this)->impl_inverse();
+		}
 	};
 }

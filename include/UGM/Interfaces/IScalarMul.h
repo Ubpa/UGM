@@ -1,14 +1,17 @@
 #pragma once
 
-#include <UTemplate/SI.h>
 #include "Arg.h"
+
+#include <UTemplate/SI.h>
+
+#include <assert.h>
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
 	struct IScalarMul : Base  {
 		using F = Arg_F<ArgList>;
 
-		static_assert(std::is_floating_point_v<F>, "std::is_floating_point_v<T>");
+		static_assert(std::is_floating_point_v<F>, "std::is_floating_point_v<F>");
 
 		using Base::Base;
 		using Base::operator*;

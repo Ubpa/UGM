@@ -8,6 +8,11 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	struct point : SIIT_CRTP<TemplateList<IArrayInOut, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
 		using SIIT_CRTP<TemplateList<IArrayInOut, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
+
+		explicit point(const vec<T, N>& vec) {
+			for (size_t i = 0; i < N; i++)
+				(*this)[i] = vec[i];
+		}
 	};
 
 	template<size_t N>

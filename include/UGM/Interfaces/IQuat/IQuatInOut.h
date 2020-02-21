@@ -5,17 +5,13 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArrayInOut : SIVT_CRTP<TemplateList<IArray, IInOut>, Base, Impl, ArgList> {
-		static constexpr size_t N = Arg_N<ArgList>;
-
-		using SIVT_CRTP<TemplateList<IArray, IInOut>, Base, Impl, ArgList>::SIVT_CRTP;
+	struct IQuatInOut : SIVT_CRTP<TemplateList<IInOut>, Base, Impl, ArgList> {
+		using SIVT_CRTP<TemplateList<IInOut>, Base, Impl, ArgList>::SIVT_CRTP;
 
 		std::ostream& impl_out(std::ostream& os) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 
-			for (size_t i = 0; i < N - 1; i++)
-				os << x[i] << " ";
-			os << x[N - 1];
+			os << x.real << " " << x.imag[0] << " " << x.imag[1] << " " << x.imag[2];
 
 			return os;
 		}
@@ -23,8 +19,11 @@ namespace Ubpa {
 		std::istream& impl_in(std::istream& is) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 
-			for (size_t i = 0; i < N; i++)
-				is >> x[i];
+			is >> x.real;
+			for (size_t i = 0; i < 3; i++)
+				is >> x.imag[i];
+
+			assert(x.is_unit());
 
 			return is;
 		}

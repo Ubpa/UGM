@@ -29,7 +29,9 @@ namespace Ubpa {
 
 		IArray() {}
 		
-		template<typename... U>
+		template<typename... U, typename = std::enable_if_t<
+			 Conjunction_t<Bool<std::is_convertible_v<U, T>>...>::value
+			>>
 		IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "sizeof...(U) == N");
 		}
@@ -83,7 +85,7 @@ namespace Ubpa {
 
 		//friend std::ostream& operator<<(std::ostream& os, const Impl& x) {
 		//	// for-loop will be optimized in -02 (release)
-		//	for (auto i = static_cast<size_t>(0); i < N - 1; i++)
+		//	for (size_t i = 0; i < N - 1; i++)
 		//		os << x[i] << ", ";
 		//	os << x[N - 1];
 		//	return os;
@@ -91,7 +93,7 @@ namespace Ubpa {
 
 		//friend std::istream& operator>>(std::istream& is, Impl& x) {
 		//	// for-loop will be optimized in -02 (release)
-		//	for (auto i = static_cast<size_t>(0); i < N; i++)
+		//	for (size_t i = 0; i < N; i++)
 		//		is >> x[i];
 		//	return is;
 		//}

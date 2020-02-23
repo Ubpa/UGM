@@ -19,21 +19,12 @@ namespace Ubpa {
 
 		const Impl impl_mul(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			Impl rst{};
-			for (size_t col = 0; col < N; col++) {
-				for (size_t row = 0; row < N; row++) {
-					F val{};
-					for (size_t i = 0; i < N; i++)
-						val += x[i][row] * y[col][i];
-					rst[col][row] = val;
-				}
-			}
-			return rst;
+			return detail::IMatrix::run_mul(x, y);
 		}
 
 		const Impl impl_inverse() const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
-			return detail::run_inverse(m);
+			return detail::IMatrix::run_inverse(m);
 		}
 	};
 }

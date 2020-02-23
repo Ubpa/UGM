@@ -25,4 +25,12 @@ int main() {
 	matf4 m4;
 	cin >> m4;
 	m4.inverse().print();
+
+	std::array<float, 9> arr;
+	for (auto& e : arr)
+		cin >> e;
+
+	cout << matf3(arr) << endl;
+	auto m3 = matf3::eye();
+	cout << m0 * m3 << endl;
 }

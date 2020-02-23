@@ -49,6 +49,5 @@ namespace Ubpa {
 		bool is_unit() const noexcept {
 			return std::abs(real()*real() + imag().dot(imag()) - static_cast<T>(1)) < EPSILON;
 		}
-
 	};
 }

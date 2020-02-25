@@ -172,11 +172,6 @@ namespace Ubpa {
 
             };
 
-            template<typename M>
-            const M run_inverse(const M& m) noexcept {
-                return inverse<M::N>::run(m);
-            }
-
             // ----------------------
 
             template<size_t N>
@@ -241,11 +236,6 @@ namespace Ubpa {
                     };
                 }
             };
-            
-            template<typename M>
-            const M run_mul(const M& x, const M& y) noexcept {
-                return mul<M::N>::run(x, y);
-            }
         }
 
 	}

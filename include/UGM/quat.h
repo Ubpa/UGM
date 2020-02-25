@@ -7,8 +7,8 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct quat : SIIT_CRTP<TemplateList<IQuatInOut, IQuatMul>, quat<T>, TypeList<T>> {
-		using SIIT_CRTP<TemplateList<IQuatInOut, IQuatMul>, quat<T>, TypeList<T>>::SIIT_CRTP;
+	struct quat : SIIT_CRTP<TemplateList<IQuatInOut, IQuatMul>, quat<T>, T> {
+		using SIIT_CRTP<TemplateList<IQuatInOut, IQuatMul>, quat<T>, T>::SIIT_CRTP;
 	};
 
 	using quatf = quat<float>;

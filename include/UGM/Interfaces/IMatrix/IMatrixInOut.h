@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../IInOut.h"
+#include "../../basic.h"
 #include "IMatrix.h"
 #include <UTemplate/SI.h>
 
@@ -16,8 +17,8 @@ namespace Ubpa {
 
 			for (size_t row = 0; row < N; row++) {
 				for (size_t col = 0; col < N-1; col++)
-					os << x[col][row] << " ";
-				os << x[N - 1][row] << std::endl;
+					os << rmv_epsilon(x[col][row]) << " ";
+				os << rmv_epsilon(x[N - 1][row]) << std::endl;
 			}
 		}
 	};

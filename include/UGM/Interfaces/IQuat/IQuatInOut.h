@@ -4,9 +4,9 @@
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
-	struct IQuatInOut : SIVT_CRTP<TemplateList<IInOut>, Base, Impl, ArgList> {
-		using SIVT_CRTP<TemplateList<IInOut>, Base, Impl, ArgList>::SIVT_CRTP;
+	template<typename Base, typename Impl, typename T>
+	struct IQuatInOut : SIVT_CRTP<TemplateList<IInOut>, Base, Impl, T> {
+		using SIVT_CRTP<TemplateList<IInOut>, Base, Impl, T>::SIVT_CRTP;
 
 		std::ostream& impl_out(std::ostream& os) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);

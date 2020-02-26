@@ -29,15 +29,15 @@ namespace Ubpa {
 
 		const Impl impl_mul(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			Impl rst{};
-			rst.real() = x.real() * y.real() - x.imag().dot(y.imag());
-			rst.imag() = x.real() * y.imag() + y.real() * x.imag() + x.imag().cross(y.imag());
-			return rst;
+			T real = x.real() * y.real() - x.imag().dot(y.imag());
+			vec<T,3> imag = x.real() * y.imag() + y.real() * x.imag() + x.imag().cross(y.imag());
+			return { imag, real };
 		}
+
 
 		const Impl impl_inverse() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			return { x.real(), -x.imag() };
+			return { -x.imag(), x.real() };
 		}
 	};
 }

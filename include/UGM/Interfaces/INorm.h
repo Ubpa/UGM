@@ -2,6 +2,7 @@
 
 #include "ILinear.h"
 #include "IMetric.h"
+#include "../basic.h"
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
@@ -19,6 +20,11 @@ namespace Ubpa {
 			F n = norm();
 			assert(n > static_cast<F>(0));
 			return x / n; // ILinear
+		}
+
+		bool is_normalized() const noexcept {
+			auto& x = static_cast<const Impl&>(*this);
+			return (x.normalize() - x).norm() < EPSILON<F>;
 		}
 
 		Impl& normalize_self() noexcept {

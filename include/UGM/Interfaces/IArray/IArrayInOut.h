@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../IInOut.h"
+#include "../../basic.h"
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
@@ -14,8 +15,8 @@ namespace Ubpa {
 			auto& x = static_cast<const Impl&>(*this);
 
 			for (size_t i = 0; i < N - 1; i++)
-				os << x[i] << " ";
-			os << x[N - 1];
+				os << rmv_epsilon(x[i]) << " ";
+			os << rmv_epsilon(x[N - 1]);
 
 			return os;
 		}

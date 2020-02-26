@@ -61,4 +61,13 @@ namespace Ubpa {
 	using vecf2 = vecf<2>;
 	using vecf3 = vecf<3>;
 	using vecf4 = vecf<4>;
+
+	namespace detail {
+		template<typename T, size_t N>
+		struct rmv_epsilon<vec<T, N>> {
+			static auto run(const vec<T, N>& x) noexcept {
+				return x.rmv_epsilon();
+			}
+		};
+	}
 }

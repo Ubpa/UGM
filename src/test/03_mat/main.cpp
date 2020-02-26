@@ -21,6 +21,7 @@ int main() {
 	(3 * m0).print();
 	(m0 * m1).print();
 	cout << m0(0, 1) << endl;
+	cout << m0.at(2, 2);
 	m0.inverse().print();
 	matf4 m4;
 	cin >> m4;
@@ -33,4 +34,6 @@ int main() {
 	cout << matf3(arr) << endl;
 	auto m3 = matf3::eye();
 	cout << m0 * m3 << endl;
+
+	cout << m3.trace() << endl;
 }

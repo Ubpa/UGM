@@ -19,15 +19,15 @@ namespace Ubpa {
 		using Base::init;
 		using Base::operator*;
 
-		explicit transform(const mat<T, 4>& m) noexcept : transform(m[0], m[1], m[2], m[3]) {}
-		explicit transform(const mat<T, 3>& m) noexcept : transform(
+		inline explicit transform(const mat<T, 4>& m) noexcept : transform(m[0], m[1], m[2], m[3]) {}
+		inline explicit transform(const mat<T, 3>& m) noexcept : transform(
 			vec<T, 4>{m[0][0], m[0][1], m[0][2], 0},
 			vec<T, 4>{m[1][0], m[1][1], m[1][2], 0},
 			vec<T, 4>{m[2][0], m[2][1], m[2][2], 0},
 			vec<T, 4>{      0,       0,       0, 1}) { }
 
-		explicit transform(const vec<T, 3>& translation) noexcept;
-		explicit transform(const scale<T, 3>& scale) noexcept;
+		inline explicit transform(const vec<T, 3>& translation) noexcept;
+		inline explicit transform(const scale<T, 3>& scale) noexcept;
 		transform(const vec<T, 3>& normalizedAxis, T radian) noexcept;
 		explicit transform(const quat<T>& q) noexcept;
 		explicit transform(const euler<T>& e) noexcept;
@@ -43,7 +43,7 @@ namespace Ubpa {
 
 		// sample: rotate_with<Axis::X>(to_radian(theta))
 		template<Axis axis>
-		static const transform rotate_with(T theta) noexcept;
+		inline static const transform rotate_with(T theta) noexcept;
 
 		inline const point<T,3> decompose_position() const noexcept { return { (*this)(0,3), (*this)(1,3), (*this)(2,3) }; }
 		inline const scale<T, 3> decompose_scale() const noexcept;

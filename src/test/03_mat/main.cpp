@@ -38,4 +38,7 @@ int main() {
 	cout << m3.trace() << endl;
 
 	cout << m3.transpose() << endl;
+
+	cout << m3 * vecf3(2, 1, 0) << endl;
+	cout << m4 * vecf4(2, 1, 0, 1) << endl;
 }

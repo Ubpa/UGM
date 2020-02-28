@@ -13,6 +13,13 @@ namespace Ubpa {
 		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::SIVT_CRTP;
 		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::operator*;
 
+		using ImplV = Arg_T<ArgList>;
+
+		inline const ImplV operator*(const ImplV& v) const noexcept {
+			auto& m = static_cast<const Impl&>(*this);
+			return detail::IMatrix::mul<N>::run(m, v);
+		}
+
 	private:
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IMul;

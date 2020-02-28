@@ -22,10 +22,11 @@ namespace Ubpa {
 		using T = Arg_T<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
-		static_assert(N > 0, "N > 0");
-		//static_assert(std::is_arithmetic_v<F>, "std::is_arithmetic_v<F>");
+		static_assert(N > 0);
+		//static_assert(std::is_arithmetic_v<F>);
 
 		using Base::Base;
+		using std::array<At_t<At_t<ArgList, 0>, 0>, At_t<At_t<ArgList, 0>, 1>::value>::array;
 
 		IArray() {}
 		
@@ -34,7 +35,7 @@ namespace Ubpa {
 			 Conjunction_t<Bool<std::is_convertible_v<U, T>>...>::value
 			>>
 		IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
-			static_assert(sizeof...(U) == N, "sizeof...(U) == N");
+			static_assert(sizeof...(U) == N);
 		}
 	};
 }

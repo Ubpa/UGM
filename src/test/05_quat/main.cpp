@@ -9,10 +9,11 @@ using namespace Ubpa;
 int main() {
 	vecf3 axis(0, 1, 0);
 	float angle = 45.f;
-	auto q = quatf::axis_angle(axis, to_radian(angle));
+	quatf q(axis, to_radian(angle));
+	quatf test = quatf(axis, angle);
 	cout << q.axis() << endl;
 	cout << q.theta() << endl;
-	auto x = quatf::axis_angle({1,1,1}, 0);
+	quatf x({1,1,1}, 0);
 	pointf3 p(1, 0, 0);
 	cout << q * p << endl;
 	cout << quatf::identity() << endl;

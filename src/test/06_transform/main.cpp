@@ -11,7 +11,7 @@ int main() {
 	cout << e.to_quat().to_euler() << endl;
 	cout << transformf(e).decompose_euler() << endl;
 
-	auto q = quatf::axis_angle({ 1,1,1 }, to_radian(45.f));
+	quatf q({ 1,1,1 }, to_radian(45.f));
 	cout << q << endl;
 	cout << transformf(q).decompose_quatenion() << endl;
 

@@ -32,20 +32,22 @@ namespace Ubpa {
 			T x = (*this)[0] / 2;
 			T y = (*this)[1] / 2;
 			T z = (*this)[2] / 2;
+
 			T cX = std::cos(x);
 			T cY = std::cos(y);
 			T cZ = std::cos(z);
+
 			T sX = std::sin(x);
 			T sY = std::sin(y);
 			T sZ = std::sin(z);
 
 			T real = cX * cY * cZ + sX * sY * sZ;
-			vec<T, 3> imag(
-				sX * cY * cZ + cX * sY * sZ,
-				cX * sY * cZ - sX * cY * sZ,
-				cX * cY * sZ - sX * sY * cZ
-			);
-			return { imag, real };
+
+			T imagX = sX * cY * cZ + cX * sY * sZ;
+			T imagY = cX * sY * cZ - sX * cY * sZ;
+			T imagZ = cX * cY * sZ - sX * sY * cZ;
+
+			return { imagX, imagY, imagZ, real };
 		}
 	};
 

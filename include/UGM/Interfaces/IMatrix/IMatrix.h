@@ -68,11 +68,26 @@ namespace Ubpa {
 			return (*this)[n % N][n / N];
 		}
 
+		F& at(size_t n) noexcept {
+			assert(n < N * N);
+			return (*this)[n % N][n / N];
+		}
+
+		F at(size_t n) const noexcept {
+			assert(n < N * N);
+			return (*this)[n % N][n / N];
+		}
+
 		F trace() const noexcept {
 			F rst = (*this)[0][0];
 			for (size_t i = 1; i < N; i++)
 				rst += (*this)[i][i];
 			return rst;
+		}
+
+		const Impl transpose() const noexcept {
+			const auto& m = static_cast<const Impl&>(*this);
+			return detail::transpose<N>::run(m);
 		}
 	};
 }

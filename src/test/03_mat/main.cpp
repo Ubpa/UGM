@@ -36,4 +36,6 @@ int main() {
 	cout << m0 * m3 << endl;
 
 	cout << m3.trace() << endl;
+
+	cout << m3.transpose() << endl;
 }

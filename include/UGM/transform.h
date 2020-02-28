@@ -17,8 +17,15 @@ namespace Ubpa {
 		using Base = SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>>;
 		using Base::Base;
 		using Base::init;
+		using Base::operator*;
 
 		explicit transform(const mat<T, 4>& m) noexcept : transform(m[0], m[1], m[2], m[3]) {}
+		explicit transform(const mat<T, 3>& m) noexcept : transform(
+			vec<T, 4>{m[0][0], m[0][1], m[0][2], 0},
+			vec<T, 4>{m[1][0], m[1][1], m[1][2], 0},
+			vec<T, 4>{m[2][0], m[2][1], m[2][2], 0},
+			vec<T, 4>{      0,       0,       0, 1}) { }
+
 		explicit transform(const vec<T, 3>& translation) noexcept;
 		explicit transform(const scale<T, 3>& scale) noexcept;
 		transform(const vec<T, 3>& normalizedAxis, T radian) noexcept;
@@ -38,11 +45,16 @@ namespace Ubpa {
 		template<Axis axis>
 		static const transform rotate_with(T theta) noexcept;
 
-		const point<T,3> decompose_position() const noexcept { return { (*this)(0,3), (*this)(1,3), (*this)(2,3) }; }
-		const scale<T, 3> decompose_scale() const noexcept;
-		const mat<T, 3> decompose_rotation_matrix() const noexcept;
+		inline const point<T,3> decompose_position() const noexcept { return { (*this)(0,3), (*this)(1,3), (*this)(2,3) }; }
+		inline const scale<T, 3> decompose_scale() const noexcept;
+		inline const mat<T, 3> decompose_rotation_matrix() const noexcept;
 		const quat<T> decompose_quatenion() const noexcept;
 		const euler<T> decompose_euler() const noexcept;
+		inline const mat<T,3> decompose_mat3() const noexcept;
+
+		const point<T, 3> operator*(const point<T, 3>& p) const noexcept;
+		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
+		const normal<T> operator*(const normal<T>& n) const noexcept;
 	};
 
 	using transformf = transform<float>;

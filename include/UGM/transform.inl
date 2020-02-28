@@ -250,6 +250,16 @@ namespace Ubpa {
 		}
 	}
 
+	template<typename T>
+	const mat<T, 3> transform<T>::decompose_mat3() const noexcept {
+		const auto& m = static_cast<const transform&>(*this);
+		return std::array<T, 3 * 3>{
+			m(0,0), m(0,1), m(0,2),
+			m(1,0), m(1,1), m(1,2),
+			m(2,0), m(2,1), m(2,2)
+		};
+	}
+
 	namespace detail {
 		template<Axis axis>
 		struct rotate_with;
@@ -307,5 +317,53 @@ namespace Ubpa {
 	template<Axis axis>
 	static const transform<T> transform<T>::rotate_with(T angle) noexcept {
 		return detail::rotate_with<axis>::run(angle);
+	}
+
+	template<typename T>
+	const point<T, 3> transform<T>::operator*(const point<T, 3>& p) const noexcept {
+		const auto& m = static_cast<const transform&>(*this);
+
+		T x = p[0];
+		T y = p[1];
+		T z = p[2];
+
+		T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z + m(0, 3);
+		T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z + m(1, 3);
+		T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z + m(2, 3);
+		T wp = m(3, 0) * x + m(3, 1) * y + m(3, 2) * z + m(3, 3);
+
+		point<T, 3> rst(xp, yp, zp);
+
+		return wp == 1 ? rst : rst / wp;
+	}
+
+	template<typename T>
+	const vec<T, 3> transform<T>::operator*(const vec<T, 3>& v) const noexcept {
+		const auto& m = static_cast<const transform&>(*this);
+
+		T x = v[0];
+		T y = v[1];
+		T z = v[2];
+
+		T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z;
+		T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z;
+		T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z;
+
+		return { xp,yp,zp };
+	}
+
+	template<typename T>
+	const normal<T> transform<T>::operator*(const normal<T>& n) const noexcept {
+		mat<T, 3> m3 = decompose_mat3().inverse();
+
+		T x = n[0];
+		T y = n[1];
+		T z = n[2];
+		
+		T xp = m3(0, 0) * x + m3(1, 0) * y + m3(2, 0) * z;
+		T yp = m3(0, 1) * x + m3(1, 1) * y + m3(2, 1) * z;
+		T zp = m3(0, 2) * x + m3(1, 2) * y + m3(2, 2) * z;
+
+		return { xp,yp,zp };
 	}
 }

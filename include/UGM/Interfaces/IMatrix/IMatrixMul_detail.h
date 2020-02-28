@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Ubpa::detail::IMatrix {
+namespace Ubpa::detail::IMatrixMul {
     template<size_t N>
     struct inverse;
 

@@ -30,7 +30,7 @@ namespace Ubpa {
 		}
 
 		inline static const Impl eye() noexcept {
-			return detail::eye<Impl, N>::run();
+			return detail::IMatrix::eye<Impl, N>::run();
 		}
 
 		inline static const Impl zero() noexcept {
@@ -87,7 +87,7 @@ namespace Ubpa {
 
 		inline const Impl transpose() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
-			return detail::transpose<N>::run(m);
+			return detail::IMatrix::transpose<N>::run(m);
 		}
 	};
 }

@@ -17,7 +17,7 @@ namespace Ubpa {
 
 		inline const ImplV operator*(const ImplV& v) const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix::mul<N>::run(m, v);
+			return detail::IMatrixMul::mul<N>::run(m, v);
 		}
 
 	private:
@@ -26,12 +26,12 @@ namespace Ubpa {
 
 		inline const Impl impl_mul(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			return detail::IMatrix::mul<N>::run(x, y);
+			return detail::IMatrixMul::mul<N>::run(x, y);
 		}
 
 		inline const Impl impl_inverse() const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix::inverse<N>::run(m);
+			return detail::IMatrixMul::inverse<N>::run(m);
 		}
 	};
 }

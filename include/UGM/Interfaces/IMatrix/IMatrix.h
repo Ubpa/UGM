@@ -21,71 +21,71 @@ namespace Ubpa {
 
 		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, ArgList>::SIVT_CRTP;
 
-		IMatrix(const std::array<F,N*N>& data) noexcept { init(data); }
+		inline IMatrix(const std::array<F,N*N>& data) noexcept { init(data); }
 
-		void init(const std::array<F, N * N>& data) noexcept {
+		inline void init(const std::array<F, N * N>& data) noexcept {
 			// unloop in /O2
 			for (size_t i = 0; i < N * N; i++)
 				(*this)(i) = data[i];
 		}
 
-		static const Impl eye() noexcept {
+		inline static const Impl eye() noexcept {
 			return detail::eye<Impl, N>::run();
 		}
 
-		static const Impl zero() noexcept {
+		inline static const Impl zero() noexcept {
 			Impl rst{};
 			for (size_t i = 0; i < N * N; i++)
 				(*this)(i) = static_cast<F>(0);
 			return rst;
 		}
 
-		F& operator()(size_t r, size_t c) noexcept {
+		inline F& operator()(size_t r, size_t c) noexcept {
 			assert(r < N && c < N);
 			return (*this)[c][r];
 		}
 
-		F operator()(size_t r, size_t c) const noexcept {
+		inline F operator()(size_t r, size_t c) const noexcept {
 			assert(r < N && c < N);
 			return (*this)[c][r];
 		}
 
-		F& at(size_t r, size_t c) noexcept {
+		inline F& at(size_t r, size_t c) noexcept {
 			return this->operator()(r, c);
 		}
 
-		F at(size_t r, size_t c) const noexcept {
+		inline F at(size_t r, size_t c) const noexcept {
 			return this->operator()(r, c);
 		}
 
-		F& operator()(size_t n) noexcept {
+		inline F& operator()(size_t n) noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		F operator()(size_t n) const noexcept {
+		inline F operator()(size_t n) const noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		F& at(size_t n) noexcept {
+		inline F& at(size_t n) noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		F at(size_t n) const noexcept {
+		inline F at(size_t n) const noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		F trace() const noexcept {
+		inline F trace() const noexcept {
 			F rst = (*this)[0][0];
 			for (size_t i = 1; i < N; i++)
 				rst += (*this)[i][i];
 			return rst;
 		}
 
-		const Impl transpose() const noexcept {
+		inline const Impl transpose() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			return detail::transpose<N>::run(m);
 		}

@@ -34,7 +34,7 @@ namespace Ubpa {
 			typename = std::enable_if_t<
 			 Conjunction_t<Bool<std::is_convertible_v<U, T>>...>::value
 			>>
-		IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
+		inline IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N);
 		}
 	};

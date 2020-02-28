@@ -6,7 +6,7 @@ namespace Ubpa {
 		using Base::Base;
 		using Base::operator*;
 
-		const Impl operator*(const Impl& y) const noexcept {
+		inline const Impl operator*(const Impl& y) const noexcept {
 			return static_cast<const Impl*>(this)->impl_mul(y);
 		}
 
@@ -18,7 +18,7 @@ namespace Ubpa {
 		}
 		*/
 
-		const Impl inverse() const noexcept {
+		inline const Impl inverse() const noexcept {
 			return static_cast<const Impl*>(this)->impl_inverse();
 		}
 	};

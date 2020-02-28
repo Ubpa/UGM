@@ -17,12 +17,12 @@ namespace Ubpa {
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IMul;
 
-		const Impl impl_mul(const Impl& y) const noexcept {
+		inline const Impl impl_mul(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return detail::IMatrix::mul<N>::run(x, y);
 		}
 
-		const Impl impl_inverse() const noexcept {
+		inline const Impl impl_inverse() const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
 			return detail::IMatrix::inverse<N>::run(m);
 		}

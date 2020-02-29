@@ -37,15 +37,21 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(FetchContent)
 FetchContent_Declare(
-  UTemplate
-  GIT_REPOSITORY https://github.com/Ubpa/UTemplate.git
-  GIT_TAG        65874bd
+  UGit
+  GIT_REPOSITORY https://github.com/Ubpa/UGit
+  GIT_TAG        59787a5
 )
-FetchContent_MakeAvailable(UTemplate)
+FetchContent_MakeAvailable(UGit)
+
+Ubpa_InitGit()
+Ubpa_UpdateSubModule()
+
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/UTemplate/external/UCMake/cmake")
+include(UbpaTool)
 
 include_directories (
 	${PROJECT_SOURCE_DIR}/include
-	${utemplate_SOURCE_DIR}/include
+	${PROJECT_SOURCE_DIR}/external/UTemplate/include
 	# $ENV{XXX_INCLUDE_PATH}
 	# ...
 )
@@ -55,4 +61,4 @@ link_directories (
 	# ...
 )
 
-add_subdirectory (src)
+Ubpa_AddSubDirsRec(src)

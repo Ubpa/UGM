@@ -1,7 +1,7 @@
 #pragma once
 
-#include <UTemplate/List/Typelist.h>
-#include <UTemplate/Num/Num.h>
+#include <UTemplate/Typelist.h>
+#include <UTemplate/Num.h>
 
 namespace Ubpa {
 	template<typename ArgList>

@@ -30,10 +30,7 @@ namespace Ubpa {
 
 		IArray() {}
 		
-		template<typename... U,
-			typename = std::enable_if_t<
-			 Conjunction_t<Bool<std::is_convertible_v<U, T>>...>::value
-			>>
+		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
 		inline IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N);
 		}

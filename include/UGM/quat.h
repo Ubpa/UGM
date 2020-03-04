@@ -4,7 +4,7 @@
 #include "point.h"
 #include "vec.h"
 
-#include "Interfaces/IArray/IArrayInOut.h"
+#include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IMul.h"
 
 namespace Ubpa {
@@ -12,8 +12,8 @@ namespace Ubpa {
 	struct euler;
 
 	template<typename T>
-	struct quat : SIIT_CRTP<TemplateList<IMul, IArrayInOut>, quat<T>, TypeList<TypeList<T,Size<4>>, T>> {
-		using Base = SIIT_CRTP<TemplateList<IMul, IArrayInOut>, quat<T>, TypeList<TypeList<T, Size<4>>, T>>;
+	struct quat : SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T,Size<4>>, T>> {
+		using Base = SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T, Size<4>>, T>>;
 		using Base::Base;
 		using Base::operator*;
 

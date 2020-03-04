@@ -1,6 +1,5 @@
 #pragma once
 
-#include <UTemplate/SI.h>
 #include "IArray.h"
 #include "../IAdd.h"
 

@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <UGM/vec.h>
+#include <UGM/val.h>
 
 using namespace std;
 using namespace Ubpa;
@@ -49,6 +50,9 @@ int main() {
 	// cross
 	cout << vecf3::cross(v, u) << endl;
 	cout << v.cross(u) << endl;
+
+	// cast
+	cout << v.cast_to<valf3>() << endl;
 
 	vecf3 vs[4];
 

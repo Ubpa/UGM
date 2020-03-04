@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Interfaces/IArray/IEuclideanV.h"
-#include "Interfaces/IArray/IArrayInOut.h"
+#include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 
 namespace Ubpa {
@@ -9,8 +9,8 @@ namespace Ubpa {
 	struct vec;
 
 	template<typename T>
-	struct normal : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayInOut, IEuclideanV>, normal<T>, TypeList<TypeList<T, Size<3>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayInOut, IEuclideanV>, normal<T>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
+	struct normal : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanV>, normal<T>, TypeList<TypeList<T, Size<3>>, T>> {
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanV>, normal<T>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
 
 		inline explicit normal(const vec<T, 3>& v) {
 			for (size_t i = 0; i < 3; i++)

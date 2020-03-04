@@ -1,14 +1,13 @@
 #pragma once
 
-#include "Interfaces/IArray/IArray.h"
-#include "Interfaces/IArray/IArrayInOut.h"
+#include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayInOut>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayInOut>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+	struct val : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

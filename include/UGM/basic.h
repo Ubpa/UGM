@@ -32,6 +32,9 @@ namespace Ubpa {
 
 	template<typename T>
 	bool is_nan(T v) noexcept;
+
+	template<typename T, typename F>
+	T lerp(T x, T y, F t) noexcept;
 }
 
 #include "detail/basic.inl"

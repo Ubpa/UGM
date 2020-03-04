@@ -68,13 +68,17 @@ namespace Ubpa {
 			Impl rst{};
 			F one_minus_t = static_cast<F>(1) - t;
 			for (size_t i = 0; i < N; i++)
-				rst[i] = x[i] * one_minus_t + y[i] * t;
+				rst[i] = Ubpa::lerp(x[i], y[i], t);
 			return rst;
 		}
 
 		inline const Impl lerp(const Impl& y, F t) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			return lerp(x, y, t);
+		}
+
+		static const Impl mid(const Impl& x, const Impl& y) noexcept {
+			return lerp(x, y, static_cast<F>(0.5));
 		}
 	};
 }

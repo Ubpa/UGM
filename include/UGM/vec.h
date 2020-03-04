@@ -54,5 +54,3 @@ namespace Ubpa {
 	using vecf3 = vecf<3>;
 	using vecf4 = vecf<4>;
 }
-
-#include "detail/vec.inl"

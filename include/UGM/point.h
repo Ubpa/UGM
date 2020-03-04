@@ -13,8 +13,8 @@ namespace Ubpa {
 	struct val;
 
 	template<typename T, size_t N>
-	struct point : SIIT_CRTP<TemplateList<IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
-		using SIIT_CRTP<TemplateList<IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
+	struct point : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
 	};
 
 	template<size_t N>

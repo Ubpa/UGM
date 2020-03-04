@@ -54,6 +54,9 @@ int main() {
 	// cast
 	cout << v.cast_to<valf3>() << endl;
 
+	// lerp
+	cout << v.lerp(u, 0.5) << endl;
+
 	vecf3 vs[4];
 
 	for (size_t i = 0; i < 4; i++)

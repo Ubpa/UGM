@@ -23,6 +23,10 @@ namespace Ubpa {
 			0, 0, 0, 1} } { }
 
 	template<typename T>
+	transform<T>::transform(const point<T, 3>& t) noexcept
+		: transform(t.cast_to<vec<T, 3>>()) {}
+
+	template<typename T>
 	transform<T>::transform(const scale<T, 3>& s) noexcept :
 		transform{ std::array<T, 4 * 4>{
 			s[0],    0,    0,    0,
@@ -381,5 +385,10 @@ namespace Ubpa {
 		T zp = m3(0, 2) * x + m3(1, 2) * y + m3(2, 2) * z;
 
 		return { xp,yp,zp };
+	}
+
+	template<typename T>
+	const bbox<T, 3> transform<T>::operator*(const bbox<T, 3>& b)const noexcept {
+		return { (*this) * b.minP(), (*this) * b.maxP() };
 	}
 }

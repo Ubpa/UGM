@@ -2,6 +2,7 @@
 
 #include <UGM/bbox.h>
 #include <UGM/val.h>
+#include <UGM/transform.h>
 
 using namespace std;
 using namespace Ubpa;
@@ -23,9 +24,11 @@ int main() {
 	cout << "lerp(valf3{0.2f}): " << b.lerp(valf3{ 0.2f }) << endl;
 	cout << "offset(pointf3{1.f}): " << b.offset(pointf3{ 1.f }) << endl;
 
-	bboxf3 c(pointf3{ 1,1,1 }, pointf3{ 0,2,2 }, nullptr_t{});
+	auto c = bboxf3::minmax(pointf3{ 1,1,1 }, pointf3{ 0,2,2 });
 	cout << "c: " << c << endl;
 	cout << "intersect(b,c): " << bboxf3::intersect(b, c) << endl;
+
+	cout << "translate(1.f):" << transformf(pointf3{ 1.f }) * b << endl;
 
 	return 0;
 }

@@ -7,6 +7,7 @@
 #include "point.h"
 #include "normal.h"
 #include "vec.h"
+#include "bbox.h"
 
 #include "Interfaces/IMatrix/IMatrixMul.h"
 #include "Interfaces/IMatrix/IMatrixInOut.h"
@@ -16,13 +17,13 @@ namespace Ubpa {
 	struct transform : SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>> {
 		using Base = SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>>;
 		using Base::Base;
-		using Base::init;
 		using Base::operator*;
 
 		inline explicit transform(const mat<T, 4>& m) noexcept;
 		inline explicit transform(const mat<T, 3>& m) noexcept;
 
 		inline explicit transform(const vec<T, 3>& translation) noexcept;
+		inline explicit transform(const point<T, 3>& translation) noexcept;
 		inline explicit transform(const scale<T, 3>& scale) noexcept;
 		transform(const vec<T, 3>& normalizedAxis, T radian) noexcept;
 		explicit transform(const quat<T>& q) noexcept;
@@ -51,6 +52,7 @@ namespace Ubpa {
 		const point<T, 3> operator*(const point<T, 3>& p) const noexcept;
 		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
 		const normal<T> operator*(const normal<T>& n) const noexcept;
+		const bbox<T, 3> operator*(const bbox<T, 3>& b) const noexcept;
 	};
 
 	using transformf = transform<float>;

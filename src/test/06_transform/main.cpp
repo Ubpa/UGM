@@ -36,9 +36,10 @@ int main() {
 	cout << t.decompose_rotation_matrix() << endl;
 
 	cout << t * transformf(q) << endl;
-	cout << t * pointf3 {} << endl;
-	cout << t * vecf3 {} << endl;
-	cout << t * normalf {} << endl;
+	cout << t * pointf3{} << endl;
+	cout << t * vecf3{} << endl;
+	cout << t * normalf{} << endl;
+
 
 	cout << t.inverse() << endl;
 }

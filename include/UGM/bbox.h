@@ -18,8 +18,9 @@ namespace Ubpa {
 		bbox(const point<T, N>& minP, const point<T, N>& maxP)
 			: Base{minP, maxP} {}
 
-		bbox(const point<T, N>& p0, const point<T, N>& p1, std::nullptr_t needPreprocess)
-			: bbox{ point<T, N>::min(p0, p1), point<T, N>::max(p0, p1) } { }
+		static const bbox minmax(const point<T, N>& p0, const point<T, N>& p1) {
+			return { point<T, N>::min(p0, p1), point<T, N>::max(p0, p1) };
+		}
 
 		point<T, N>& minP() noexcept { return (*this)[0]; }
 		const point<T, N>& minP() const noexcept { return (*this)[0]; }

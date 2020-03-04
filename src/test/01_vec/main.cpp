@@ -55,7 +55,8 @@ int main() {
 	cout << v.cast_to<valf3>() << endl;
 
 	// lerp
-	cout << v.lerp(u, 0.5) << endl;
+	cout << vecf3::lerp(v, u, 0.5) << endl;
+	cout << v.lerp(u, 0.5f) << endl;
 
 	vecf3 vs[4];
 

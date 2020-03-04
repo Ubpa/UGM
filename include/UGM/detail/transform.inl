@@ -11,7 +11,7 @@ namespace Ubpa {
 			vec<T, 4>{m[0][0], m[0][1], m[0][2], 0},
 			vec<T, 4>{m[1][0], m[1][1], m[1][2], 0},
 			vec<T, 4>{m[2][0], m[2][1], m[2][2], 0},
-			vec<T, 4>{      0, 0, 0, 1}
+			vec<T, 4>{      0,       0,       0, 1}
 		) { }
 
 	template<typename T>
@@ -150,7 +150,7 @@ namespace Ubpa {
 		m(2, 2) = -front[2];
 		m(2, 3) = 0;
 
-		vec<T, 3> posV(pos);
+		auto posV = pos.cast_to<vec<T, 3>>();
 		m(3, 0) = -right.dot(posV);
 		m(3, 1) = -camUp.dot(posV);
 		m(3, 2) = front.dot(posV);
@@ -345,9 +345,12 @@ namespace Ubpa {
 		T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z + m(2, 3);
 		T wp = m(3, 0) * x + m(3, 1) * y + m(3, 2) * z + m(3, 3);
 
-		point<T, 3> rst(xp, yp, zp);
-
-		return wp == 1 ? rst : rst / wp;
+		if (wp != 1) {
+			T invWP = static_cast<T>(1) / wp;
+			return { xp * invWP,yp * invWP,zp * invWP };
+		}
+		else
+			return { xp, yp, zp };
 	}
 
 	template<typename T>

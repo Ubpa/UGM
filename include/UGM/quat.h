@@ -99,11 +99,11 @@ namespace Ubpa {
 			//return point<T,3>((q * quat(p) * q.inverse()).imag());
 
 			// fast
-			vec<T, 3> pV(p);
+			auto pV = p.cast_to<vec<T, 3>>();
 			T r = real();
 			const auto& im = imag();
-			return point<T, 3>((r * r - im.norm2()) * pV
-				+ 2 * (im.dot(pV) * im + r * im.cross(pV)));
+			return ((r * r - im.norm2()) * pV
+				+ 2 * (im.dot(pV) * im + r * im.cross(pV))).cast_to<point<T, 3>>();
 		}
 
 	private:

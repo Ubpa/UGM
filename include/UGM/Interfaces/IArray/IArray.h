@@ -30,6 +30,11 @@ namespace Ubpa {
 		using std::array<At_t<At_t<ArgList, 0>, 0>, At_t<At_t<ArgList, 0>, 1>::value>::array;
 
 		IArray() {}
+
+		IArray(T t) {
+			for (size_t i = 0; i < N; i++)
+				(*this)[i] = T{ t };
+		}
 		
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
 		inline IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {

@@ -9,6 +9,7 @@ using namespace Ubpa;
 int main() {
 	vecf3 v(1, 2, 3);
 	vecf3 u = { 0,2,3 };
+	vecf3 w(1.f);
 	cout << sizeof(vecf3) << endl;
 
 	// add

@@ -83,7 +83,7 @@ namespace Ubpa {
 		T zz = z * z;
 		T zw = z * w;
 
-		init(std::array<T, 4 * 4> {
+		this->init(std::array<T, 4 * 4> {
 			1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), 0,
 			    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), 0,
 				2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), 0,
@@ -100,7 +100,7 @@ namespace Ubpa {
 		T cZ = std::cos(e[2]);
 		T sZ = std::sin(e[2]);
 
-		init(std::array<T, 4 * 4>{
+		this->init(std::array<T, 4 * 4>{
 			  cY * cZ + sX * sY * sZ, - cY * sZ + sX * sY * cZ, cX * sY, 0,
 			                 cX * sZ,                  cX * cZ,    - sX, 0,
 			- sY * cZ + sX * cY * sZ,   sY * sZ + sX * cY * cZ, cX * cY, 0,

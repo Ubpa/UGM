@@ -17,4 +17,7 @@ int main() {
 	o -= v;
 	cout << o << endl;
 	cout << p - o << endl;
+
+	pointi3 ip(3, 3, 3);
+	cout << ip << endl;
 }

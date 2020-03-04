@@ -53,4 +53,20 @@ namespace Ubpa {
 	using vecf2 = vecf<2>;
 	using vecf3 = vecf<3>;
 	using vecf4 = vecf<4>;
+
+	template<size_t N>
+	using veci = vec<int, N>;
+
+	using veci1 = veci<1>;
+	using veci2 = veci<2>;
+	using veci3 = veci<3>;
+	using veci4 = veci<4>;
+
+	template<size_t N>
+	using vecu = vec<unsigned, N>;
+
+	using vecu1 = vecu<1>;
+	using vecu2 = vecu<2>;
+	using vecu3 = vecu<3>;
+	using vecu4 = vecu<4>;
 }

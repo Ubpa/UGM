@@ -50,7 +50,20 @@ namespace Ubpa {
 	using bboxf1 = bboxf<1>;
 	using bboxf2 = bboxf<2>;
 	using bboxf3 = bboxf<3>;
-	using bboxf4 = bboxf<4>;
+
+	template<size_t N>
+	using bboxi = bbox<unsigned, N>;
+
+	using bboxi1 = bboxi<1>;
+	using bboxi2 = bboxi<2>;
+	using bboxi3 = bboxi<3>;
+
+	template<size_t N>
+	using bboxu = bbox<unsigned, N>;
+
+	using bboxu1 = bboxu<1>;
+	using bboxu2 = bboxu<2>;
+	using bboxu3 = bboxu<3>;
 }
 
 #include "detail/bbox.inl"

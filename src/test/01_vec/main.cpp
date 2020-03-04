@@ -59,6 +59,11 @@ int main() {
 	cout << vecf3::lerp(v, u, 0.5) << endl;
 	cout << v.lerp(u, 0.5f) << endl;
 
+	// veci
+	veci3 iv{ 1,2,3 };
+	cout << iv * 5 << endl;
+	cout << iv * 7 << endl;
+
 	vecf3 vs[4];
 
 	for (size_t i = 0; i < 4; i++)

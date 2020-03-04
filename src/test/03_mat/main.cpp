@@ -22,7 +22,6 @@ int main() {
 	(m0 * m1).print();
 	cout << m0(0, 1) << endl;
 	cout << m0.at(2, 2);
-	m0.inverse().print();
 	matf4 m4;
 	cin >> m4;
 	m4.inverse().print();

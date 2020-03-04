@@ -46,7 +46,7 @@ FetchContent_MakeAvailable(UGit)
 Ubpa_InitGit()
 Ubpa_UpdateSubModule()
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/UTemplate/external/UCMake/cmake")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/external/UCMake/cmake")
 include(UbpaTool)
 
 include_directories (

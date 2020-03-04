@@ -2,6 +2,19 @@
 
 namespace Ubpa {
 	template<typename T>
+	inline transform<T>::transform(const mat<T, 4>& m) noexcept
+		: transform(m[0], m[1], m[2], m[3]) {}
+
+	template<typename T>
+	inline transform<T>::transform(const mat<T, 3>& m) noexcept
+		: transform(
+			vec<T, 4>{m[0][0], m[0][1], m[0][2], 0},
+			vec<T, 4>{m[1][0], m[1][1], m[1][2], 0},
+			vec<T, 4>{m[2][0], m[2][1], m[2][2], 0},
+			vec<T, 4>{      0, 0, 0, 1}
+		) { }
+
+	template<typename T>
 	transform<T>::transform(const vec<T, 3>& t) noexcept :
 		transform{ std::array<T, 4 * 4>{
 		    1, 0, 0, t[0],
@@ -113,7 +126,7 @@ namespace Ubpa {
 
 		const vec<T,3> front = (target - pos).normalize();
 		vec<T,3> right = front.cross(up);
-		if (right.rmv_epsilon().is_zero()) {
+		if (right.rmv_epsilon().is_all_zero()) {
 			vec<T,3> newUp = up.normalize();
 			newUp.min_component() = 1;
 			right = front.cross(newUp).normalize();

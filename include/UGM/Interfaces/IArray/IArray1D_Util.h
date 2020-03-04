@@ -19,14 +19,6 @@ namespace Ubpa {
 			return rst;
 		}
 
-		inline bool has_nan() const noexcept {
-			for (size_t i = 0; i < N; i++) {
-				if (std::isnan<float>(static_cast<float>((*this)[i])))
-					return true;
-			}
-			return false;
-		}
-
 		inline T& min_component() noexcept {
 			return (*this)[min_dim()];
 		}
@@ -65,21 +57,6 @@ namespace Ubpa {
 				}
 			}
 			return maxDim;
-		}
-
-		inline const Impl rmv_epsilon() const noexcept {
-			Impl rst{};
-			for (size_t i = 0; i < N; i++)
-				rst[i] = Ubpa::rmv_epsilon((*this)[i]);
-			return rst;
-		}
-
-		inline bool is_zero() const noexcept {
-			for (size_t i = 0; i < N; i++) {
-				if ((*this)[i] != static_cast<F>(0))
-					return false;
-			}
-			return true;
 		}
 	};
 }

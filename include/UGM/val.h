@@ -16,6 +16,7 @@ namespace Ubpa {
 	using valf1 = valf<1>;
 	using valf2 = valf<2>;
 	using valf3 = valf<3>;
+	using valf4 = valf<4>;
 
 	template<size_t N>
 	using vali = val<int, N>;
@@ -23,6 +24,7 @@ namespace Ubpa {
 	using vali1 = vali<1>;
 	using vali2 = vali<2>;
 	using vali3 = vali<3>;
+	using vali4 = vali<4>;
 
 	template<size_t N>
 	using valu = val<unsigned, N>;
@@ -30,4 +32,5 @@ namespace Ubpa {
 	using valu1 = valu<1>;
 	using valu2 = valu<2>;
 	using valu3 = valu<3>;
+	using valu4 = valu<4>;
 }

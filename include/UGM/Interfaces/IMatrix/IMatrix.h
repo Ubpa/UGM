@@ -89,5 +89,13 @@ namespace Ubpa {
 			const auto& m = static_cast<const Impl&>(*this);
 			return detail::IMatrix::transpose<N>::run(m);
 		}
+
+		F* data() noexcept {
+			return &(*this)[0][0];
+		}
+
+		const F* data() const noexcept {
+			return &(*this)[0][0];
+		}
 	};
 }

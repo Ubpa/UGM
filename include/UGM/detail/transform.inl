@@ -391,4 +391,9 @@ namespace Ubpa {
 	const bbox<T, 3> transform<T>::operator*(const bbox<T, 3>& b)const noexcept {
 		return { (*this) * b.minP(), (*this) * b.maxP() };
 	}
+
+	template<typename T>
+	const ray<T, 3> transform<T>::operator*(const ray<T, 3>& r) const noexcept {
+		return{ (*this) * r.o,(*this) * r.d };
+	}
 }

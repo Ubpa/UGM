@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bbox.h"
+#include "ray.h"
 #include "euler.h"
 #include "quat.h"
 #include "scale.h"
@@ -7,7 +9,6 @@
 #include "point.h"
 #include "normal.h"
 #include "vec.h"
-#include "bbox.h"
 
 #include "Interfaces/IMatrix/IMatrixMul.h"
 #include "Interfaces/IMatrix/IMatrixInOut.h"
@@ -53,6 +54,7 @@ namespace Ubpa {
 		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
 		const normal<T> operator*(const normal<T>& n) const noexcept;
 		const bbox<T, 3> operator*(const bbox<T, 3>& b) const noexcept;
+		const ray<T, 3> operator*(const ray<T, 3>& r) const noexcept;
 	};
 
 	using transformf = transform<float>;

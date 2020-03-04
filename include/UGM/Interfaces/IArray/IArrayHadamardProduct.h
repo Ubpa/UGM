@@ -8,8 +8,15 @@ namespace Ubpa {
 	struct IArrayHadamardProduct : SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList> {
 		using F = Arg_F<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;
-
 		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::SIVT_CRTP;
+		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::operator*=;
+
+		Impl& operator*=(const Impl& y) noexcept {
+			auto& x = static_cast<Impl&>(*this);
+			for (size_t i = 0; i < N; i++)
+				x[i] *= y[i];
+			return x;
+		}
 
 	private:
 		template<typename Base, typename Impl, typename ArgList>

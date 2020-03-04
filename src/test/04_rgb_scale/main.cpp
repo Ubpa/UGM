@@ -16,6 +16,9 @@ int main() {
 	scalef3 s = { 0.4f,0.5f,0.6f };
 	cout << white << endl;
 	cout << white * black << endl;
+	rgbf d{ 1.f,2.f,3.f };
+	d *= white;
+	cout << d << endl;
 	cout << c.over(b) << endl;
 	cout << c.over(b).to_rgb() << endl;
 	cout << s;

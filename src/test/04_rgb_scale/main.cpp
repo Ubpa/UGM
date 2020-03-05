@@ -25,5 +25,7 @@ int main() {
 	cout << d.illumination() << endl;
 	cout << d.gray() << endl;
 
+	cout << s / scalef3{ 1.f,2.f,3.f } << endl;
+
 	return 0;
 }

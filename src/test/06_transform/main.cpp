@@ -25,7 +25,7 @@ int main() {
 
 
 	cout << transformf::look_at(pointf3{}, pointf3{}) << endl;
-	cout << transformf::perspcetive(to_radian(60.f), 16.f / 9.f, 0.1f, 100.f) << endl;
+	cout << transformf::perspective(to_radian(60.f), 16.f / 9.f, 0.1f, 100.f) << endl;
 	cout << transformf::orthographic(10.f, 10.f, 0.1f, 100.f) << endl;
 
 	cout << t.decompose_position() << endl;

@@ -34,10 +34,10 @@ namespace Ubpa {
 		static const transform look_at(const point<T,3>& pos, const point<T, 3>& target, const vec<T,3>& up = vec<T,3>(0, 1, 0)) noexcept;
 		// orthographic, camera space -> clip space
 		static const transform orthographic(T width, T height, T zNear, T zFar) noexcept;
-		// perspcetive, camera space -> clip space
+		// perspective, camera space -> clip space
 		// fovy: verticle field of view in radian
 		// aspect : width / height
-		static const transform perspcetive(T fovy, T aspect, T zNear, T zFar) noexcept;
+		static const transform perspective(T fovy, T aspect, T zNear, T zFar) noexcept;
 
 		// sample: rotate_with<Axis::X>(to_radian(theta))
 		template<Axis axis>

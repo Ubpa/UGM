@@ -175,7 +175,7 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const transform<T> transform<T>::perspcetive(T fovY, T aspect, T zNear, T zFar) noexcept {
+	const transform<T> transform<T>::perspective(T fovY, T aspect, T zNear, T zFar) noexcept {
 		assert(fovY > 0 && aspect > 0 && zNear >= 0 && zFar > zNear);
 		T tanHalfFovY = std::tan(fovY / static_cast<T>(2));
 		return std::array<T, 4 * 4>{

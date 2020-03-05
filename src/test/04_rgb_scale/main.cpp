@@ -22,6 +22,8 @@ int main() {
 	cout << c.over(b) << endl;
 	cout << c.over(b).to_rgb() << endl;
 	cout << s;
+	cout << d.illumination() << endl;
+	cout << d.gray() << endl;
 
 	return 0;
 }

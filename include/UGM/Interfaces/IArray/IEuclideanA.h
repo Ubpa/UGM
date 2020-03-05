@@ -1,19 +1,25 @@
 #pragma once
 
 #include "../IAffine.h"
+#include "../IMetric.h"
 #include "IEuclideanV.h"
 
 namespace Ubpa {
 	// euclidean affine space
 	template<typename Base, typename ImplP, typename ArgList>
-	struct IEuclideanA : SIVT_CRTP<TemplateList<IAffine, IArray>, Base, ImplP, ArgList> {
+	struct IEuclideanA : SIVT_CRTP<TemplateList<IMetric, IAffine, IArray>, Base, ImplP, ArgList> {
 		static constexpr size_t N = Arg_N<ArgList>;
 		using ImplV = Arg_ImplV<ArgList>;
+		using F = Arg_F<ArgList>;
 
 		static_assert(ExistInstance_v<typename ImplV::AllVBs, IEuclideanV>);
 		static_assert(ImplV::N == N);
 
-		using SIVT_CRTP<TemplateList<IAffine, IArray>, Base, ImplP, ArgList>::SIVT_CRTP;
+		using SIVT_CRTP<TemplateList<IMetric, IAffine, IArray>, Base, ImplP, ArgList>::SIVT_CRTP;
+
+		static F distance2(const ImplP& x, const ImplP& y) noexcept {
+			return (x - y).norm2();
+		}
 
 	private:
 		template<typename Base, typename ImplP, typename ArgList>
@@ -40,6 +46,12 @@ namespace Ubpa {
 			for (size_t i = 0; i < N; i++)
 				rst[i] = x[i] - y[i];
 			return rst;
+		}
+
+		template<typename Base, typename ImplP, typename ArgList>
+		friend struct IMetric;
+		static F impl_distance(const ImplP& x, const ImplP& y) noexcept {
+			return (x - y).norm();
 		}
 	};
 }

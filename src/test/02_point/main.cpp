@@ -17,7 +17,9 @@ int main() {
 	o -= v;
 	cout << o << endl;
 	cout << p - o << endl;
+	cout << pointf3::distance(p, o) << endl;
 
 	pointi3 ip(3, 3, 3);
 	cout << ip << endl;
+	cout << pointf3::distance(o, o + v) << endl;
 }

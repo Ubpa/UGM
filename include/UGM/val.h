@@ -1,13 +1,59 @@
 #pragma once
 
+#include "vec.h"
+#include "normal.h"
+#include "point.h"
+#include "quat.h"
+#include "euler.h"
+#include "rgb.h"
+#include "rgba.h"
+
 #include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
+#include "Interfaces/IArray/IArrayHadamardProduct.h"
+#include "Interfaces/IArray/IArrayAdd.h"
+#include "Interfaces/IArray/IArrayScalarMul.h"
+
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+	struct val : SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
+		using SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util, IArrayUtil>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+
+		val(const vec<T, N>& v) noexcept {
+			for (size_t i = 0; i < N; i++)
+				(*this)[i] = v[i];
+		}
+		val(const normal<T>& v) noexcept {
+			static_assert(N == 3);
+			for (size_t i = 0; i < 3; i++)
+				(*this)[i] = v[i];
+		}
+		val(const point<T, N>& v) noexcept {
+			for (size_t i = 0; i < N; i++)
+				(*this)[i] = v[i];
+		}
+		val(const rgb<T>& v) noexcept {
+			static_assert(N == 3);
+			for (size_t i = 0; i < 3; i++)
+				(*this)[i] = v[i];
+		}
+		val(const rgba<T>& v) noexcept {
+			static_assert(N == 4);
+			for (size_t i = 0; i < 4; i++)
+				(*this)[i] = v[i];
+		}
+		val(const quat<T>& v) noexcept {
+			static_assert(N == 4);
+			for (size_t i = 0; i < 4; i++)
+				(*this)[i] = v[i];
+		}
+		val(const euler<T>& v) noexcept {
+			static_assert(N == 3);
+			for (size_t i = 0; i < 3; i++)
+				(*this)[i] = v[i];
+		}
 	};
 
 	template<size_t N>

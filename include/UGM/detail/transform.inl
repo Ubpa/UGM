@@ -136,28 +136,28 @@ namespace Ubpa {
 			right = front.cross(newUp).normalize();
 		}
 		const vec<T,3> camUp = right.cross(front);
+		auto posV = pos.cast_to<vec<T, 3>>();
 
 		transform m;
 
 		m(0, 0) = right[0];
 		m(0, 1) = right[1];
 		m(0, 2) = right[2];
-		m(0, 3) = 0;
+		m(0, 3) = -right.dot(posV);
 
 		m(1, 0) = camUp[0];
 		m(1, 1) = camUp[1];
 		m(1, 2) = camUp[2];
-		m(1, 3) = 0;
+		m(1, 3) = -camUp.dot(posV);
 
 		m(2, 0) = -front[0];
 		m(2, 1) = -front[1];
 		m(2, 2) = -front[2];
-		m(2, 3) = 0;
+		m(2, 3) = front.dot(posV);
 
-		auto posV = pos.cast_to<vec<T, 3>>();
-		m(3, 0) = -right.dot(posV);
-		m(3, 1) = -camUp.dot(posV);
-		m(3, 2) = front.dot(posV);
+		m(3, 0) = 0;
+		m(3, 1) = 0;
+		m(3, 2) = 0;
 		m(3, 3) = 1;
 
 		return m;

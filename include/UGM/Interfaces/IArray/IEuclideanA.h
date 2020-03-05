@@ -4,6 +4,8 @@
 #include "../IMetric.h"
 #include "IEuclideanV.h"
 
+#include <vector>
+
 namespace Ubpa {
 	// euclidean affine space
 	template<typename Base, typename ImplP, typename ArgList>

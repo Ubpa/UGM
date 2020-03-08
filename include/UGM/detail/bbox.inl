@@ -17,9 +17,11 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	bool bbox<T, N>::is_valid() const {
-		return maxP()[0] >= minP()[0]
-			&& maxP()[1] >= minP()[1]
-			&& maxP()[2] >= minP()[2];
+		for(size_t i = 0; i < N; i++) {
+			if(maxP()[i] < minP()[i])
+				return false;
+		}
+		return true;
 	}
 
 	template<typename T, size_t N>

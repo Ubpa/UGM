@@ -32,7 +32,6 @@ namespace Ubpa {
 			return distance2(x, y);
 		}
 
-		// radian
 		inline static F cos_theta(const Impl& x, const Impl& y) noexcept {
 			F xN = x.norm();
 			F yN = y.norm();

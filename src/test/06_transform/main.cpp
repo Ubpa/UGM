@@ -23,8 +23,7 @@ int main() {
 	transformf::rotate_with<Axis::Y>(to_radian(30.f)).print();
 	transformf::rotate_with<Axis::Z>(to_radian(30.f)).print();
 
-
-	cout << transformf::look_at(pointf3{}, pointf3{}) << endl;
+	cout << transformf::look_at(pointf3{0.f}, pointf3{0.f,0.f,1.f}) << endl;
 	cout << transformf::perspective(to_radian(60.f), 16.f / 9.f, 0.1f, 100.f) << endl;
 	cout << transformf::orthographic(10.f, 10.f, 0.1f, 100.f) << endl;
 
@@ -40,6 +39,7 @@ int main() {
 	cout << t * vecf3{} << endl;
 	cout << t * normalf{} << endl;
 
+	cout << transformf::rotate_with<Axis::X>(to_radian(180.f)).decompose_quatenion() << endl;
 
 	cout << t.inverse() << endl;
 }

@@ -213,15 +213,43 @@ namespace Ubpa {
 
 	template<typename T>
 	const quat<T> transform<T>::decompose_quatenion() const noexcept {
+		// ref: https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+
 		auto rM = decompose_rotation_matrix();
 
-		T real = std::sqrt(rM.trace() + 1) * static_cast<T>(0.5);
-
+		T real;
 		vec<T, 3> imag;
-		imag[0] = rM(2, 1) - rM(1, 2);
-		imag[1] = rM(0, 2) - rM(2, 0);
-		imag[2] = rM(1, 0) - rM(0, 1);
-		imag /= 4 * real;
+
+		T tr = rM.trace();
+
+		if (tr > 0) {
+			T S = std::sqrt(tr + 1) * 2;// S = 4 * real 
+			real = static_cast<T>(0.25)* S;
+			imag[0] = (rM(2, 1) - rM(1, 2)) / S;
+			imag[1] = (rM(0, 2) - rM(2, 0)) / S;
+			imag[2] = (rM(1, 0) - rM(0, 1)) / S;
+		}
+		else if ((rM(0, 0) > rM(1, 1))& (rM(0, 0) > rM(2, 2))) {
+			T S = std::sqrt(1 + rM(0, 0) - rM(1, 1) - rM(2, 2)) * 2;// S=4*imag[0]
+			real = (rM(2, 1) - rM(1, 2)) / S;
+			imag[0] = static_cast<T>(0.25)* S;
+			imag[1] = (rM(0, 1) + rM(1, 0)) / S;
+			imag[2] = (rM(0, 2) + rM(2, 0)) / S;
+		}
+		else if (rM(1, 1) > rM(2, 2)) {
+			T S = sqrt(1 + rM(1, 1) - rM(0, 0) - rM(2, 2)) * 2;// S=4*imag[1]
+			real = (rM(0, 2) - rM(2, 0)) / S;
+			imag[0] = (rM(0, 1) + rM(1, 0)) / S;
+			imag[1] = static_cast<T>(0.25)* S;
+			imag[2] = (rM(1, 2) + rM(2, 1)) / S;
+		}
+		else {
+			T S = sqrt(1 + rM(2, 2) - rM(0, 0) - rM(1, 1)) * 2;// S=4*imag[2]
+			real = (rM(1, 0) - rM(0, 1)) / S;
+			imag[0] = (rM(0, 2) + rM(2, 0)) / S;
+			imag[1] = (rM(1, 2) + rM(2, 1)) / S;
+			imag[2] = static_cast<T>(0.25)* S;
+		}
 
 		return quat<T>::imag_real(imag, real);
 	}

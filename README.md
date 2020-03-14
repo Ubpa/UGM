@@ -13,7 +13,7 @@
 - ray
 - rgb：线性 + 逐元素乘法（Hadamard Product）
 - rgba
-- scale：线性 + 逐元素乘法（Hadamard Product）
+- scale：数乘 + 逐元素乘法（Hadamard Product）
 - transform：矩阵乘法
 - val：cast 特化，加法 + 数乘 + 逐元素乘法（Hadamard Product）
 - vec：欧式向量空间
@@ -78,7 +78,7 @@ struct IMetric {
 }
 ```
 
-**范数** 
+**范数=>度量**  
 
 ```c++
 template<typename Impl>
@@ -90,7 +90,7 @@ struct INorm {
 };
 ```
 
-**内积** 
+**内积=>范数=>度量** 
 
 ```c++
 template<typename Impl>

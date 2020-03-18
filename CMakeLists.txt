@@ -43,20 +43,13 @@ else()
 	  GIT_TAG "v0.1"
 	)
 	FetchContent_MakeAvailable(UCMake)
-	message(STATUS "${dep}-${version} fetch done")
+	message(STATUS "UCMake-0.1 fetch done")
 endif()
 
 # 修改默认的安装路径前缀
 Ubpa_InitInstallPrefix()
 
 Ubpa_AddDep(UTemplate 0.1)
-
-include_directories (
-	${PROJECT_SOURCE_DIR}/include
-)
-link_directories (
-	${PROJECT_SOURCE_DIR}/lib
-)
 
 Ubpa_AddSubDirsRec(src)
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 namespace Ubpa::detail::Basic {
 	template<typename T> struct rmv_epsilon;
 	template<typename T> struct is_zero;

@@ -9,11 +9,11 @@
 namespace Ubpa {
 	// euclidean vector space
 	template<typename Base, typename Impl, typename ArgList>
-	struct IEuclideanV : SIVT_CRTP<TemplateList<INorm, IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>, Base, Impl, ArgList> {
+	struct IEuclideanV : SIVT_CRTP<TemplateList<IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>, Base, Impl, ArgList> {
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
 
-		using SIVT_CRTP<TemplateList<INorm, IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>,
+		using SIVT_CRTP<TemplateList<IInnerProduct, ILinear, IArrayScalarMul, IArrayAdd>,
 			Base, Impl, ArgList>::SIVT_CRTP;
 
 	private:

@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include <cmath>
-#include <assert.h>
+#include <cassert>
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>

@@ -11,8 +11,8 @@ int main() {
 
 	r.print();
 	cout << "r: " << r << endl;
-	cout << "o: " << r.o << endl;
-	cout << "d: " << r.d << endl;
+	cout << "o: " << r.origin() << endl;
+	cout << "d: " << r.dir() << endl;
 	cout << "at(0.5f): " << r.at(0.5f) << endl;
 	pointf3 p0{ -1.f,2.f,1.f };
 	pointf3 p1{ 0.f, 2.f, -1.f };
@@ -23,10 +23,10 @@ int main() {
 		<< "  - p1: " << p1 << endl
 		<< "  - p2: " << p2 << endl
 		<< "  - isIntersect: " << isIntersect << endl
-		<< "  - wuv: " << get<0>(wuv) << ", " << get<1>(wuv) << ", " << get<2>(wuv) << endl
+		<< "  - wuv: " << wuv[0] << ", " << wuv[1] << ", " << wuv[2] << endl
 		<< "  - t: " << t << endl
-		<< "  - wp0 + up1 + vp2: " << p0 + get<1>(wuv) * (p1 - p0) + get<2>(wuv) * (p2 - p0) << endl
-		<< "  - ray(t): " << r.at(t) << endl;
+		<< "  - wp0 + up1 + vp2: " << pointf3::combine(array<pointf3, 3>{p0, p1, p2}, wuv) << endl
+		<< "  - ray.at(t): " << r.at(t) << endl;
 	cout << "translate(vecf3{1.f}): " << transformf(vecf3{ 1.f }) * r << endl;
 
 	return 0;

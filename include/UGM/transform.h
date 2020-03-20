@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bbox.h"
+#include "line.h"
 #include "ray.h"
 #include "euler.h"
 #include "quat.h"
@@ -23,12 +24,15 @@ namespace Ubpa {
 		inline explicit transform(const mat<T, 4>& m) noexcept;
 		inline explicit transform(const mat<T, 3>& m) noexcept;
 
-		inline explicit transform(const vec<T, 3>& translation) noexcept;
-		inline explicit transform(const point<T, 3>& translation) noexcept;
+		inline explicit transform(const point<T, 3>& pos) noexcept;
 		inline explicit transform(const scale<T, 3>& scale) noexcept;
-		transform(const vec<T, 3>& normalizedAxis, T radian) noexcept;
-		explicit transform(const quat<T>& q) noexcept;
-		explicit transform(const euler<T>& e) noexcept;
+		inline explicit transform(const quat<T>& rot) noexcept;
+		inline explicit transform(const euler<T>& euler) noexcept;
+
+		transform(const point<T, 3>& pos, const scale<T, 3>& scale) noexcept;
+		transform(const point<T, 3>& pos, const quat<T>& rot) noexcept;
+		transform(const point<T, 3>& pos, const scale<T, 3>& scale, const quat<T>& rot) noexcept;
+		transform(const vec<T, 3>& axis, T radian) noexcept;
 
 		// world space -> camera space
 		static const transform look_at(const point<T,3>& pos, const point<T, 3>& target, const vec<T,3>& up = vec<T,3>(0, 1, 0)) noexcept;
@@ -54,6 +58,7 @@ namespace Ubpa {
 		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
 		const normal<T> operator*(const normal<T>& n) const noexcept;
 		const bbox<T, 3> operator*(const bbox<T, 3>& b) const noexcept;
+		const line<T, 3> operator*(const line<T, 3>& r) const noexcept;
 		const ray<T, 3> operator*(const ray<T, 3>& r) const noexcept;
 	};
 

@@ -23,7 +23,7 @@ int main() {
 	cout << c.over(b).to_rgb() << endl;
 	cout << s;
 	cout << d.illumination() << endl;
-	cout << d.gray() << endl;
+	cout << d.gline() << endl;
 
 	cout << s / scalef3{ 1.f,2.f,3.f } << endl;
 

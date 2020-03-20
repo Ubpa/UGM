@@ -2,19 +2,65 @@
 
 #include "vec.h"
 
-#include "Interfaces/IArray/IEuclideanA.h"
 #include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
+#include "Interfaces/IArray/IEuclideanA.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
 	struct vec;
-	template<typename T, size_t N>
-	struct val;
 
 	template<typename T, size_t N>
-	struct point : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>>>::SIIT_CRTP;
+	struct point : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>> {
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>>::SIIT_CRTP;
+
+		template<typename Container>
+		static const point combine(const Container& points, T weight) {
+			point rst{ static_cast<T>(0) };
+			for (const auto& p : points) {
+				for (size_t i = 0; i < N; i++)
+					rst[i] += weight * p[i];
+			}
+			return rst;
+		}
+
+		template<typename PContainer, typename WContainer>
+		static const point combine(PContainer points, WContainer weights) {
+			assert(points.size() == weights.size());
+			point rst{ static_cast<T>(0) };
+			auto witer = weights.begin();
+			for (const auto& p : points) {
+				T weight = *witer;
+				for (size_t i = 0; i < N; i++)
+					rst[i] += weight * p[i];
+				++witer;
+			}
+			return rst;
+		}
+
+	private:
+		template<typename Base, typename Impl, typename ArgList>
+		friend struct IEuclideanA;
+
+		point& impl_get_point() noexcept {
+			return *this;
+		}
+
+		static const point impl_move(const point&, const point& p) noexcept {
+			return p;
+		}
+
+		template<typename Base, typename Impl, typename ArgList>
+		friend struct IAffine;
+
+		const vec<T,N> impl_affine_minus(const point& y) const noexcept {
+			const point& x = *this;
+			vec<T, N> rst;
+			for (size_t i = 0; i < N; i++)
+				rst[i] = x[i] - y[i];
+			return rst;
+		}
+
 	};
 
 	template<size_t N>

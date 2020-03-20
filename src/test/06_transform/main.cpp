@@ -6,6 +6,8 @@ using namespace std;
 using namespace Ubpa;
 
 int main() {
+	transformf tsfm; // default constructor
+
 	eulerf e(to_radian(13.f), to_radian(42.f), to_radian(71.f));
 	transformf t(e);
 	cout << e << endl;

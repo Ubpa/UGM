@@ -45,6 +45,16 @@ namespace Ubpa {
 			return cos_theta(x, y);
 		}
 
+		const Impl project(const Impl& n) const noexcept {
+			assert(n.is_normalized());
+			return dot(n) * n;
+		}
+
+		const Impl orthogonalize(const Impl& n) const noexcept {
+			auto& x = static_cast<const Impl&>(*this);
+			return x - x.project(n);
+		}
+
 	private:
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct INorm;

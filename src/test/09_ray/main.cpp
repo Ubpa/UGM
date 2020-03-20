@@ -11,7 +11,7 @@ int main() {
 
 	r.print();
 	cout << "r: " << r << endl;
-	cout << "o: " << r.origin() << endl;
+	cout << "o: " << r.point() << endl;
 	cout << "d: " << r.dir() << endl;
 	cout << "at(0.5f): " << r.at(0.5f) << endl;
 	pointf3 p0{ -1.f,2.f,1.f };

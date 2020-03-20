@@ -37,30 +37,6 @@ namespace Ubpa {
 			}
 			return rst;
 		}
-
-	private:
-		template<typename Base, typename Impl, typename ArgList>
-		friend struct IEuclideanA;
-
-		point& impl_get_point() noexcept {
-			return *this;
-		}
-
-		static const point impl_move(const point&, const point& p) noexcept {
-			return p;
-		}
-
-		template<typename Base, typename Impl, typename ArgList>
-		friend struct IAffine;
-
-		const vec<T,N> impl_affine_minus(const point& y) const noexcept {
-			const point& x = *this;
-			vec<T, N> rst;
-			for (size_t i = 0; i < N; i++)
-				rst[i] = x[i] - y[i];
-			return rst;
-		}
-
 	};
 
 	template<size_t N>

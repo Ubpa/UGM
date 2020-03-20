@@ -1,34 +1,20 @@
 #pragma once
 
-#include "ILinear.h"
+#include "IAffineSubspace.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
-	struct IAffine : Base {
+	template<typename Base, typename ImplP, typename ArgList>
+	struct IAffine : SIVT_CRTP<TemplateList<IAffineSubspace>, Base, ImplP, ArgList> {
 		using ImplV = Arg_ImplV<ArgList>;
 		
 		static_assert(ExistInstance_v<typename ImplV::AllVBs, ILinear>);
 
-		using Base::Base;
+		using DBase = SIVT_CRTP<TemplateList<IAffineSubspace>, Base, ImplP, ArgList>;
+		using DBase::DBase;
+		using DBase::operator-;
 
-		inline const Impl operator+(const ImplV& v) const noexcept {
-			return static_cast<const Impl*>(this)->impl_affine_add(v);
-		}
-
-		inline Impl& operator+=(const ImplV& v) noexcept {
-			return static_cast<Impl*>(this)->impl_affine_add_to_self(v);
-		}
-
-		inline const Impl operator-(const ImplV& v) const noexcept {
-			return static_cast<const Impl*>(this)->impl_affine_minus_v(v);
-		}
-
-		inline Impl& operator-=(const ImplV& v) noexcept {
-			return static_cast<Impl*>(this)->impl_affine_minus_v_to_self(v);
-		}
-
-		inline const ImplV operator-(const Impl& impl) const noexcept {
-			return static_cast<const Impl*>(this)->impl_affine_minus(impl);
+		inline const ImplV operator-(const ImplP& y) const noexcept {
+			return static_cast<const ImplP*>(this)->impl_affine_minus(y);
 		}
 	};
 }

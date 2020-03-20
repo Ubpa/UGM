@@ -11,7 +11,7 @@ int main() {
 
 	l.print();
 	cout << "l: " << l << endl;
-	cout << "o: " << l.origin() << endl;
+	cout << "pnt: " << l.point() << endl;
 	cout << "d: " << l.dir() << endl;
 	cout << "at(0.5f): " << l.at(0.5f) << endl;
 	pointf3 p0{ -1.f,2.f,1.f };
@@ -28,6 +28,9 @@ int main() {
 		<< "  - wp0 + up1 + vp2: " << pointf3::combine(array<pointf3, 3>{p0,p1,p2}, wuv) << endl
 		<< "  - line.at(t): " << l.at(t) << endl;
 	cout << "translate(vecf3{1.f}): " << transformf(vecf3{ 1.f }) * l << endl;
+
+	cout << l.move(pointf3{ 1.f }) << endl;
+	cout << l + vecf3{ 2.f } << endl;
 
 	return 0;
 }

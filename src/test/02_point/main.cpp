@@ -26,7 +26,6 @@ int main() {
 	cout << ip << endl;
 	cout << pointf3::distance(o, o + v) << endl;
 
-	cout << o.get_point() << endl;
 	vector<pointf3> points;
 	points.push_back(o);
 	points.push_back(p);
@@ -34,6 +33,4 @@ int main() {
 	array<float, 2> weights = { 0.25f,0.75f };
 
 	cout << pointf3::combine(points, weights) << endl;
-
-	cout << o.move(p) << endl;
 }

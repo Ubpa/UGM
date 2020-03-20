@@ -3,19 +3,19 @@
 namespace Ubpa {
 	template<typename T, size_t N>
 	void line<T, N>::print(std::ostream& os) const {
-		os << "[ o : " << this->origin() << " ]" << std::endl
-			<< "[ d : " << this->dir() << " ]" << std::endl;
+		os << "[ point : " << this->point() << " ]" << std::endl
+			<< "[  dir  : " << this->dir() << " ]" << std::endl;
 	}
 
 	template<typename T, size_t N>
 	std::ostream& line<T, N>::impl_out(std::ostream& os) const {
-		os << this->origin() << " " << this->dir();
+		os << this->point() << " " << this->dir();
 		return os;
 	}
 
 	template<typename T, size_t N>
 	std::istream& line<T, N>::impl_in(std::istream& is) {
-		is >> this->origin() >> this->dir();
+		is >> this->point() >> this->dir();
 		return is;
 	}
 
@@ -23,7 +23,7 @@ namespace Ubpa {
 	const std::tuple<bool, std::array<T, 3>, T> line<T, N>::intersect_triangle(const point<T, 3>& v0, const point<T, 3>& v1, const point<T, 3>& v2) const {
 		static_assert(N == 3);
 
-		const auto& o = this->origin();
+		const auto& p = this->point();
 		const auto& d = this->dir();
 
 		const auto e1 = v1 - v0;
@@ -37,7 +37,7 @@ namespace Ubpa {
 
 		const auto inv_denominator = static_cast<T>(1) / denominator;
 
-		const auto s = o - v0;
+		const auto s = p - v0;
 
 		const auto e2_x_s = e2.cross(s);
 		const auto r1 = e2_x_s.dot(d);

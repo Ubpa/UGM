@@ -20,11 +20,11 @@ namespace Ubpa {
 		using SIVT_CRTP<TemplateList<IAffine>, Base, Impl, ArgList>::SIVT_CRTP;
 		using std::tuple<Arg_ImplP<ArgList>, Arg_ImplV<ArgList>>::tuple;
 
-		ImplP& origin() noexcept { return std::get<ImplP>(*this); }
-		const ImplP& origin() const noexcept { return std::get<ImplP>(*this); }
+		ImplP& point() noexcept { return std::get<ImplP>(*this); }
+		const ImplP& point() const noexcept { return std::get<ImplP>(*this); }
 		ImplV& dir() noexcept { return std::get<ImplV>(*this); }
 		const ImplV& dir() const noexcept { return std::get<ImplV>(*this); }
 
-		const ImplP at(F t) const noexcept { return origin() + t * dir(); }
+		const ImplP at(F t) const noexcept { return point() + t * dir(); }
 	};
 }

@@ -11,8 +11,8 @@ namespace Ubpa {
 		using Base = SIIT_CRTP<TemplateList<IArrayUtil>, bbox<T, N>, TypeList<TypeList<point<T, N>, Size<2>>, T>>;
 		using Base::Base;
 		
-		inline bbox();
-		inline bbox(const point<T, N>& minP, const point<T, N>& maxP);
+		bbox();
+		bbox(const point<T, N>& minP, const point<T, N>& maxP);
 		static const bbox minmax(const point<T, N>& p0, const point<T, N>& p1);
 
 		point<T, N>& minP() noexcept { return (*this)[0]; }

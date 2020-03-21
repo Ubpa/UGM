@@ -14,8 +14,8 @@ namespace Ubpa {
 	using Arg_F = At_t<ArgList, 1>;
 
 	template<typename ArgList>
-	using Arg_ImplV = At_t<ArgList, 2>;
+	using Arg_Vector = At_t<ArgList, 2>;
 
 	template<typename ArgList>
-	using Arg_ImplP = At_t<ArgList, 3>;
+	using Arg_Point = At_t<ArgList, 3>;
 }

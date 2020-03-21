@@ -1,30 +1,23 @@
 #pragma once
 
-#include "ILinear.h"
-#include "IAffine.h"
-
-#include <tuple>
+#include "IOLine.h"
+#include "IAffineRealSubspace.h"
 
 namespace Ubpa {
+	// line in real affine subspace
 	template<typename Base, typename Impl, typename ArgList>
-	struct ILine : std::tuple<Arg_ImplP<ArgList>, Arg_ImplV<ArgList>>,
-		SIVT_CRTP<TemplateList<IAffine>, Base, Impl, ArgList>
-	{
-		using ImplP = Arg_ImplP<ArgList>;
-		using ImplV = Arg_ImplV<ArgList>;
+	struct ILine : SIVT_CRTP<TemplateList<IAffineRealSubspace, IOLine>, Base, Impl, ArgList> {
+		using Point = Arg_Point<ArgList>;
+		using Vector = Arg_Vector<ArgList>;
 		using F = Arg_F<ArgList>;
 
-		static_assert(ExistInstance_v<typename ImplP::AllVBs, IAffine>);
-		static_assert(ExistInstance_v<typename ImplV::AllVBs, ILinear>);
+		using SIVT_CRTP<TemplateList<IAffineRealSubspace, IOLine>, Base, Impl, ArgList>::SIVT_CRTP;
 
-		using SIVT_CRTP<TemplateList<IAffine>, Base, Impl, ArgList>::SIVT_CRTP;
-		using std::tuple<Arg_ImplP<ArgList>, Arg_ImplV<ArgList>>::tuple;
+		const Point at(F t) const noexcept { return this->point() + t * this->dir(); }
 
-		ImplP& point() noexcept { return std::get<ImplP>(*this); }
-		const ImplP& point() const noexcept { return std::get<ImplP>(*this); }
-		ImplV& dir() noexcept { return std::get<ImplV>(*this); }
-		const ImplV& dir() const noexcept { return std::get<ImplV>(*this); }
-
-		const ImplP at(F t) const noexcept { return point() + t * dir(); }
+		void init_ILine(const Point& p, const Vector& dir) noexcept {
+			this->init_IAffineRealSubspace(p);
+			this->init_IOLine(dir);
+		}
 	};
 }

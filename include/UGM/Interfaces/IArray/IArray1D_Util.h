@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../../basic.h"
+#include "IArrayUtil.h"
 #include "IArray1D.h"
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArray1D_Util : SIVT_CRTP<TemplateList<IArray1D>, Base, Impl, ArgList> {
-		using SIVT_CRTP<TemplateList<IArray1D>, Base, Impl, ArgList>::SIVT_CRTP;
+	struct IArray1D_Util : SIVT_CRTP<TemplateList<IArray1D, IArrayUtil>, Base, Impl, ArgList> {
+		using SIVT_CRTP<TemplateList<IArray1D, IArrayUtil>, Base, Impl, ArgList>::SIVT_CRTP;
 
 		using T = Arg_T<ArgList>;
 		using F = Arg_F<ArgList>;

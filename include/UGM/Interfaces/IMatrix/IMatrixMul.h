@@ -13,9 +13,9 @@ namespace Ubpa {
 		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::SIVT_CRTP;
 		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::operator*;
 
-		using ImplV = Arg_T<ArgList>;
+		using Vector = Arg_T<ArgList>;
 
-		inline const ImplV operator*(const ImplV& v) const noexcept {
+		inline const Vector operator*(const Vector& v) const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
 			return detail::IMatrixMul::mul<N>::run(m, v);
 		}

@@ -7,20 +7,19 @@
 
 #include <array>
 
-#include "Interfaces/IArray/IEuclideanAS.h"
 #include "Interfaces/ILine.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ray : SIIT_CRTP<TemplateList<IInOut, ILine, IEuclideanAS>, ray<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>> {
-		using Base = SIIT_CRTP<TemplateList<IInOut, ILine, IEuclideanAS>, ray<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>>;
+	struct ray : SIIT_CRTP<TemplateList<IInOut, ILine>, ray<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>> {
+		using Base = SIIT_CRTP<TemplateList<IInOut, ILine>, ray<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>>;
 
 		T tmin;
 		T tmax;
 
-		ray(const point<T, N>& o, const vec<T, N>& d,
+		ray(const point<T, N>& p, const vec<T, N>& dir,
 			T tmin = EPSILON<T>, T tmax = std::numeric_limits<T>::max())
-			: Base{ o, d }, tmin{ tmin }, tmax{ tmax } {}
+			: tmin{ tmin }, tmax{ tmax } { this->init_ILine(p, dir); }
 
 		const line<T, N> to_line() const noexcept;
 
@@ -34,6 +33,10 @@ namespace Ubpa {
 		friend struct IInOut;
 		std::ostream& impl_out(std::ostream& os) const;
 		std::istream& impl_in(std::istream& is);
+
+		static const ray impl_move(const ray& r, const point<T, N>& p) noexcept {
+			return { p, r.dir(), r.tmin, r.tmax };
+		}
 	};
 
 	template<size_t N>

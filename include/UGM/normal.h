@@ -45,7 +45,6 @@ namespace Ubpa {
 			return sin_theta(x, y);
 		}
 
-	public:
 		const mat<T, 3> coord_space() const {
 			const auto z = this->normalize();
 			auto h = z;

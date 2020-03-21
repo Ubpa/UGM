@@ -14,12 +14,9 @@ namespace Ubpa {
 
 		static_assert(ExistInstance_v<typename Vector::AllVBs, ILinear>);
 
-		using Base::Base;
-		using std::tuple<Arg_Vector<ArgList>>::tuple;
+		void init_IOLine(const Vector& v) noexcept { dir() = v; }
 
 		Vector& dir() noexcept { return std::get<Vector>(*this); }
 		const Vector& dir() const noexcept { return std::get<Vector>(*this); }
-
-		void init_IOLine(const Vector& v) noexcept { dir() = v; }
 	};
 }

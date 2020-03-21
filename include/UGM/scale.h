@@ -1,16 +1,15 @@
 #pragma once
 
 #include "Interfaces/IArray/IArrayScalarMul.h"
-#include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 #include "Interfaces/IArray/IArrayHadamardProduct.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct scale : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
+	struct scale : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
 		TypeList<TypeList<T, Size<N>>, T>>
 	{
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
 			TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 	};
 

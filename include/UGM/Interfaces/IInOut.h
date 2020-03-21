@@ -8,7 +8,6 @@ namespace Ubpa {
 	struct IInOut : Base {
 		using Base::Base;
 
-	public:
 		friend std::ostream& operator<<(std::ostream& os, const Impl& x) {
 			return x.out(os);
 		}

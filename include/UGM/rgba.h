@@ -2,13 +2,12 @@
 
 #include "rgb.h"
 
-#include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 
 namespace Ubpa {
 	template<typename T>
-	struct rgba : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, rgba<T>, TypeList<TypeList<T, Size<4>>, T>> {
-		using Base = SIIT_CRTP<TemplateList<IArray1D_Util, IArrayUtil>, rgba<T>, TypeList<TypeList<T, Size<4>>, T>>;
+	struct rgba : SIIT_CRTP<TemplateList<IArray1D_Util>, rgba<T>, TypeList<TypeList<T, Size<4>>, T>> {
+		using Base = SIIT_CRTP<TemplateList<IArray1D_Util>, rgba<T>, TypeList<TypeList<T, Size<4>>, T>>;
 		using Base::Base;
 
 		rgba(const rgb<T>& rgb, T a) noexcept

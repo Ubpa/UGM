@@ -79,8 +79,6 @@ int main() {
 
 	vecf3 vs[4];
 
-	std::array<float, 3> float3;
-
 	for (size_t i = 0; i < 4; i++)
 		std::cin >> vs[i];
 

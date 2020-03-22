@@ -4,6 +4,8 @@
 #include <UTemplate/Num.h>
 
 namespace Ubpa {
+	struct Arg_Empty {};
+
 	template<typename ArgList>
 	using Arg_T = At_t<At_t<ArgList, 0>, 0>;
 

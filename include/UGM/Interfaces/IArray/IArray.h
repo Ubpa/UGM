@@ -14,21 +14,20 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArray : Base, std::array<At_t<At_t<ArgList,0>, 0>, At_t<At_t<ArgList, 0>, 1>::value> {
+	struct IArray : Base, std::array<Arg_T<ArgList>, Arg_N<ArgList>> {
 	private:
 		using Base::operator[];
 	public:
-		using std::array<At_t<At_t<ArgList, 0>, 0>, At_t<At_t<ArgList, 0>, 1>::value>::operator[];
+		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::operator[];
 
 	public:
 		using T = Arg_T<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
 		static_assert(N > 0);
-		//static_assert(std::is_arithmetic_v<F>);
 
 		using Base::Base;
-		using std::array<At_t<At_t<ArgList, 0>, 0>, At_t<At_t<ArgList, 0>, 1>::value>::array;
+		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::array;
 
 		IArray() {}
 
@@ -39,7 +38,7 @@ namespace Ubpa {
 		
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
 		inline IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
-			static_assert(sizeof...(U) == N);
+			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 
 		inline const Impl rmv_epsilon() const noexcept {

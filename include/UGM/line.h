@@ -9,8 +9,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct line : SIIT_CRTP<TemplateList<IInOut, ILine>, line<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>> {
-		using Base = SIIT_CRTP<TemplateList<IInOut, ILine>, line<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>>;
+	struct line : SIIT_CRTP<TemplateList<IInOut, ILine>, line<T, N>, TypeList<Arg_Empty, T, vec<T, N>, point<T, N>>> {
+		using Base = SIIT_CRTP<TemplateList<IInOut, ILine>, line<T, N>, TypeList<Arg_Empty, T, vec<T, N>, point<T, N>>>;
 		using Base::Base;
 
 		line(const point<T, N>& p, const vec<T, N>& dir) { this->init_ILine(p, dir); }
@@ -37,6 +37,7 @@ namespace Ubpa {
 
 	template<size_t N>
 	using linef = line<float, N>;
+
 	using linef1 = linef<1>;
 	using linef2 = linef<2>;
 	using linef3 = linef<3>;

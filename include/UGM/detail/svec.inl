@@ -42,6 +42,12 @@ namespace Ubpa {
 	}
 
 	template<typename T>
+	const svec<T> svec<T>::mid(const svec<T>& y) const noexcept {
+		const auto& x = *static_cast<svec<T>*>(this);
+		return mid(x, y);
+	}
+
+	template<typename T>
 	const svec<T> svec<T>::reflect() const noexcept {
 		return { -(*this)[0], -(*this)[1], (*this)[2] };
 	}

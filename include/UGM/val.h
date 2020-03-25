@@ -8,17 +8,12 @@
 #include "rgb.h"
 #include "rgba.h"
 
-#include "Interfaces/IArray/IArray1D_Util.h"
-#include "Interfaces/IArray/IArrayHadamardProduct.h"
-#include "Interfaces/IArray/IArrayAdd.h"
-#include "Interfaces/IArray/IArrayScalarMul.h"
-
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
-		using SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+	struct val : SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
+		using SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 
 		val(const vec<T, N>& v) noexcept;
 		val(const normal<T>& v) noexcept;

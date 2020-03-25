@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <limits>
 
 namespace Ubpa::detail::Basic {
 	template<typename T> struct rmv_epsilon;

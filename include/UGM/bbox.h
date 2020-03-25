@@ -1,10 +1,6 @@
 #pragma once
 
-#include "point.h"
-#include "vec.h"
 #include "val.h"
-
-#include <limits>
 
 namespace Ubpa {
 	template<typename T, size_t N>

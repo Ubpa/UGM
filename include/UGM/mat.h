@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vec.h"
+
 #include "Interfaces/IMatrix/IMatrixMul.h"
 #include "Interfaces/IMatrix/IMatrixInOut.h"
 #include "Interfaces/IRing.h"

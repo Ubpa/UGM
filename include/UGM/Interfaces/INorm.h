@@ -2,6 +2,7 @@
 
 #include "ILinear.h"
 #include "IMetric.h"
+
 #include "../basic.h"
 
 namespace Ubpa {

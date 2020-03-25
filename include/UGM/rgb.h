@@ -1,17 +1,16 @@
 #pragma once
 
 #include "Interfaces/ILinear.h"
-#include "Interfaces/IArray/IArrayAdd.h"
-#include "Interfaces/IArray/IArrayScalarMul.h"
+#include "Interfaces/IArray/IArrayLinear.h"
 #include "Interfaces/IArray/IArrayHadamardProduct.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 
 namespace Ubpa {
 	template<typename T>
-	struct rgb : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, ILinear, IArrayScalarMul, IArrayAdd>, rgb<T>,
+	struct rgb : SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>, rgb<T>,
 		TypeList<TypeList<T, Size<3>>, T>>
 	{
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, ILinear, IArrayScalarMul, IArrayAdd>, rgb<T>,
+		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>, rgb<T>,
 			TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
 		T illumination() const noexcept {
 			return static_cast<T>(0.2126)* (*this)[0]

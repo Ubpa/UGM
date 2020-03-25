@@ -49,4 +49,75 @@ namespace Ubpa {
 	const std::tuple<bool, T, T> ray<T, N>::intersect(const bbox<T, N>& box) const noexcept {
 		return to_line().intersect(box, tmin, tmax);
 	}
+
+	template<typename T, size_t N>
+	const std::tuple<bool, T> ray<T, N>::intersect_std_sphere() const noexcept {
+		vec<T, N> oc = this->point().cast_to<vec<T, N>>();
+		T a = this->dir().norm2();
+		T b = oc.dot(this->dir());
+		T c = oc.dot(oc) - 1;
+		T discriminant = b * b - a * c;
+
+		if (discriminant < 0)
+			return { false, 0 };
+
+		T sqrt_discriminant = std::sqrt(discriminant);
+		T inv_a = 1 / a;
+
+		T neg_b = -b;
+		T t = (neg_b - sqrt_discriminant) * inv_a;
+		if (t > tmax || t < tmin) {
+			t = (neg_b + sqrt_discriminant) * inv_a;
+			if (t > tmax || t < tmin)
+				return { false, 0 };
+		}
+
+		return { true, t };
+	}
+
+	template<typename T, size_t N>
+	const std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_square() const noexcept {
+		static_assert(N == 3);
+
+		const auto& d = this->dir();
+		if (d[1] == 0)
+			return { false, 0, point<T,2>{0,0} };
+
+		const auto& p = this->point();
+		T t = -p[1] / d[1];
+		if (t < tmin || t > tmax)
+			return { false, 0 };
+
+		auto x = p[0] + t * d[0];
+		if (x < -1 || x > 1)
+			return { false, 0, point<T,2>{0,0} };
+
+		auto z = p[2] + t * d[2];
+		if (z < -1 || z > 1)
+			return { false, 0, point<T,2>{0,0} };
+
+		return { true, t, point<T,2>{x,z} };
+	}
+
+	template<typename T, size_t N>
+	const std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_disk() const noexcept {
+		static_assert(N == 3);
+
+		const auto& d = this->dir();
+		if (d[1] == 0)
+			return { false, 0, point<T,2>{0,0} };
+
+		const auto& p = this->point();
+		T t = -p[1] / d[1];
+		if (t < tmin || t > tmax)
+			return { false, 0 };
+
+		auto x = p[0] + t * d[0];
+		auto z = p[2] + t * d[2];
+
+		if (x * x + z * z > 1)
+			return { false, 0, point<T,2>{0,0} };
+
+		return { true, t, point<T,2>{x,z} };
+	}
 }

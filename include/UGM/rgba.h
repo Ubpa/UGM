@@ -23,7 +23,7 @@ namespace Ubpa {
 			return to_rgb() + rgb * (static_cast<T>(1) - (*this)[3]);
 		}
 
-		const rgba over(const rgba& c) const {
+		const rgba over(const rgba& c) const noexcept {
 			// rstA = 1 - (1-a)(1-c[3])
 			T a = (*this)[3];
 			const auto rstA = a + c[3] - a * c[3];

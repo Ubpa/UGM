@@ -67,12 +67,6 @@ int main() {
 	cout << iv * 5 << endl;
 	cout << iv * 7 << endl;
 
-	// normal
-	normalf n{ 1,1,1 };
-	normalf::reflect(n, n);
-	normalf::refract(n, n, 0.f);
-	n.coord_space();
-
 	// project, orthogonalize
 	cout << v.project(u.normalize()) << endl;
 	cout << v.orthogonalize(u.normalize()) << endl;

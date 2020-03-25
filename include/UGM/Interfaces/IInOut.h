@@ -17,12 +17,12 @@ namespace Ubpa {
 		}
 
 	private:
-		std::ostream& out(std::ostream& os) const noexcept {
+		std::ostream& out(std::ostream& os) const {
 			auto& x = static_cast<const Impl&>(*this);
 			return x.impl_out(os);
 		}
 
-		std::istream& in(std::istream& is) noexcept {
+		std::istream& in(std::istream& is) {
 			auto& x = static_cast<Impl&>(*this);
 			return x.impl_in(is);
 		}

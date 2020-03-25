@@ -20,39 +20,13 @@ namespace Ubpa {
 	struct val : SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
 		using SIIT_CRTP<TemplateList<IArrayAdd, IArrayScalarMul, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 
-		val(const vec<T, N>& v) noexcept {
-			for (size_t i = 0; i < N; i++)
-				(*this)[i] = v[i];
-		}
-		val(const normal<T>& v) noexcept {
-			static_assert(N == 3);
-			for (size_t i = 0; i < 3; i++)
-				(*this)[i] = v[i];
-		}
-		val(const point<T, N>& v) noexcept {
-			for (size_t i = 0; i < N; i++)
-				(*this)[i] = v[i];
-		}
-		val(const rgb<T>& v) noexcept {
-			static_assert(N == 3);
-			for (size_t i = 0; i < 3; i++)
-				(*this)[i] = v[i];
-		}
-		val(const rgba<T>& v) noexcept {
-			static_assert(N == 4);
-			for (size_t i = 0; i < 4; i++)
-				(*this)[i] = v[i];
-		}
-		val(const quat<T>& v) noexcept {
-			static_assert(N == 4);
-			for (size_t i = 0; i < 4; i++)
-				(*this)[i] = v[i];
-		}
-		val(const euler<T>& v) noexcept {
-			static_assert(N == 3);
-			for (size_t i = 0; i < 3; i++)
-				(*this)[i] = v[i];
-		}
+		val(const vec<T, N>& v) noexcept;
+		val(const normal<T>& v) noexcept;
+		val(const point<T, N>& v) noexcept;
+		val(const rgb<T>& v) noexcept;
+		val(const rgba<T>& v) noexcept;
+		val(const quat<T>& v) noexcept;
+		val(const euler<T>& v) noexcept;
 	};
 
 	template<size_t N>
@@ -79,3 +53,5 @@ namespace Ubpa {
 	using valu3 = valu<3>;
 	using valu4 = valu<4>;
 }
+
+#include "detail/val.inl"

@@ -2,6 +2,11 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
+	const line<T, N> line<T, N>::impl_move(const line& line, const point<T, N>& p) noexcept {
+		return { p, line.dir() };
+	}
+
+	template<typename T, size_t N>
 	void line<T, N>::print(std::ostream& os) const {
 		os << "[ point : " << this->point() << " ]" << std::endl
 			<< "[  dir  : " << this->dir() << " ]" << std::endl;

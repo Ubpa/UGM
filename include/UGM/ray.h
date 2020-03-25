@@ -11,7 +11,7 @@ namespace Ubpa {
 		T tmax;
 
 		ray(const point<T, N>& p, const vec<T, N>& dir,
-			T tmin = EPSILON<T>, T tmax = std::numeric_limits<T>::max())
+			T tmin = EPSILON<T>, T tmax = std::numeric_limits<T>::max()) noexcept
 			: tmin{ tmin }, tmax{ tmax } { this->init_ILine(p, dir); }
 
 		const line<T, N> to_line() const noexcept;
@@ -26,12 +26,14 @@ namespace Ubpa {
 	private:
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IInOut;
+
 		std::ostream& impl_out(std::ostream& os) const;
 		std::istream& impl_in(std::istream& is);
 
-		static const ray impl_move(const ray& r, const point<T, N>& p) noexcept {
-			return { p, r.dir(), r.tmin, r.tmax };
-		}
+		template<typename Base, typename Impl, typename ArgList>
+		friend struct IAffineRealSubspace;
+
+		static const ray impl_move(const ray& r, const point<T, N>& p) noexcept;
 	};
 
 	template<size_t N>

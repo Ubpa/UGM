@@ -7,6 +7,11 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
+	const ray<T, N> ray<T, N>::impl_move(const ray& r, const point<T, N>& p) noexcept {
+		return { p, r.dir(), r.tmin, r.tmax };
+	}
+
+	template<typename T, size_t N>
 	void ray<T, N>::print(std::ostream& os) const {
 		os
 			<< "[ point : " << this->point() << " ]" << std::endl

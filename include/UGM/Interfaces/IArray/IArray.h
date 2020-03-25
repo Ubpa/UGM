@@ -29,15 +29,15 @@ namespace Ubpa {
 		using Base::Base;
 		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::array;
 
-		IArray() {}
+		IArray() noexcept {};
 
-		constexpr IArray(T t) {
+		constexpr IArray(T t) noexcept {
 			for (size_t i = 0; i < N; i++)
 				(*this)[i] = T{ t };
 		}
 		
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
-		constexpr IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
+		constexpr IArray(U... data) noexcept : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 

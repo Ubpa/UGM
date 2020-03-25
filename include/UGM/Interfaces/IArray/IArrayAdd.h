@@ -36,20 +36,5 @@ namespace Ubpa {
 				rst[i] = -x[i];
 			return rst;
 		}
-
-		//const Impl Minus(const Impl& y) const noexcept {
-		//	auto& x = static_cast<const Impl&>(*this);
-		//	Impl rst{};
-		//	for (size_t i = 0; i < N; i++)
-		//		rst[i] = x[i] - y[i];
-		//	return rst;
-		//}
-
-		//Impl& MinusToSelf(const Impl& y) noexcept {
-		//	auto& x = static_cast<Impl&>(*this);
-		//	for (size_t i = 0; i < N; i++)
-		//		x[i] -= y[i];
-		//	return x;
-		//}
 	};
 }

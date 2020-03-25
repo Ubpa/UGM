@@ -13,7 +13,7 @@ namespace Ubpa {
 		using F = Arg_F<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;
 
-		inline const Impl abs() const {
+		inline const Impl abs() const noexcept {
 			Impl rst{};
 			for (size_t i = 0; i < N; i++)
 				rst[i] = std::abs((*this)[i]);

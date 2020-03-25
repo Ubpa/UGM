@@ -31,13 +31,13 @@ namespace Ubpa {
 
 		IArray() {}
 
-		IArray(T t) {
+		constexpr IArray(T t) {
 			for (size_t i = 0; i < N; i++)
 				(*this)[i] = T{ t };
 		}
 		
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
-		inline IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
+		constexpr IArray(U... data) : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 

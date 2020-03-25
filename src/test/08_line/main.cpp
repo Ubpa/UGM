@@ -17,7 +17,7 @@ int main() {
 	pointf3 p0{ -1.f,2.f,1.f };
 	pointf3 p1{ 0.f, 2.f, -1.f };
 	pointf3 p2{ 1.f,2.f,1.f };
-	auto [isIntersect, wuv, t] = l.intersect_triangle(p0, p1, p2);
+	auto [isIntersect, wuv, t] = l.intersect(trianglef3{ p0, p1, p2 });
 	cout << "intersect_triangle" << endl
 		<< "  - p0: " << p0 << endl
 		<< "  - p1: " << p1 << endl

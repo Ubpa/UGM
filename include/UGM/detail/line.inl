@@ -20,11 +20,14 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, std::array<T, 3>, T> line<T, N>::intersect_triangle(const point<T, 3>& v0, const point<T, 3>& v1, const point<T, 3>& v2) const {
+	const std::tuple<bool, std::array<T, 3>, T> line<T, N>::intersect(const triangle<T, 3>& tri) const noexcept {
 		static_assert(N == 3);
 
 		const auto& p = this->point();
 		const auto& d = this->dir();
+		const auto& v0 = tri[0];
+		const auto& v1 = tri[0];
+		const auto& v2 = tri[0];
 
 		const auto e1 = v1 - v0;
 		const auto e2 = v2 - v0;
@@ -61,5 +64,28 @@ namespace Ubpa {
 			return { false, std::array<T, 3>{static_cast<T>(0)}, static_cast<T>(0) };
 
 		return { true, std::array<T, 3>{static_cast<T>(1) - u_plus_v, u, v}, t };
+	}
+
+	template<typename T, size_t N>
+	const std::tuple<bool, T, T> line<T, N>::intersect(const bbox<T, N>& box, T tmin, T tmax) const noexcept {
+		const auto& origin = this->point();
+		const auto& dir = this->dir();
+		const auto& boxminP = box.minP();
+		const auto& boxmaxP = box.maxP();
+
+		for (int i = 0; i < N; i++) {
+			T invD = 1 / dir[i];
+			T t0 = (boxminP[i] - origin[i]) * invD;
+			T t1 = (boxmaxP[i] - origin[i]) * invD;
+			if (invD < 0)
+				std::swap(t0, t1);
+
+			tmin = std::max(t0, tmin);
+			tmax = std::min(t1, tmax);
+			if (tmax < tmin)
+				return { false, 0, 0 };
+		}
+
+		return { true, tmin, tmax };
 	}
 }

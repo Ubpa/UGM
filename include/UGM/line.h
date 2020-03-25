@@ -1,9 +1,7 @@
 #pragma once
 
-#include "point.h"
-#include "vec.h"
-
-#include <array>
+#include "triangle.h"
+#include "bbox.h"
 
 #include "Interfaces/ILine.h"
 
@@ -18,7 +16,11 @@ namespace Ubpa {
 		void print(std::ostream& os = std::cout) const;
 
 		// (isIntersect, (w, u, v), t)
-		const std::tuple<bool, std::array<T, 3>, T> intersect_triangle(const point<T,3>& v0, const point<T,3>& v1, const point<T,3>& v2) const;
+		const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
+		// (isIntersect, t0, t1)
+		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+			T tmin = std::numeric_limits<T>::max(),
+			T tmax = std::numeric_limits<T>::min()) const noexcept;
 
 	private:
 		template<typename Base, typename Impl, typename ArgList>

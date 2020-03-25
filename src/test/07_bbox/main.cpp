@@ -9,8 +9,8 @@ using namespace Ubpa;
 
 int main() {
 	bboxf3 b;
-	b.combine_with(pointf3{ 0,0,0 });
-	b.combine_with(pointf3{ 1,2,3 });
+	b.combine_to_self(pointf3{ 0,0,0 });
+	b.combine_to_self(pointf3{ 1,2,3 });
 
 	cout << "b" << b << endl;
 	cout << "is_valid: " << b.is_valid() << endl;

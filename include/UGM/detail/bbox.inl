@@ -90,7 +90,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	bbox<T, N>& bbox<T, N>::combine_with(const bbox& rhs) {
+	bbox<T, N>& bbox<T, N>::combine_to_self(const bbox& rhs) {
 		minP() = point<T, N>::min(minP(), rhs.minP());
 		maxP() = point<T, N>::max(maxP(), rhs.maxP());
 		return *this;
@@ -102,7 +102,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	bbox<T, N>& bbox<T, N>::combine_with(const point<T, N>& p) {
+	bbox<T, N>& bbox<T, N>::combine_to_self(const point<T, N>& p) {
 		minP() = point<T, N>::min(minP(), p);
 		maxP() = point<T, N>::max(maxP(), p);
 		return *this;
@@ -114,7 +114,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	bbox<T, N>& bbox<T, N>::intersect_with(const bbox& rhs) {
+	bbox<T, N>& bbox<T, N>::intersect_to_self(const bbox& rhs) {
 		minP() = point<T, N>::max(minP(), rhs.minP());
 		maxP() = point<T, N>::min(maxP(), rhs.maxP());
 		return *this;

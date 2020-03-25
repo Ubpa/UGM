@@ -140,4 +140,27 @@ namespace Ubpa::detail::Basic {
 			return V<T, N>::lerp(x, y, static_cast<T>(t));
 		}
 	};
+
+	template<typename T>
+	constexpr T one_epsilon() noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		if constexpr (std::is_same_v<T, float>)
+			return 0.9999999404f;
+		else // double
+			return 0.9999999999999990008;
+	}
+
+	template<typename T>
+	float rand01() noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		static std::uniform_real_distribution<T> distribution(static_cast<T>(0), one_epsilon<T>());
+		static std::default_random_engine engine;
+		return distribution(engine);
+	}
+
+	size_t randi() noexcept {
+		static std::uniform_int_distribution<size_t> sMap;
+		static std::default_random_engine engine;
+		return sMap(engine);
+	}
 }

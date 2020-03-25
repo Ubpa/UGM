@@ -1,13 +1,14 @@
 #pragma once
 
 #include <cmath>
+#include <random>
 
 namespace Ubpa {
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 	constexpr auto EPSILON = static_cast<T>(0.000001);
 
 	template<typename T, typename = std::enable_if_t<std::is_floating_point_v<T>>>
-	constexpr auto PI = static_cast<T>(3.1415926535897932384626433832795);
+	constexpr auto PI = static_cast<T>(3.141592653589793);
 
 	enum class Axis : size_t {
 		X = 0,
@@ -35,6 +36,17 @@ namespace Ubpa {
 
 	template<typename T, typename F>
 	T lerp(T x, T y, F t) noexcept;
+
+	// 1 - epsilon, T: float / double
+	template<typename T>
+	constexpr T one_epsilon() noexcept;
+
+	// range: [0, 1), T: float / double
+	template<typename T>
+	float rand01() noexcept;
+
+	// range: [0, 2^64-1]
+	size_t randi() noexcept;
 }
 
 #include "detail/basic.inl"

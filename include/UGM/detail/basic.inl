@@ -144,14 +144,11 @@ namespace Ubpa::detail::Basic {
 	template<typename T>
 	constexpr T one_epsilon() noexcept {
 		static_assert(std::is_floating_point_v<T>);
-		if constexpr (std::is_same_v<T, float>)
-			return 0.9999999404f;
-		else // double
-			return 0.9999999999999990008;
+		return 1 - std::numeric_limits<T>::epsilon();
 	}
 
 	template<typename T>
-	float rand01() noexcept {
+	T rand01() noexcept {
 		static_assert(std::is_floating_point_v<T>);
 		static std::uniform_real_distribution<T> distribution(static_cast<T>(0), one_epsilon<T>());
 		static std::default_random_engine engine;

@@ -25,7 +25,7 @@ namespace Ubpa {
 
 		inline bool is_normalized() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			return (x.normalize() - x).norm() < EPSILON<F>;
+			return std::abs(x.norm() - 1) < EPSILON<F>;
 		}
 
 		inline Impl& normalize_self() noexcept {

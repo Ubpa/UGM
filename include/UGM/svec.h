@@ -31,24 +31,37 @@ namespace Ubpa {
 		// if this is normal, return 0
 		T sin_sphi() const noexcept; // assert(normalized())
 
+		// z > 0
+		bool is_above() const noexcept;
+
 		// [summary]
-		// this is inward direction (outward from surface), maybe under surface
-		// reflected direction is outward direction (outward from surface) on the same side
+		// this is inward direction (**outward** from surface), maybe under surface
+		// reflected direction is outward direction (**outward** from surface) on the same side
 		// [return]
 		// - outward (this->norm() == result.norm())
 		const svec reflect() const noexcept;
 		
 		// [summary]
-		// this is inward direction (outward from surface), maybe under surface
-		// refracted direction is outward direction (outward from surface) on the other side
-		// total reflection may occur
+		// - `this` is inward direction (**outward** from surface), maybe under surface
+		// - refracted direction is outward direction (**outward** from surface) on the other side of surface
+		// - **total internal reflection** may occur
 		// [argument]
-		// - etai : refractive index of [inward(this)] side
-		// - etao : refractive index of [outward] side
+		// - etai : refractive index of **inward(`this`)** side
+		// - etao : refractive index of **outward** side
 		// [return]
 		// - bool: whether refract is success
 		// - svec: normalized outward
 		const std::tuple<bool, svec> refract(T etai, T etao) const noexcept; // assert(normalized())
+		
+		// [summary]
+		// - call `refract(T, T)` internally
+		// - use `is_above()` to distinguish `etai` and `etao`
+		// [argument]
+		// - eta : refractive index of material (refractive index of air is 1 as default)
+		// [return]
+		// - bool: whether refract is success
+		// - svec: normalized outward
+		const std::tuple<bool, svec> refract(T eta) const noexcept; // assert(normalized())
 	};
 
 	// local to world

@@ -12,6 +12,7 @@ namespace Ubpa {
 	{
 		using SIIT_CRTP<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>, rgb<T>,
 			TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
+
 		T illumination() const noexcept {
 			return static_cast<T>(0.2126)* (*this)[0]
 				+ static_cast<T>(0.7152)* (*this)[1]

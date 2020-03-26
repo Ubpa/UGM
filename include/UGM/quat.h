@@ -8,9 +8,6 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct euler;
-
-	template<typename T>
 	struct quat : SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T,Size<4>>, T>> {
 		using Base = SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T, Size<4>>, T>>;
 		using Base::Base;

@@ -36,6 +36,11 @@ namespace Ubpa {
 	}
 
 	template<typename T>
+	bool svec<T>::is_above() const noexcept {
+		return (*this)[2] > 0;
+	}
+
+	template<typename T>
 	const svec<T> svec<T>::mid(const svec<T>& x, const svec<T>& y) noexcept {
 		assert(x.is_normalized() && y.is_normalized());
 		return (x + y).normalize();
@@ -70,7 +75,14 @@ namespace Ubpa {
 		auto y = -wi[1] * etai_etao;
 		auto z = -sgn(wi[2]) * cos_sthetao;
 
-		return { true, svec{ x,y,z } };
+		svec wo{ x,y,z };
+		assert(wo.is_normalized());
+		return { true, wo };
+	}
+
+	template<typename T>
+	const std::tuple<bool, svec<T>> svec<T>::refract(T eta) const noexcept {
+		return is_above() ? refract(eta, 1) : refract(1, eta);
 	}
 
 	template<typename T>

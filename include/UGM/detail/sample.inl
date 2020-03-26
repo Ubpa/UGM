@@ -51,4 +51,14 @@ namespace Ubpa {
 		else // up == Axis::Z
 			return { ab[0], ab[1], c };
 	}
+
+	const svecf sample_GGX_D(float alpha) noexcept {
+		float Xi1 = rand01<float>();
+		float Xi2 = rand01<float>();
+		float cos2_sthetam = (1 - Xi1) / ((pow2(alpha) - 1) * Xi1 + 1);
+		float cos_sthetam = std::sqrt(cos_sthetam);
+		float sin_sthetam = std::sqrt(1 - cos2_sthetam);
+		float phi = 2 * PI<float> * Xi2;
+		return { sin_sthetam * std::cos(phi), sin_sthetam * std::sin(phi), cos_sthetam };
+	}
 }

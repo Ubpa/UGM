@@ -47,6 +47,11 @@ namespace Ubpa {
 
 	// range: [0, 2^64-1]
 	size_t randi() noexcept;
+
+	template<typename T>
+	constexpr T pow2(T x) noexcept;
+	template<typename T>
+	constexpr T pow5(T x) noexcept;
 }
 
 #include "detail/basic.inl"

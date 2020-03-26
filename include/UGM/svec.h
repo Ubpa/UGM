@@ -35,7 +35,7 @@ namespace Ubpa {
 		bool is_above() const noexcept;
 
 		// [summary]
-		// this is inward direction (**outward** from surface), maybe under surface
+		// this is inward direction (**outward** from surface), maybe under the surface
 		// reflected direction is outward direction (**outward** from surface) on the same side
 		// [return]
 		// - outward (this->norm() == result.norm())
@@ -43,11 +43,11 @@ namespace Ubpa {
 		
 		// [summary]
 		// - `this` is inward direction (**outward** from surface), maybe under surface
-		// - refracted direction is outward direction (**outward** from surface) on the other side of surface
+		// - refracted direction is outward direction (**outward** from surface) on the other side of the surface
 		// - **total internal reflection** may occur
 		// [argument]
-		// - etai : refractive index of **inward(`this`)** side
-		// - etao : refractive index of **outward** side
+		// - etai : refractive index of the media on the incident side
+		// - etao : refractive index of the media on the transmitted side
 		// [return]
 		// - bool: whether refract is success
 		// - svec: normalized outward

@@ -161,4 +161,15 @@ namespace Ubpa::detail::Basic {
 		static std::default_random_engine engine;
 		return sMap(engine);
 	}
+
+	template<typename T>
+	constexpr T pow2(T x) noexcept {
+		return x * x;
+	}
+
+	template<typename T>
+	constexpr T pow5(T x) noexcept {
+		T x2 = pow2(x);
+		return x2 * x2 * x;
+	}
 }

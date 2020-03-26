@@ -46,7 +46,7 @@ namespace Ubpa {
 	T rand01() noexcept;
 
 	// range: [0, 2^64-1]
-	size_t randi() noexcept;
+	inline size_t randi() noexcept;
 
 	template<typename T>
 	constexpr T pow2(T x) noexcept;

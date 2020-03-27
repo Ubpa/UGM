@@ -52,6 +52,37 @@ namespace Ubpa {
 	T lerp(T x, T y, F t) noexcept {
 		return detail::Basic::lerp<T,F>::run(x, y, t);
 	}
+
+	template<typename T>
+	constexpr T one_epsilon() noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		return 1 - std::numeric_limits<T>::epsilon();
+	}
+
+	template<typename T>
+	T rand01() noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		static std::uniform_real_distribution<T> distribution(static_cast<T>(0), one_epsilon<T>());
+		static std::default_random_engine engine;
+		return distribution(engine);
+	}
+
+	size_t randi() noexcept {
+		static std::uniform_int_distribution<size_t> sMap;
+		static std::default_random_engine engine;
+		return sMap(engine);
+	}
+
+	template<typename T>
+	constexpr T pow2(T x) noexcept {
+		return x * x;
+	}
+
+	template<typename T>
+	constexpr T pow5(T x) noexcept {
+		T x2 = pow2(x);
+		return x2 * x2 * x;
+	}
 }
 
 namespace Ubpa::detail::Basic {
@@ -141,35 +172,4 @@ namespace Ubpa::detail::Basic {
 			return V<T, N>::lerp(x, y, static_cast<T>(t));
 		}
 	};
-
-	template<typename T>
-	constexpr T one_epsilon() noexcept {
-		static_assert(std::is_floating_point_v<T>);
-		return 1 - std::numeric_limits<T>::epsilon();
-	}
-
-	template<typename T>
-	T rand01() noexcept {
-		static_assert(std::is_floating_point_v<T>);
-		static std::uniform_real_distribution<T> distribution(static_cast<T>(0), one_epsilon<T>());
-		static std::default_random_engine engine;
-		return distribution(engine);
-	}
-
-	size_t randi() noexcept {
-		static std::uniform_int_distribution<size_t> sMap;
-		static std::default_random_engine engine;
-		return sMap(engine);
-	}
-
-	template<typename T>
-	constexpr T pow2(T x) noexcept {
-		return x * x;
-	}
-
-	template<typename T>
-	constexpr T pow5(T x) noexcept {
-		T x2 = pow2(x);
-		return x2 * x2 * x;
-	}
 }

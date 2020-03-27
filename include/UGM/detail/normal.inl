@@ -17,6 +17,6 @@ namespace Ubpa {
 		if (*this == normal{ 0, 1, 0 })
 			return { 1,0,0 };
 		else
-			return { (*this)[2], 0, (*this)[0] };
+			return { (*this)[2], 0, -(*this)[0] };
 	}
 }

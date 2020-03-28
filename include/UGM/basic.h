@@ -10,10 +10,17 @@ namespace Ubpa {
 	template<typename T, typename = std::enable_if_t<std::is_floating_point_v<T>>>
 	constexpr auto PI = static_cast<T>(3.141592653589793);
 
-	enum class Axis : size_t {
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+	constexpr auto ZERO = static_cast<T>(0);
+
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+	constexpr auto ONE = static_cast<T>(1);
+
+	enum class Axis : uint8_t {
 		X = 0,
 		Y = 1,
-		Z = 2
+		Z = 2,
+		INVALID = 3,
 	};
 
 	template<typename T>

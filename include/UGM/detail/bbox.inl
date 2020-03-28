@@ -59,7 +59,7 @@ namespace Ubpa {
 	const T bbox<T, N>::area() const noexcept {
 		static_assert(N == 2 || N == 3);
 		if (!is_valid())
-			return static_cast<T>(0);
+			return ZERO<T>;
 		const auto d = diagonal();
 		if constexpr (N == 2)
 			return d[0] * d[1];
@@ -71,7 +71,7 @@ namespace Ubpa {
 	T bbox<T, N>::volume() const noexcept {
 		static_assert(N == 3);
 		if (!is_valid())
-			return static_cast<T>(0);
+			return ZERO<T>;
 		const auto d = diagonal();
 		return d[0] * d[1] * d[2];
 	}

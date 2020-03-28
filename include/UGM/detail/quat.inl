@@ -37,7 +37,7 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	bool quat<T>::is_identity() const noexcept { return real() == static_cast<T>(1); }
+	bool quat<T>::is_identity() const noexcept { return real() == ONE<T>; }
 
 	template<typename T>
 	const quat<T> quat<T>::identity() noexcept { return { 0,0,0,1 }; }
@@ -58,7 +58,7 @@ namespace Ubpa {
 		vec<T, 3> imag;
 		constexpr size_t idx = static_cast<size_t>(axis);
 		for (size_t i = 0; i < idx; i++)
-			imag[i] = static_cast<T>(0);
+			imag[i] = ZERO<T>;
 		imag[idx] = std::sin(halfTheta);
 		for (size_t i = idx + 1; i < 3; i++)
 			imag[i] = 0;

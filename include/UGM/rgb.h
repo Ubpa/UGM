@@ -28,4 +28,7 @@ namespace Ubpa {
 	};
 
 	using rgbf = rgb<float>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(rgbf) == 3 * sizeof(float));
 }

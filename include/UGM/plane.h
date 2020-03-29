@@ -21,6 +21,9 @@ namespace Ubpa {
 	};
 
 	using planef = plane<float>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(planef) == 6 * sizeof(float));
 }
 
 #include "detail/plane.inl"

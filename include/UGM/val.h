@@ -47,6 +47,9 @@ namespace Ubpa {
 	using valu2 = valu<2>;
 	using valu3 = valu<3>;
 	using valu4 = valu<4>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(valf4) == 4 * sizeof(float));
 }
 
 #include "detail/val.inl"

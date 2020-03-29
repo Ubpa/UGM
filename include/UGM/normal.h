@@ -20,6 +20,9 @@ namespace Ubpa {
 	};
 
 	using normalf = normal<float>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(normalf) == 3 * sizeof(float));
 }
 
 #include "detail/normal.inl"

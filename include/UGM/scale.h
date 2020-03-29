@@ -20,4 +20,7 @@ namespace Ubpa {
 	using scalef2 = scalef<2>;
 	using scalef3 = scalef<3>;
 	using scalef4 = scalef<4>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(scalef4) == 4 * sizeof(float));
 }

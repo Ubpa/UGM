@@ -37,4 +37,7 @@ namespace Ubpa {
 	using vecu2 = vecu<2>;
 	using vecu3 = vecu<3>;
 	using vecu4 = vecu<4>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(vecf4) == 4 * sizeof(float));
 }

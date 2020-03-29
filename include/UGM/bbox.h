@@ -61,6 +61,9 @@ namespace Ubpa {
 	using bboxu1 = bboxu<1>;
 	using bboxu2 = bboxu<2>;
 	using bboxu3 = bboxu<3>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(bboxf3) == 6 * sizeof(float));
 }
 
 #include "detail/bbox.inl"

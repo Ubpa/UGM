@@ -40,6 +40,9 @@ namespace Ubpa {
 	using pointu2 = pointu<2>;
 	using pointu3 = pointu<3>;
 	using pointu4 = pointu<4>;
+
+	// maybe error in editor, but no compile error
+	static_assert(sizeof(pointf3) == sizeof(float) * 3);
 }
 
 #include "detail/point.inl"

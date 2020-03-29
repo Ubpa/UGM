@@ -520,11 +520,11 @@ namespace Ubpa {
 
 	template<typename T>
 	const line<T, 3> transform<T>::operator*(const line<T, 3>& l) const noexcept {
-		return{ (*this) * l.point(), (*this) * l.dir() };
+		return{ (*this) * l.point, (*this) * l.dir };
 	}
 
 	template<typename T>
 	const ray<T, 3> transform<T>::operator*(const ray<T, 3>& r) const noexcept {
-		return{ (*this) * r.point(), (*this) * r.dir() };
+		return{ (*this) * r.point, (*this) * r.dir };
 	}
 }

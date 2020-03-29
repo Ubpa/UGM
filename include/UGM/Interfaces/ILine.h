@@ -16,6 +16,6 @@ namespace Ubpa {
 			this->init_IOLine(dir);
 		}
 
-		const Point at(F t) const noexcept { return this->point() + t * this->dir(); }
+		const Point at(F t) const noexcept { return this->point + t * this->dir; }
 	};
 }

@@ -3,24 +3,24 @@
 namespace Ubpa {
 	template<typename T, size_t N>
 	const line<T, N> line<T, N>::impl_move(const line& line, const point<T, N>& p) noexcept {
-		return { p, line.dir() };
+		return { p, line.dir };
 	}
 
 	template<typename T, size_t N>
 	void line<T, N>::print(std::ostream& os) const {
-		os << "[ point : " << this->point() << " ]" << std::endl
-			<< "[  dir  : " << this->dir() << " ]" << std::endl;
+		os << "[ point : " << this->point << " ]" << std::endl
+			<< "[  dir  : " << this->dir << " ]" << std::endl;
 	}
 
 	template<typename T, size_t N>
 	std::ostream& line<T, N>::impl_out(std::ostream& os) const {
-		os << this->point() << " " << this->dir();
+		os << this->point << " " << this->dir;
 		return os;
 	}
 
 	template<typename T, size_t N>
 	std::istream& line<T, N>::impl_in(std::istream& is) {
-		is >> this->point() >> this->dir();
+		is >> this->point >> this->dir;
 		return is;
 	}
 
@@ -28,8 +28,8 @@ namespace Ubpa {
 	const std::tuple<bool, std::array<T, 3>, T> line<T, N>::intersect(const triangle<T, 3>& tri) const noexcept {
 		static_assert(N == 3);
 
-		const auto& p = this->point();
-		const auto& d = this->dir();
+		const auto& p = this->point;
+		const auto& d = this->dir;
 		const auto& v0 = tri[0];
 		const auto& v1 = tri[1];
 		const auto& v2 = tri[2];
@@ -73,8 +73,8 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	const std::tuple<bool, T, T> line<T, N>::intersect(const bbox<T, N>& box, T tmin, T tmax) const noexcept {
-		const auto& origin = this->point();
-		const auto& dir = this->dir();
+		const auto& origin = this->point;
+		const auto& dir = this->dir;
 		const auto& boxminP = box.minP();
 		const auto& boxmaxP = box.maxP();
 

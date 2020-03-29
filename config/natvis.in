@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?> 
+@CONFIG_UCMAKE_NATVIS@
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="Ubpa::vec&lt;*,1&gt;>">
+    <DisplayString>{{{_Elems[0]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>1</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::vec&lt;*,2&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::vec&lt;*,3&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::vec&lt;*,4&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::point&lt;*,1&gt;>">
+    <DisplayString>{{{_Elems[0]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>1</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::point&lt;*,2&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::point&lt;*,3&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::point&lt;*,4&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::val&lt;*,1&gt;>">
+    <DisplayString>{{{_Elems[0]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>1</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::val&lt;*,2&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::val&lt;*,3&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  <Type Name="Ubpa::val&lt;*,4&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::scale&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::normal&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::svec&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::euler&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::quat&lt;*&gt;>">
+    <DisplayString>{{[{_Elems[0]}, {_Elems[1]}, {_Elems[2]}], {_Elems[4]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::rgb&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::rgba&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>_Elems</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::bbox&lt;*,*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}}}</DisplayString>
+    <Expand>
+      <Item Name="min P">_Elems[0]</Item>
+      <Item Name="max P">_Elems[1]</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::line&lt;*,*&gt;>">
+    <DisplayString>{{{point}, {dir}}}</DisplayString>
+    <Expand>
+      <Item Name="point">point</Item>
+      <Item Name="dir">dir</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::plane&lt;*&gt;>">
+    <DisplayString>{{{point}, {normal}}}</DisplayString>
+    <Expand>
+      <Item Name="point">point</Item>
+      <Item Name="normal">normal</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::ray&lt;*,*&gt;>">
+    <DisplayString>{{{point}, {dir}, {tmin}, {tmax}}}</DisplayString>
+    <Expand>
+      <Item Name="point">point</Item>
+      <Item Name="dir">dir</Item>
+      <Item Name="t min">tmin</Item>
+      <Item Name="t max">tmax</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::mat&lt;*,3&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+    <Expand>
+      <Item Name="colume 0">_Elems[0]</Item>
+      <Item Name="colume 1">_Elems[1]</Item>
+      <Item Name="colume 2">_Elems[2]</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::mat&lt;*,4&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+    <Expand>
+      <Item Name="colume 0">_Elems[0]</Item>
+      <Item Name="colume 1">_Elems[1]</Item>
+      <Item Name="colume 2">_Elems[2]</Item>
+      <Item Name="colume 3">_Elems[3]</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::transform&lt;*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}, {_Elems[3]}}}</DisplayString>
+    <Expand>
+      <Item Name="colume 0">_Elems[0]</Item>
+      <Item Name="colume 1">_Elems[1]</Item>
+      <Item Name="colume 2">_Elems[2]</Item>
+      <Item Name="colume 3">_Elems[3]</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Ubpa::triangle&lt;*,*&gt;>">
+    <DisplayString>{{{_Elems[0]}, {_Elems[1]}, {_Elems[2]}}}</DisplayString>
+    <Expand>
+      <Item Name="p0">_Elems[0]</Item>
+      <Item Name="p1">_Elems[1]</Item>
+      <Item Name="p2">_Elems[2]</Item>
+    </Expand>
+  </Type>
+</AutoVisualizer>

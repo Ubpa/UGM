@@ -37,9 +37,8 @@ namespace Ubpa {
 		static_assert(N == 3);
 
 		auto rst = to_line().intersect(tri);
-		const auto& [isIntersect, wuv, t] = rst;
 
-		if (isIntersect && t > tmin && t < tmax)
+		if (std::get<0>(rst) && std::get<2>(rst) > tmin && std::get<2>(rst) < tmax)
 			return rst;
 		else
 			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };

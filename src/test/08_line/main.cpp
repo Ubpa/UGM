@@ -8,6 +8,7 @@ using namespace Ubpa;
 
 int main() {
 	linef3 l(pointf3{ 0.f }, vecf3{ 0.f,1.f,0.f });
+	cout << sizeof(linef3) << endl;
 	l.print();
 	cout << "l: " << l << endl;
 	cout << "pnt: " << l.point << endl;

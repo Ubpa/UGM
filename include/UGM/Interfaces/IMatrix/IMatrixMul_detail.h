@@ -43,134 +43,238 @@ namespace Ubpa::detail::IMatrixMul {
             static_assert(M::N == 4);
             using F = typename M::F;
 
-            M rst{};
+#ifdef USE_XSIMD
+            if constexpr (std::is_same_v<F, float>) {
+                // ref
+                // 1. https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
+                // 2. https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
+                using V = xsimd::batch<float, 4>;
+                // The inverse is calculated using "Divide and Conquer" technique. The 
+                // original matrix is divide into four 2x2 sub-matrices. Since each 
+                // register holds four matrix element, the smaller matrices are 
+                // represented as a registers. Hence we get a better locality of the 
+                // calculations.
 
-            rst[0][0] = m[1][1] * m[2][2] * m[3][3] -
-                m[1][1] * m[2][3] * m[3][2] -
-                m[2][1] * m[1][2] * m[3][3] +
-                m[2][1] * m[1][3] * m[3][2] +
-                m[3][1] * m[1][2] * m[2][3] -
-                m[3][1] * m[1][3] * m[2][2];
+                V A = _mm_movelh_ps(m[0], m[1]),    // the four sub-matrices 
+                    B = _mm_movehl_ps(m[1], m[0]),
+                    C = _mm_movelh_ps(m[2], m[3]),
+                    D = _mm_movehl_ps(m[3], m[2]);
+                V iA, iB, iC, iD,					// partial inverse of the sub-matrices
+                    DC, AB;
+                V dA, dB, dC, dD;                 // determinant of the sub-matrices
+                V det, d, d1, d2;
+                V rd;
 
-            rst[1][0] = -m[1][0] * m[2][2] * m[3][3] +
-                m[1][0] * m[2][3] * m[3][2] +
-                m[2][0] * m[1][2] * m[3][3] -
-                m[2][0] * m[1][3] * m[3][2] -
-                m[3][0] * m[1][2] * m[2][3] +
-                m[3][0] * m[1][3] * m[2][2];
+                //  AB = A# * B
+                AB = _mm_mul_ps(_mm_shuffle_ps(A, A, 0x0F), B);
+                AB -= (V)_mm_mul_ps(_mm_shuffle_ps(A, A, 0xA5), _mm_shuffle_ps(B, B, 0x4E));
+                //  DC = D# * C
+                DC = _mm_mul_ps(_mm_shuffle_ps(D, D, 0x0F), C);
+                DC -= (V)_mm_mul_ps(_mm_shuffle_ps(D, D, 0xA5), _mm_shuffle_ps(C, C, 0x4E));
 
-            rst[2][0] = m[1][0] * m[2][1] * m[3][3] -
-                m[1][0] * m[2][3] * m[3][1] -
-                m[2][0] * m[1][1] * m[3][3] +
-                m[2][0] * m[1][3] * m[3][1] +
-                m[3][0] * m[1][1] * m[2][3] -
-                m[3][0] * m[1][3] * m[2][1];
+                //  dA = |A|
+                dA = _mm_mul_ps(_mm_shuffle_ps(A, A, 0x5F), A);
+                dA = _mm_sub_ss(dA, _mm_movehl_ps(dA, dA));
+                //  dB = |B|
+                dB = _mm_mul_ps(_mm_shuffle_ps(B, B, 0x5F), B);
+                dB = _mm_sub_ss(dB, _mm_movehl_ps(dB, dB));
 
-            rst[3][0] = -m[1][0] * m[2][1] * m[3][2] +
-                m[1][0] * m[2][2] * m[3][1] +
-                m[2][0] * m[1][1] * m[3][2] -
-                m[2][0] * m[1][2] * m[3][1] -
-                m[3][0] * m[1][1] * m[2][2] +
-                m[3][0] * m[1][2] * m[2][1];
+                //  dC = |C|
+                dC = _mm_mul_ps(_mm_shuffle_ps(C, C, 0x5F), C);
+                dC = _mm_sub_ss(dC, _mm_movehl_ps(dC, dC));
+                //  dD = |D|
+                dD = _mm_mul_ps(_mm_shuffle_ps(D, D, 0x5F), D);
+                dD = _mm_sub_ss(dD, _mm_movehl_ps(dD, dD));
 
-            rst[0][1] = -m[0][1] * m[2][2] * m[3][3] +
-                m[0][1] * m[2][3] * m[3][2] +
-                m[2][1] * m[0][2] * m[3][3] -
-                m[2][1] * m[0][3] * m[3][2] -
-                m[3][1] * m[0][2] * m[2][3] +
-                m[3][1] * m[0][3] * m[2][2];
+                //  d = trace(AB*DC) = trace(A#*B*D#*C)
+                d = _mm_mul_ps(_mm_shuffle_ps(DC, DC, 0xD8), AB);
 
-            rst[1][1] = m[0][0] * m[2][2] * m[3][3] -
-                m[0][0] * m[2][3] * m[3][2] -
-                m[2][0] * m[0][2] * m[3][3] +
-                m[2][0] * m[0][3] * m[3][2] +
-                m[3][0] * m[0][2] * m[2][3] -
-                m[3][0] * m[0][3] * m[2][2];
+                //  iD = C*A#*B
+                iD = _mm_mul_ps(_mm_shuffle_ps(C, C, 0xA0), _mm_movelh_ps(AB, AB));
+                iD += (V)_mm_mul_ps(_mm_shuffle_ps(C, C, 0xF5), _mm_movehl_ps(AB, AB));
+                //  iA = B*D#*C
+                iA = _mm_mul_ps(_mm_shuffle_ps(B, B, 0xA0), _mm_movelh_ps(DC, DC));
+                iA += (V)_mm_mul_ps(_mm_shuffle_ps(B, B, 0xF5), _mm_movehl_ps(DC, DC));
 
-            rst[2][1] = -m[0][0] * m[2][1] * m[3][3] +
-                m[0][0] * m[2][3] * m[3][1] +
-                m[2][0] * m[0][1] * m[3][3] -
-                m[2][0] * m[0][3] * m[3][1] -
-                m[3][0] * m[0][1] * m[2][3] +
-                m[3][0] * m[0][3] * m[2][1];
+                //  d = trace(AB*DC) = trace(A#*B*D#*C) [continue]
+                d = _mm_add_ps(d, _mm_movehl_ps(d, d));
+                d = _mm_add_ss(d, _mm_shuffle_ps(d, d, 1));
+                d1 = dA * dD;
+                d2 = dB * dC;
 
-            rst[3][1] = m[0][0] * m[2][1] * m[3][2] -
-                m[0][0] * m[2][2] * m[3][1] -
-                m[2][0] * m[0][1] * m[3][2] +
-                m[2][0] * m[0][2] * m[3][1] +
-                m[3][0] * m[0][1] * m[2][2] -
-                m[3][0] * m[0][2] * m[2][1];
+                //  iD = D*|A| - C*A#*B
+                iD = D * (V)_mm_shuffle_ps(dA, dA, 0) - iD;
 
-            rst[0][2] = m[0][1] * m[1][2] * m[3][3] -
-                m[0][1] * m[1][3] * m[3][2] -
-                m[1][1] * m[0][2] * m[3][3] +
-                m[1][1] * m[0][3] * m[3][2] +
-                m[3][1] * m[0][2] * m[1][3] -
-                m[3][1] * m[0][3] * m[1][2];
+                //  iA = A*|D| - B*D#*C;
+                iA = A * (V)_mm_shuffle_ps(dD, dD, 0) - iA;
 
-            rst[1][2] = -m[0][0] * m[1][2] * m[3][3] +
-                m[0][0] * m[1][3] * m[3][2] +
-                m[1][0] * m[0][2] * m[3][3] -
-                m[1][0] * m[0][3] * m[3][2] -
-                m[3][0] * m[0][2] * m[1][3] +
-                m[3][0] * m[0][3] * m[1][2];
+                //  det = |A|*|D| + |B|*|C| - trace(A#*B*D#*C)
+                det = d1 + d2 - d;
+                rd = (V)(float(1.0f) / det);
+#ifdef ZERO_SINGULAR
+                rd = _mm_and_ps(_mm_cmpneq_ss(det, _mm_setzero_ps()), rd);
+#endif
 
-            rst[2][2] = m[0][0] * m[1][1] * m[3][3] -
-                m[0][0] * m[1][3] * m[3][1] -
-                m[1][0] * m[0][1] * m[3][3] +
-                m[1][0] * m[0][3] * m[3][1] +
-                m[3][0] * m[0][1] * m[1][3] -
-                m[3][0] * m[0][3] * m[1][1];
+                //  iB = D * (A#B)# = D*B#*A
+                iB = _mm_mul_ps(D, _mm_shuffle_ps(AB, AB, 0x33));
+                iB -= (V)_mm_mul_ps(_mm_shuffle_ps(D, D, 0xB1), _mm_shuffle_ps(AB, AB, 0x66));
+                //  iC = A * (D#C)# = A*C#*D
+                iC = _mm_mul_ps(A, _mm_shuffle_ps(DC, DC, 0x33));
+                iC -= (V)_mm_mul_ps(_mm_shuffle_ps(A, A, 0xB1), _mm_shuffle_ps(DC, DC, 0x66));
 
-            rst[3][2] = -m[0][0] * m[1][1] * m[3][2] +
-                m[0][0] * m[1][2] * m[3][1] +
-                m[1][0] * m[0][1] * m[3][2] -
-                m[1][0] * m[0][2] * m[3][1] -
-                m[3][0] * m[0][1] * m[1][2] +
-                m[3][0] * m[0][2] * m[1][1];
+                rd = _mm_shuffle_ps(rd, rd, 0);
+                alignas(16) const uint32_t _Sign_PNNP[4] = { 0x00000000, 0x80000000, 0x80000000, 0x00000000 };
+                rd ^= (*(V*)&_Sign_PNNP);
 
-            rst[0][3] = -m[0][1] * m[1][2] * m[2][3] +
-                m[0][1] * m[1][3] * m[2][2] +
-                m[1][1] * m[0][2] * m[2][3] -
-                m[1][1] * m[0][3] * m[2][2] -
-                m[2][1] * m[0][2] * m[1][3] +
-                m[2][1] * m[0][3] * m[1][2];
+                //  iB = C*|B| - D*B#*A
+                iB = C * (V)_mm_shuffle_ps(dB, dB, 0) - iB;
 
-            rst[1][3] = m[0][0] * m[1][2] * m[2][3] -
-                m[0][0] * m[1][3] * m[2][2] -
-                m[1][0] * m[0][2] * m[2][3] +
-                m[1][0] * m[0][3] * m[2][2] +
-                m[2][0] * m[0][2] * m[1][3] -
-                m[2][0] * m[0][3] * m[1][2];
+                //  iC = B*|C| - A*C#*D;
+                iC = B * (V)_mm_shuffle_ps(dC, dC, 0) - iC;
 
-            rst[2][3] = -m[0][0] * m[1][1] * m[2][3] +
-                m[0][0] * m[1][3] * m[2][1] +
-                m[1][0] * m[0][1] * m[2][3] -
-                m[1][0] * m[0][3] * m[2][1] -
-                m[2][0] * m[0][1] * m[1][3] +
-                m[2][0] * m[0][3] * m[1][1];
+                //  iX = iX / det
+                iA *= rd;
+                iB *= rd;
+                iC *= rd;
+                iD *= rd;
 
-            rst[3][3] = m[0][0] * m[1][1] * m[2][2] -
-                m[0][0] * m[1][2] * m[2][1] -
-                m[1][0] * m[0][1] * m[2][2] +
-                m[1][0] * m[0][2] * m[2][1] +
-                m[2][0] * m[0][1] * m[1][2] -
-                m[2][0] * m[0][2] * m[1][1];
+                V rst0 = _mm_shuffle_ps(iA, iB, 0x77);
+                V rst1 = _mm_shuffle_ps(iA, iB, 0x22);
+                V rst2 = _mm_shuffle_ps(iC, iD, 0x77);
+                V rst3 = _mm_shuffle_ps(iC, iD, 0x22);
+                return { rst0,rst1,rst2,rst3 };
+            }
+#endif // USE_XSIMD
+            {
+                M rst{};
 
-            F det = m[0][0] * rst[0][0] + m[0][1] * rst[1][0] + m[0][2] * rst[2][0] + m[0][3] * rst[3][0];
+                rst[0][0] = m[1][1] * m[2][2] * m[3][3] -
+                    m[1][1] * m[2][3] * m[3][2] -
+                    m[2][1] * m[1][2] * m[3][3] +
+                    m[2][1] * m[1][3] * m[3][2] +
+                    m[3][1] * m[1][2] * m[2][3] -
+                    m[3][1] * m[1][3] * m[2][2];
 
-            assert(det != 0);
+                rst[1][0] = -m[1][0] * m[2][2] * m[3][3] +
+                    m[1][0] * m[2][3] * m[3][2] +
+                    m[2][0] * m[1][2] * m[3][3] -
+                    m[2][0] * m[1][3] * m[3][2] -
+                    m[3][0] * m[1][2] * m[2][3] +
+                    m[3][0] * m[1][3] * m[2][2];
 
-            F invDet = 1 / det;
+                rst[2][0] = m[1][0] * m[2][1] * m[3][3] -
+                    m[1][0] * m[2][3] * m[3][1] -
+                    m[2][0] * m[1][1] * m[3][3] +
+                    m[2][0] * m[1][3] * m[3][1] +
+                    m[3][0] * m[1][1] * m[2][3] -
+                    m[3][0] * m[1][3] * m[2][1];
 
-            // rst *= invDet is not correct
-            // because transform can't be multiplied by F
-            rst[0] *= invDet;
-            rst[1] *= invDet;
-            rst[2] *= invDet;
-            rst[3] *= invDet;
+                rst[3][0] = -m[1][0] * m[2][1] * m[3][2] +
+                    m[1][0] * m[2][2] * m[3][1] +
+                    m[2][0] * m[1][1] * m[3][2] -
+                    m[2][0] * m[1][2] * m[3][1] -
+                    m[3][0] * m[1][1] * m[2][2] +
+                    m[3][0] * m[1][2] * m[2][1];
 
-            return rst;
+                rst[0][1] = -m[0][1] * m[2][2] * m[3][3] +
+                    m[0][1] * m[2][3] * m[3][2] +
+                    m[2][1] * m[0][2] * m[3][3] -
+                    m[2][1] * m[0][3] * m[3][2] -
+                    m[3][1] * m[0][2] * m[2][3] +
+                    m[3][1] * m[0][3] * m[2][2];
+
+                rst[1][1] = m[0][0] * m[2][2] * m[3][3] -
+                    m[0][0] * m[2][3] * m[3][2] -
+                    m[2][0] * m[0][2] * m[3][3] +
+                    m[2][0] * m[0][3] * m[3][2] +
+                    m[3][0] * m[0][2] * m[2][3] -
+                    m[3][0] * m[0][3] * m[2][2];
+
+                rst[2][1] = -m[0][0] * m[2][1] * m[3][3] +
+                    m[0][0] * m[2][3] * m[3][1] +
+                    m[2][0] * m[0][1] * m[3][3] -
+                    m[2][0] * m[0][3] * m[3][1] -
+                    m[3][0] * m[0][1] * m[2][3] +
+                    m[3][0] * m[0][3] * m[2][1];
+
+                rst[3][1] = m[0][0] * m[2][1] * m[3][2] -
+                    m[0][0] * m[2][2] * m[3][1] -
+                    m[2][0] * m[0][1] * m[3][2] +
+                    m[2][0] * m[0][2] * m[3][1] +
+                    m[3][0] * m[0][1] * m[2][2] -
+                    m[3][0] * m[0][2] * m[2][1];
+
+                rst[0][2] = m[0][1] * m[1][2] * m[3][3] -
+                    m[0][1] * m[1][3] * m[3][2] -
+                    m[1][1] * m[0][2] * m[3][3] +
+                    m[1][1] * m[0][3] * m[3][2] +
+                    m[3][1] * m[0][2] * m[1][3] -
+                    m[3][1] * m[0][3] * m[1][2];
+
+                rst[1][2] = -m[0][0] * m[1][2] * m[3][3] +
+                    m[0][0] * m[1][3] * m[3][2] +
+                    m[1][0] * m[0][2] * m[3][3] -
+                    m[1][0] * m[0][3] * m[3][2] -
+                    m[3][0] * m[0][2] * m[1][3] +
+                    m[3][0] * m[0][3] * m[1][2];
+
+                rst[2][2] = m[0][0] * m[1][1] * m[3][3] -
+                    m[0][0] * m[1][3] * m[3][1] -
+                    m[1][0] * m[0][1] * m[3][3] +
+                    m[1][0] * m[0][3] * m[3][1] +
+                    m[3][0] * m[0][1] * m[1][3] -
+                    m[3][0] * m[0][3] * m[1][1];
+
+                rst[3][2] = -m[0][0] * m[1][1] * m[3][2] +
+                    m[0][0] * m[1][2] * m[3][1] +
+                    m[1][0] * m[0][1] * m[3][2] -
+                    m[1][0] * m[0][2] * m[3][1] -
+                    m[3][0] * m[0][1] * m[1][2] +
+                    m[3][0] * m[0][2] * m[1][1];
+
+                rst[0][3] = -m[0][1] * m[1][2] * m[2][3] +
+                    m[0][1] * m[1][3] * m[2][2] +
+                    m[1][1] * m[0][2] * m[2][3] -
+                    m[1][1] * m[0][3] * m[2][2] -
+                    m[2][1] * m[0][2] * m[1][3] +
+                    m[2][1] * m[0][3] * m[1][2];
+
+                rst[1][3] = m[0][0] * m[1][2] * m[2][3] -
+                    m[0][0] * m[1][3] * m[2][2] -
+                    m[1][0] * m[0][2] * m[2][3] +
+                    m[1][0] * m[0][3] * m[2][2] +
+                    m[2][0] * m[0][2] * m[1][3] -
+                    m[2][0] * m[0][3] * m[1][2];
+
+                rst[2][3] = -m[0][0] * m[1][1] * m[2][3] +
+                    m[0][0] * m[1][3] * m[2][1] +
+                    m[1][0] * m[0][1] * m[2][3] -
+                    m[1][0] * m[0][3] * m[2][1] -
+                    m[2][0] * m[0][1] * m[1][3] +
+                    m[2][0] * m[0][3] * m[1][1];
+
+                rst[3][3] = m[0][0] * m[1][1] * m[2][2] -
+                    m[0][0] * m[1][2] * m[2][1] -
+                    m[1][0] * m[0][1] * m[2][2] +
+                    m[1][0] * m[0][2] * m[2][1] +
+                    m[2][0] * m[0][1] * m[1][2] -
+                    m[2][0] * m[0][2] * m[1][1];
+
+                F det = m[0][0] * rst[0][0] + m[0][1] * rst[1][0] + m[0][2] * rst[2][0] + m[0][3] * rst[3][0];
+
+                assert(det != 0);
+
+                F invDet = 1 / det;
+
+                // rst *= invDet is not correct
+                // because transform can't be multiplied by F
+                rst[0] *= invDet;
+                rst[1] *= invDet;
+                rst[2] *= invDet;
+                rst[3] *= invDet;
+
+                return rst;
+            }
         }
 
     };

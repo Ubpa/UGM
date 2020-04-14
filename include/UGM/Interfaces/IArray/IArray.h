@@ -70,6 +70,8 @@ namespace Ubpa {
 		using xsimd::batch<float, 4>::cbegin;
 		using xsimd::batch<float, 4>::end;
 		using xsimd::batch<float, 4>::cend;
+		using xsimd::batch<float, 4>::operator __m128;
+		using xsimd::batch<float, 4>::batch;
 
 	public:
 		using T = float;
@@ -88,6 +90,8 @@ namespace Ubpa {
 		constexpr IArray(U... data) noexcept : xsimd::batch<float, 4>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
+
+		const auto& get_batch() const noexcept { return this->get(); }
 	};
 #endif
 }

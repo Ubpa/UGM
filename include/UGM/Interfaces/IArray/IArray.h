@@ -3,6 +3,10 @@
 #include "../../basic.h"
 #include "../Arg.h"
 
+#ifdef USE_XSIMD
+#include <xsimd/xsimd.hpp>
+#endif
+
 #include <UTemplate/SI.h>
 
 #include <array>
@@ -40,57 +44,37 @@ namespace Ubpa {
 		constexpr IArray(U... data) noexcept : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
+	};
 
-		inline const Impl rmv_epsilon() const noexcept {
-			Impl rst{};
+#ifdef USE_XSIMD
+	// alignas(16)
+	template<typename Base, typename Impl, typename... Args>
+	struct alignas(16) IArray<Base, Impl, TypeList<TypeList<float, Size<4>>, float, Args...>> : Base, std::array<float, 4> {
+	private:
+		using ArgList = TypeList<TypeList<float, Size<4>>, float, Args...>;
+		using Base::operator[];
+	public:
+		using std::array<float, 4>::operator[];
+
+	public:
+		using T = float;
+		static constexpr size_t N = 4;
+		using F = float;
+
+		using Base::Base;
+		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::array;
+
+		IArray() noexcept {};
+
+		constexpr IArray(T t) noexcept {
 			for (size_t i = 0; i < N; i++)
-				rst[i] = Ubpa::rmv_epsilon((*this)[i]);
-			return rst;
+				(*this)[i] = T{ t };
 		}
 
-		inline bool is_all_zero() const noexcept {
-			for (size_t i = 0; i < N; i++) {
-				if (is_zero((*this)[i]))
-					return false;
-			}
-			return true;
-		}
-
-		inline bool has_nan() const noexcept {
-			for (size_t i = 0; i < N; i++) {
-				if (is_nan((*this)[i]))
-					return true;
-			}
-			return false;
-		}
-
-		static const Impl lerp(const Impl& x, const Impl& y, F t) noexcept {
-			Impl rst{};
-			F one_minus_t = static_cast<F>(1) - t;
-			for (size_t i = 0; i < N; i++)
-				rst[i] = Ubpa::lerp(x[i], y[i], t);
-			return rst;
-		}
-
-		inline const Impl lerp(const Impl& y, F t) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
-			return lerp(x, y, t);
-		}
-
-		static const Impl mid(const Impl& x, const Impl& y) noexcept {
-			return lerp(x, y, static_cast<F>(0.5));
-		}
-
-		static const Impl mix(const std::vector<Impl>& vals, const std::vector<float>& weights) noexcept {
-			assert(vals.size() > 0 && vals.size() == weights.size());
-			Impl rst{};
-			for (size_t j = 0; j < N; j++)
-				rst[j] = vals[0][j] * weights[0];
-			for (size_t i = 1; i < vals.size(); i++) {
-				for (size_t j = 0; j < N; j++)
-					rst[j] += vals[i][j] * weights[i];
-			}
-			return rst;
+		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
+		constexpr IArray(U... data) noexcept : std::array<T, N>{static_cast<T>(data)...} {
+			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 	};
+#endif
 }

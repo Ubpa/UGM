@@ -8,6 +8,7 @@ namespace Ubpa {
 	struct IArrayScalarMul : SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>  {
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
+		using T = Arg_T<ArgList>;
 
 		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
 		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::operator*;
@@ -21,6 +22,16 @@ namespace Ubpa {
 			auto& x = static_cast<const Impl&>(*this);
 			auto kF = static_cast<F>(k);
 			Impl rst{};
+
+#ifdef USE_XSIMD
+			if constexpr (std::is_same_v<T, float> && N == 4) {
+				auto sx = xsimd::load_aligned(x.data());
+				auto srst = sx * kF;
+				srst.store_aligned(rst.data());
+			}
+			else
+#endif // USE_XSIMD
+
 			for (size_t i = 0; i < N; i++)
 				rst[i] = x[i] * kF;
 			return rst;
@@ -30,6 +41,14 @@ namespace Ubpa {
 		inline Impl& impl_scalar_mul_to_self(U k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			auto kF = static_cast<F>(k);
+#ifdef USE_XSIMD
+			if constexpr (std::is_same_v<T, float> && N == 4) {
+				auto sx = xsimd::load_aligned(x.data());
+				sx *= kF;
+				sx.store_aligned(x.data());
+			}
+			else
+#endif // USE_XSIMD
 			for (size_t i = 0; i < N; i++)
 				x[i] *= kF;
 			return x;

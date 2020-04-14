@@ -4,8 +4,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct bbox : SIIT_CRTP<TemplateList<IArrayInOut>, bbox<T, N>, TypeList<TypeList<point<T, N>, Size<2>>, T>> {
-		using Base = SIIT_CRTP<TemplateList<IArrayInOut>, bbox<T, N>, TypeList<TypeList<point<T, N>, Size<2>>, T>>;
+	struct bbox : SIIT_CRTP<TemplateList<IArrayUtil>, bbox<T, N>, TypeList<TypeList<point<T, N>, Size<2>>, T>> {
+		using Base = SIIT_CRTP<TemplateList<IArrayUtil>, bbox<T, N>, TypeList<TypeList<point<T, N>, Size<2>>, T>>;
 		using Base::Base;
 		
 		bbox() noexcept;

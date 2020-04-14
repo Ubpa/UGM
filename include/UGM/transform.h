@@ -15,6 +15,13 @@
 #include "Interfaces/IMatrix/IMatrixInOut.h"
 
 namespace Ubpa {
+	// TODO: distinguish different kinds of transformations
+	// - basic transformation: translation, reflection, rotation, scaling, shearing, projection (projective transformation)
+	// - rigid transformation: translation + rotation + reflection
+	// - similarity transformation: translation + rotation + reflection + scaling
+	// - linear transformation: rotation + reflection + scaling + shearing
+	// - affine transformation: translation + linear transformation
+	// - transformation: affine transformation + projection
 	template<typename T>
 	struct transform : SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>> {
 		using Base = SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>>;
@@ -55,9 +62,11 @@ namespace Ubpa {
 		const mat<T, 3> decompose_mat3() const noexcept;
 
 		// faster than IMatrixMul::inverse
-		const transform inverse() const noexcept;
-		// TODO: transform::inverse_noscale
-		// const transform inverse_noscale() const noexcept;
+		// "sim" : similarity (translation, rotation [reflection], scaling)
+		// ref: https://en.wikipedia.org/wiki/Similarity_(geometry)
+		const transform inverse_sim() const noexcept;
+		// TODO: transform::inverse_rigid
+		// const transform inverse_rigid() const noexcept;
 
 		const point<T, 3> operator*(const point<T, 3>& p) const noexcept;
 		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;

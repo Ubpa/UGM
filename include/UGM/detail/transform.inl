@@ -248,7 +248,7 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const transform<T> transform<T>::inverse() const noexcept {
+	const transform<T> transform<T>::inverse_sim() const noexcept {
 		// ref: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 #ifdef USE_XSIMD
 		if constexpr (std::is_same_v<T, float>) {

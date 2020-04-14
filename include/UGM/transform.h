@@ -54,8 +54,14 @@ namespace Ubpa {
 		const euler<T> decompose_euler() const noexcept;
 		const mat<T, 3> decompose_mat3() const noexcept;
 
+		// faster than IMatrixMul::inverse
+		const transform inverse() const noexcept;
+		// TODO: transform::inverse_noscale
+		// const transform inverse_noscale() const noexcept;
+
 		const point<T, 3> operator*(const point<T, 3>& p) const noexcept;
 		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
+		// result isn't normalized
 		const normal<T> operator*(const normal<T>& n) const noexcept;
 		const bbox<T, 3> operator*(const bbox<T, 3>& b) const noexcept;
 		const line<T, 3> operator*(const line<T, 3>& r) const noexcept;

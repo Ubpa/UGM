@@ -248,28 +248,95 @@ namespace Ubpa {
 	}
 
 	template<typename T>
+	const transform<T> transform<T>::inverse() const noexcept {
+		// ref: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>) {
+			transform<T> r;
+			const auto& inM = *this;
+
+			// transpose 3x3, we know m03 = m13 = m23 = 0
+			__m128 t0 = VecShuffle_0101(inM[0], inM[1]); // 00, 01, 10, 11
+			__m128 t1 = VecShuffle_2323(inM[0], inM[1]); // 02, 03, 12, 13
+			r[0] = VecShuffle(t0, inM[2], 0, 2, 0, 3); // 00, 10, 20, 23(=0)
+			r[1] = VecShuffle(t0, inM[2], 1, 3, 1, 3); // 01, 11, 21, 23(=0)
+			r[2] = VecShuffle(t1, inM[2], 0, 2, 2, 3); // 02, 12, 22, 23(=0)
+
+			// (SizeSqr(mVec[0]), SizeSqr(mVec[1]), SizeSqr(mVec[2]), 0)
+			__m128 sizeSqr;
+			sizeSqr = _mm_mul_ps(r[0], r[0]);
+			sizeSqr = _mm_add_ps(sizeSqr, _mm_mul_ps(r[1], r[1]));
+			sizeSqr = _mm_add_ps(sizeSqr, _mm_mul_ps(r[2], r[2]));
+
+			// optional test to avoid divide by 0
+			__m128 one = _mm_set1_ps(1.f);
+			// for each component, if(sizeSqr < SMALL_NUMBER) sizeSqr = 1;
+			__m128 rSizeSqr = _mm_blendv_ps(
+				_mm_div_ps(one, sizeSqr),
+				one,
+				_mm_cmplt_ps(sizeSqr, _mm_set1_ps(EPSILON<float>))
+			);
+
+			r[0] = _mm_mul_ps(r[0], rSizeSqr);
+			r[1] = _mm_mul_ps(r[1], rSizeSqr);
+			r[2] = _mm_mul_ps(r[2], rSizeSqr);
+
+			// last line
+			r[3] = _mm_mul_ps(r[0], VecSwizzle1(inM[3], 0));
+			r[3] = _mm_add_ps(r[3], _mm_mul_ps(r[1], VecSwizzle1(inM[3], 1)));
+			r[3] = _mm_add_ps(r[3], _mm_mul_ps(r[2], VecSwizzle1(inM[3], 2)));
+			r[3] = _mm_sub_ps(_mm_setr_ps(0.f, 0.f, 0.f, 1.f), r[3]);
+
+			return r;
+		}
+		else
+#endif
+		{
+			// TODO
+			return Base::inverse();
+		}
+	}
+
+	template<typename T>
 	const scale<T, 3> transform<T>::decompose_scale() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
-		vec<T, 3> col0(m(0, 0), m(1, 0), m(2, 0));
-		vec<T, 3> col1(m(0, 1), m(1, 1), m(2, 1));
-		vec<T, 3> col2(m(0, 2), m(1, 2), m(2, 2));
-		return { col0.norm(), col1.norm(), col2.norm() };
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>)
+			return { m[0].norm(), m[1].norm(), m[2].norm() };
+		else
+#endif // USE_XSIMD
+		{
+			vec<T, 3> col0(m(0, 0), m(1, 0), m(2, 0));
+			vec<T, 3> col1(m(0, 1), m(1, 1), m(2, 1));
+			vec<T, 3> col2(m(0, 2), m(1, 2), m(2, 2));
+			return { col0.norm(), col1.norm(), col2.norm() };
+		}
 	}
 
 	template<typename T>
 	const mat<T, 3> transform<T>::decompose_rotation_matrix() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
-		mat<T, 3> m3{ std::array<T, 3 * 3>{
-			m(0, 0), m(0, 1), m(0, 2),
-			m(1, 0), m(1, 1), m(1, 2),
-			m(2, 0), m(2, 1), m(2, 2)
-		} };
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>) {
+			return { m[0].normalize().cast_to<vecf3>(),
+				m[1].normalize().cast_to<vecf3>(),
+				m[2].normalize().cast_to<vecf3>(),
+			};
+		}
+#endif
+		{
+			mat<T, 3> m3{ std::array<T, 3 * 3>{
+				m(0, 0), m(0, 1), m(0, 2),
+				m(1, 0), m(1, 1), m(1, 2),
+				m(2, 0), m(2, 1), m(2, 2)
+			} };
 
-		m3[0].normalize_self();
-		m3[1].normalize_self();
-		m3[2].normalize_self();
+			m3[0].normalize_self();
+			m3[1].normalize_self();
+			m3[2].normalize_self();
 
-		return m3;
+			return m3;
+		}
 	}
 
 	template<typename T>
@@ -433,17 +500,26 @@ namespace Ubpa {
 		T y = p[1];
 		T z = p[2];
 
-		T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z + m(0, 3);
-		T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z + m(1, 3);
-		T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z + m(2, 3);
-		T wp = m(3, 0) * x + m(3, 1) * y + m(3, 2) * z + m(3, 3);
-
-		if (wp != 1) {
-			T invWP = ONE<T> / wp;
-			return { xp * invWP,yp * invWP,zp * invWP };
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>) {
+			auto mv = m * vecf4(x, y, z, 1);
+			return (mv / mv[3]).cast_to<pointf3>();
 		}
 		else
-			return { xp, yp, zp };
+#endif // USE_XSIMD
+		{
+			T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z + m(0, 3);
+			T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z + m(1, 3);
+			T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z + m(2, 3);
+			T wp = m(3, 0) * x + m(3, 1) * y + m(3, 2) * z + m(3, 3);
+
+			if (wp != 1) {
+				T invWP = ONE<T> / wp;
+				return { xp * invWP,yp * invWP,zp * invWP };
+			}
+			else
+				return { xp, yp, zp };
+		}
 	}
 
 	template<typename T>
@@ -454,15 +530,24 @@ namespace Ubpa {
 		T y = v[1];
 		T z = v[2];
 
-		T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z;
-		T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z;
-		T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z;
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>)
+			return (m * vecf4{ x, y, z, 0 }).cast_to<vecf3>();
+		else
+#endif // USE_XSIMD
+		{
+			T xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z;
+			T yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z;
+			T zp = m(2, 0) * x + m(2, 1) * y + m(2, 2) * z;
 
-		return { xp,yp,zp };
+			return { xp,yp,zp };
+		}
 	}
 
 	template<typename T>
 	const normal<T> transform<T>::operator*(const normal<T>& n) const noexcept {
+		// TODO: transform::operator*(normal) SIMD
+
 		// N = (M^{-1})^T * n
 
 		mat<T, 3> m3 = decompose_mat3().inverse();
@@ -485,34 +570,61 @@ namespace Ubpa {
 		// See Christer Ericson's Real-time Collision Detection, p. 87, or
 		// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
 		// http://www.graphicsgems.org/
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float>) {
+			using V = xsimd::batch<float, 4>;
+			V Amin{ A.minP()[0], A.minP()[1], A.minP()[2], 0 };
+			V Amax{ A.maxP()[0], A.maxP()[1], A.maxP()[2], 0 };
+			V Bmin = m[3].get_batch();
+			V Bmax = m[3].get_batch();
 
-		point<T, 3> Amin = A.minP();
-		point<T, 3> Amax = A.maxP();
-		point<T, 3> Bmin = { m(0, 3), m(1, 3), m(2, 3) };
-		point<T, 3> Bmax = Bmin;
+			V m0Amin = m[0].get_batch() * Amin[0];
+			V m0Amax = m[0].get_batch() * Amax[0];
+			V m1Amin = m[1].get_batch() * Amin[1];
+			V m1Amax = m[1].get_batch() * Amax[1];
+			V m2Amin = m[2].get_batch() * Amin[2];
+			V m2Amax = m[2].get_batch() * Amax[2];
 
-		/* Now find the extreme points by considering the product of the */
-		/* min and max with each component of M.  */
+			Bmin += xsimd::min(m0Amin, m0Amax);
+			Bmin += xsimd::min(m1Amin, m1Amax);
+			Bmin += xsimd::min(m2Amin, m2Amax);
+			Bmax += xsimd::max(m0Amin, m0Amax);
+			Bmax += xsimd::max(m1Amin, m1Amax);
+			Bmax += xsimd::max(m2Amin, m2Amax);
+			
+			return { pointf3{Bmin[0], Bmin[1], Bmin[2]}, pointf3{Bmax[0], Bmax[1], Bmax[2]} };
+		}
+		else
+#endif // USE_XSIMD
+		{
+			point<T, 3> Amin = A.minP();
+			point<T, 3> Amax = A.maxP();
+			point<T, 3> Bmin = { m(0, 3), m(1, 3), m(2, 3) };
+			point<T, 3> Bmax = Bmin;
 
-		for (size_t i = 0; i < 3; i++) {
-			for (size_t j = 0; j < 3; j++)
-			{
-				T a = m(i, j) * Amin[j];
-				T b = m(i, j) * Amax[j];
-				if (a < b) {
-					Bmin[i] += a;
-					Bmax[i] += b;
-				}
-				else {
-					Bmin[i] += b;
-					Bmax[i] += a;
+			/* Now find the extreme points by considering the product of the */
+			/* min and max with each component of M.  */
+
+			for (size_t i = 0; i < 3; i++) {
+				for (size_t j = 0; j < 3; j++)
+				{
+					T a = m(i, j) * Amin[j];
+					T b = m(i, j) * Amax[j];
+					if (a < b) {
+						Bmin[i] += a;
+						Bmax[i] += b;
+					}
+					else {
+						Bmin[i] += b;
+						Bmax[i] += a;
+					}
 				}
 			}
-		}
-			
-		/* Copy the result into the new box. */
 
-		return { Bmin, Bmax };
+			/* Copy the result into the new box. */
+
+			return { Bmin, Bmax };
+		}
 	}
 
 	template<typename T>

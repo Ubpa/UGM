@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma region Eric_inverse
-// link: https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
+// link: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 
 #define MakeShuffleMask(x,y,z,w)           (x | (y<<2) | (z<<4) | (w<<6))
 
@@ -174,7 +174,7 @@ namespace Ubpa::detail::IMatrixMul {
 
 #ifdef USE_XSIMD
             if constexpr (std::is_same_v<F, float>) {
-#if 1 // Eric: https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
+#if 1 // Eric: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
                 return Eric::GetInverse(m);
 #else // intel: https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
                 using V = xsimd::batch<float, 4>;

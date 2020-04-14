@@ -1,6 +1,7 @@
 #include <iostream>
 #include <UGM/vec.h>
 #include <UGM/point.h>
+#include <UGM/mat.h>
 //#include <UGM/scale.h>
 
 using namespace Ubpa;
@@ -18,6 +19,10 @@ int main(int argc, char* argv[])
     cin >> p0 >> p1;
     p0 -= a;
     cout << p0 - p1 << endl;
+    matf4 m1, m2;
+    cin >> m1 >> m2;
+    auto m1m2 = m1 * m2;
+    cout << m1m2 << endl;
     /*scalef4 sa;
     scalef4 sb;
     cin >> sa >> sb;

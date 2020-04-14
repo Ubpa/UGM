@@ -23,7 +23,7 @@ namespace Ubpa {
 			auto kF = static_cast<F>(k);
 #ifdef USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x * kF;
+				return x.get() * kF;
 			else
 #endif // USE_XSIMD
 			{

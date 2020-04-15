@@ -55,7 +55,7 @@ namespace Ubpa {
 	const svecf sample_GGX_D(float alpha) noexcept {
 		auto Xi = uniform_in_square<float>();
 		float cos2_sthetam = (1 - Xi[0]) / ((pow2(alpha) - 1) * Xi[0] + 1);
-		float cos_sthetam = std::sqrt(cos_sthetam);
+		float cos_sthetam = std::sqrt(cos2_sthetam);
 		float sin_sthetam = std::sqrt(1 - cos2_sthetam);
 		float phi = 2 * PI<float> * Xi[1];
 		return { sin_sthetam * std::cos(phi), sin_sthetam * std::sin(phi), cos_sthetam };

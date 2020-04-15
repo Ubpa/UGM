@@ -270,12 +270,16 @@ namespace Ubpa {
 
 			// optional test to avoid divide by 0
 			__m128 one = _mm_set1_ps(1.f);
+#if 0
 			// for each component, if(sizeSqr < SMALL_NUMBER) sizeSqr = 1;
 			__m128 rSizeSqr = _mm_blendv_ps(
 				_mm_div_ps(one, sizeSqr),
 				one,
 				_mm_cmplt_ps(sizeSqr, _mm_set1_ps(EPSILON<float>))
 			);
+#else
+			__m128 rSizeSqr = _mm_div_ps(one, sizeSqr);
+#endif
 
 			r[0] = _mm_mul_ps(r[0], rSizeSqr);
 			r[1] = _mm_mul_ps(r[1], rSizeSqr);
@@ -597,7 +601,7 @@ namespace Ubpa {
 			Bmax += xsimd::max(m1Amin, m1Amax);
 			Bmax += xsimd::max(m2Amin, m2Amax);
 			
-			return { Bmin.cast_to<pointf3>(), Bmax.cast_to<pointf3>() };
+			return { pointf3{Bmin[0], Bmin[1], Bmin[2]}, pointf3{Bmax[0], Bmax[1], Bmax[2]} };
 		}
 		else
 #endif // USE_XSIMD

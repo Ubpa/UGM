@@ -16,7 +16,7 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 常用的数学库（如 Eigen，glm）只提供 `vec` 类，并使其能做各种运算（如 `+-*/` 等），但从代数方面考虑，这并不合理。
 
-> 示例
+> **示例** 
 >
 > - 点与点之间不能相加减
 > - 颜色与点之间没有关系
@@ -92,20 +92,20 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 
 该库着重于正确的代数概念，使用者很可能对这方面并不了解，但只要知道基础的线性代数知识即可，下边我会简单介绍下该库涉及的代数概念。
 
-- 加法 `IAdd`：相同元素之间的运算，具有交换性（`a+b==b+a`）和可逆性（`a+(-a)=0`）
-- 乘法 `IMul`：相同元素之间的运算，具有可逆性（`a*(1/a)=1`），不一定具备交换性（`a*b==b*a`）。
-- 数乘 `IScalarMul`：类与标量（如 `float`）之间的运算，具有交换性。
-- 线性 `ILinear`：加法 + 数乘，该空间中的元素成为向量‘
-- 环 `IRing`：加法 + 乘法
-- 度量 `IMetric`：也叫距离
-- 范数 `INorm`：向量 => 标量的函数，一般也叫大小 / 长度，可**自然诱导**出度量（`distance(a,b) == (a-b).norm()`）。
-- 内积 `IInnerProduct`：可**自然诱导**出范数（`sqrt(dot(x, x)) == norm`）
-- 仿射空间 `IAffine`：具有位置概念的空间，该空间中的元素称为点，会对应一个线性空间，两空间之间的元素有关联，如 `point-point => vector`，`point+vector => point` 
+- 加法 [`IAdd`](include/UGM/Interfaces/IAdd.h)：相同元素之间的运算，具有交换性（`a+b==b+a`）和可逆性（`a+(-a)=0`）
+- 乘法 [`IMul`](include/UGM/Interfaces/IMul.h)：相同元素之间的运算，具有可逆性（`a*(1/a)=1`），不一定具备交换性（`a*b==b*a`）。
+- 数乘 [`IScalarMul`](include/UGM/Interfaces/IScalarMul.h)：类与标量（如 `float`）之间的运算，具有交换性。
+- 线性 [`ILinear`](include/UGM/Interfaces/ILinear.h)：加法 + 数乘，该空间中的元素成为向量‘
+- 环 [`IRing`](include/UGM/Interfaces/IRing.h)：加法 + 乘法
+- 度量 [`IMetric`](include/UGM/Interfaces/IMetric.h)：也叫距离
+- 范数 [`INorm`](include/UGM/Interfaces/INorm.h)：向量 => 标量的函数，一般也叫大小 / 长度，可**自然诱导**出度量（`distance(a,b) == (a-b).norm()`）
+- 内积 [`IInnerProduct`](include/UGM/Interfaces/IInnerProduct.h)：可**自然诱导**出范数（`sqrt(dot(x, x)) == norm`）
+- 仿射空间 [`IAffine`](include/UGM/Interfaces/IAffine.h)：具有位置概念的空间，该空间中的元素称为点，会对应一个线性空间，两空间之间的元素有关联，如 `point-point => vector`，`point+vector => point` 
 
 ### 3.2 底层存储类型
 
-- 数组 `IArray`：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
-- 矩阵 `IMetric`：1 维数组的数组
+- 数组 [`IArray`](include/UGM/Interfaces/IArray.h)：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
+- 矩阵 [`IMetric`](include/UGM/Interfaces/IMetric.h)：1 维数组的数组
 
 由于底层存储类型不同，上述代数概念的具体实现有所不同（抽象 => 具体），并引申出新的代数概念
 
@@ -113,14 +113,14 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 
 底层存储类型为数组时，则可引申出如下代数概念
 
-- 欧式（向量）空间 `IEuclideanV`：线性空间 + 内积（`dot(a,b) == a.x*b.x + a.y*b.y + a.z*b.z`）
-- 欧式仿射空间 `IEuclideanA`：欧式（向量）空间对应的仿射空间
-- 逐元素乘 `IArrayHadamardProduct`：`a*b=(a.x*b.x, a.y*b.y, a.z*b.z)` 
+- 欧式（向量）空间 [`IEuclideanV`](include/UGM/Interfaces/IEuclideanV.h)：线性空间 + 内积（`dot(a,b) == a.x*b.x + a.y*b.y + a.z*b.z`）
+- 欧式仿射空间 [`IEuclideanA`](include/UGM/Interfaces/IEuclideanA.h)：欧式（向量）空间对应的仿射空间
+- 逐元素乘 [`IArrayHadamardProduct`](include/UGM/Interfaces/IArrayHadamardProduct.h)：`a*b=(a.x*b.x, a.y*b.y, a.z*b.z)` 
 
 上述各种概念在具体为数组时会有对应的实现，如
 
 ```c++
-Impl operator+(Impl a, Impl b) const {
+T operator+(T a, T b) const {
     return {a[0]+b[0], a[1]+b[1], a[2]+b[2]};
 }
 ```
@@ -139,10 +139,12 @@ Impl operator+(Impl a, Impl b) const {
 
 ![UGM_graph.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/UGM_graph.jpg)
 
+> 若图片加载失败，请用该链接 [UGM_graph.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/UGM_graph.jpg) 
+
 图中含有的类有
 
 - 向量 [`vec`](include/UGM/vec.h) 
-- 法向 [`normal`](include/UGM/normal.h)：本质是二重向量 bivector（[wiki](https://en.wikipedia.org/wiki/Bivector), [stackoverflow](ttps://stackoverflow.com/questions/30465573/transforming-surface-normal-vectors-and-tangent-vectors)）
+- 法向 [`normal`](include/UGM/normal.h)：本质是二重向量 bivector（[wiki](https://en.wikipedia.org/wiki/Bivector), [stackoverflow](https://stackoverflow.com/questions/30465573/transforming-surface-normal-vectors-and-tangent-vectors)）
 - 点 [`point`](include/UGM/point.h) 
 - 四元数 [`quat`](include/UGM/quat.h)：限制为单位四元数，用于表示旋转
 - 矩阵 [`mat`](include/UGM/mat.h) 
@@ -164,7 +166,9 @@ Impl operator+(Impl a, Impl b) const {
 
 ## 4. 接口
 
-类由多个代数概念组合而成，所以关键在于把握代数概念的接口，各代数概念位于 [include/UGM/Interfaces/](include/UGM/Interfaces/) 
+类由多个代数概念组合而成，所以关键在于把握代数概念的接口，各代数概念位于 [include/UGM/Interfaces/](include/UGM/Interfaces/)。
 
-所有接口都是类方法，方便使用
+所有接口都是类方法，方便使用，大部分情况下都可以利用 IDE 的代码提示功能（如 VS2019 的 intellisense）来查询接口。
+
+此外还提供了图形学常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等
 

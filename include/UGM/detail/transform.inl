@@ -511,7 +511,7 @@ namespace Ubpa {
 
 #ifdef UBPA_USE_XSIMD
 		if constexpr (std::is_same_v<T, float>) {
-			auto mp = m[0] * x + m[1] * y + m[2] * z + m[4];
+			auto mp = m[0] * x + m[1] * y + m[2] * z + m[3];
 			return (mp / mp[3]).cast_to<pointf3>();
 		}
 		else

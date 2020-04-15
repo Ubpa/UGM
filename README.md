@@ -4,6 +4,7 @@
 
 - 着重正确的**代数**概念（环、线性、欧式空间、仿射空间等）
 - 面向对象（所有方法都是类方法）
+- 只有头文件 head-only
 - 高性能：SIMD 加速，各算法最优化
 - 利用[单继承化](https://zhuanlan.zhihu.com/p/106672814)优化代码结构（不使用恶心的宏）
 - 提供 [natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019) 优化 debug 信息
@@ -29,9 +30,38 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 - 复用函数实现（不同于 c++20 的 `concept` 或者接口，他们只是对类支持的“操作”进行了约束）
 - 空基类优化
 
-## 2. 安装
+## 2. 示例
 
-### 2.1 环境
+```c++
+#include <UGM/UGM.h>
+
+using namespace Ubpa;
+using namespace std;
+
+int main() {
+    transformf tsfm{ pointf3{1,1,1},
+                    scalef3{2.f},
+                    quatf{vecf3{1,0,0}, to_radian(90.f)} }; // T * R * S
+
+    pointf3 p{ 1,2,3 };
+    vecf3 v{ 1,1,1 };
+    normalf n{ 0,1,0 };
+    bboxf3 b{ p, p + v }; // min: 1 2 3, max: 2 3 4
+    rayf3 r{ p, v }; // point: 1 2 3, dir: 1 1 1, tmin: EPSILON, tmax: FLT_MAX
+
+    cout << tsfm * p << endl; // 3 -5 5
+    cout << tsfm * v << endl; // 2 -2 2
+    cout << tsfm * n << endl; // 0 0 0.5
+    cout << tsfm * b << endl; // 3 -7 5, 5 -5 7
+    cout << tsfm * r << endl; // 3 -5 5, 2 -2 2, EPSILON, FLT_MAX
+
+    return 0;
+}
+```
+
+## 3. 安装
+
+### 3.1 环境
 
 - Win10
 - [Git](https://git-scm.com/) 
@@ -41,8 +71,17 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 > 其他环境自行测试，如成功请告知
 
-### 2.2 步骤
+### 3.2 步骤
 
+> 可以直接使用 [UGM_0_5_0.zip](https://github.com/Ubpa/UGM/releases/download/v0.5.0/UGM_0_5_0.zip)，解压到任意位置，有以下两种使用方式
+>
+> - CMake
+>   - 将 `<your-path-to-installed-UGM>` 加入到系统环境变量 `Path` 中（或者新建一个环境变量为 `UGM_DIR`，并将其值设置为 `<your-path-to-installed-UGM>`），从而使得 CMake 的 `find_package` 可以正确找到 `UGM`
+>   - 删掉 `<your-path-to-source-UGM>/build`，否则 CMake 的 `find_package` 会优先定位到此处，很可能导致错误
+> - 直接使用（包含目录 `include/` 和 `include/_deps/`）
+>
+> ---
+>
 > 以下皆为 CMake 的基础操作，可能有人第一次接触，这里我详细介绍一下
 
 - Git
@@ -68,7 +107,7 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 - 删掉 `<your-path-to-source-UGM>/build`，否则 CMake 的 `find_package` 会优先定位到此处，很可能导致错误
 
-### 2.3 使用
+### 3.3 使用
 
 ```c++
 // main.cpp
@@ -90,11 +129,11 @@ add_executable(demo main.cpp)
 target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 ```
 
-## 3. 设计思路
+## 4. 设计思路
 
 为了更好地使用该数学库，我们很有必要先了解下该库的设计思路。
 
-### 3.1 代数概念
+### 4.1 代数概念
 
 该库着重于正确的代数概念，使用者很可能对这方面并不了解，但只要知道基础的线性代数知识即可。
 
@@ -110,14 +149,14 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 - 内积 [`IInnerProduct`](include/UGM/Interfaces/IInnerProduct.h)：可**自然诱导**出范数（`sqrt(dot(x, x)) == norm`）
 - 仿射空间 [`IAffine`](include/UGM/Interfaces/IAffine.h)：具有位置概念的空间，该空间中的元素称为点，会对应一个线性空间，两空间之间的元素有关联，如 `point-point => vector`，`point+vector => point` 
 
-### 3.2 底层存储类型
+### 4.2 底层存储类型
 
 - 数组 [`IArray`](include/UGM/Interfaces/IArray.h)：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
 - 矩阵 [`IMetric`](include/UGM/Interfaces/IMetric.h)：1 维数组的数组
 
 由于底层存储类型不同，上述代数概念的具体实现有所不同（抽象 => 具体），并引申出新的代数概念
 
-#### 3.2.1 数组
+#### 4.2.1 数组
 
 底层存储类型为数组时，则可引申出如下代数概念
 
@@ -133,13 +172,13 @@ T operator+(T a, T b) const {
 }
 ```
 
-#### 3.2.2 矩阵
+#### 4.2.2 矩阵
 
 由于该库用于图形学，基本只是用 3x3 和 4x4 的矩阵，因此该库也限制为支持 3x3 和 4x4 的矩阵。
 
 底层通过 1 维数组的数组来实现，右乘，列优先，同于 OpenGL 与 DX（右乘+列优先的方案十分适合于 SIMD，同理左乘+行优先也如此）。
 
-### 3.3 类
+### 4.3 类
 
 通过组合多个代数概念并加上具体类型支持的操作，可以轻松得到各种各样的代数类。他们满足不同的操作，极大地帮助使用者避免错误。
 
@@ -172,7 +211,7 @@ T operator+(T a, T b) const {
 - 直线 [`line`](include/UGM/line.h) 
 - 射线 [`ray`](include/UGM/ray.h) 
 
-## 4. 接口
+## 5. 接口
 
 类由多个代数概念组合而成，所以关键在于把握代数概念的接口，各代数概念位于 [include/UGM/Interfaces/](include/UGM/Interfaces/)。
 
@@ -180,7 +219,7 @@ T operator+(T a, T b) const {
 
 此外还提供了图形学常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等。
 
-## 5. SIMD
+## 6. SIMD
 
 该库支持 SIMD，只要求支持 SSE 指令，使用了 xsimd 作为 SSE 指令的装饰类（wrapper），但大部分情况都直接使用 SSE 指令。
 
@@ -197,7 +236,7 @@ T operator+(T a, T b) const {
 - `ray` 和 `sphere/triangle/bbox` 的相交
 - `float3` 的 `dot/cross`（需要扩展成 `float4` 并使用 `float4::dot3` 和 `float4::cross3`）
 
-## 6. Natvis
+## 7. Natvis
 
 泛型编程在 debug 时会引入大量的单继承，该库使用了单继承化技术，单继承深度也很大，导致在 IDE 中查看类成员变量会很麻烦。
 

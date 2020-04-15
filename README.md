@@ -1,14 +1,12 @@
 # UGM
 
-> **U**bpa **G**raphics **M**ath
-
-特点
+> **U**bpa **G**raphics **M**ath，Ubpa 图形学数学库
 
 - 着重正确的**代数**概念（群、环、于、线性、欧式空间等）
 - 面向对象（所有方法都是类方法）
-- SIMD 加速
-- 利用单继承优化代码结构
-- 提供 natvis 优化 debug 信息
+- 高性能：SIMD 加速，各算法最优化
+- 利用[单继承化](https://zhuanlan.zhihu.com/p/106672814)优化代码结构（不使用恶心的宏）
+- 提供 [natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019) 优化 debug 信息
 
 ## 1. 简介
 
@@ -35,13 +33,17 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 ### 2.1 环境
 
+- Win10
 - [Git](https://git-scm.com/) 
 - VS 2019
 - [CMake-GUI](https://cmake.org/) 3.16.3 及以上
+- 支持 SIMD 扩展指令集 SSE 4.1
 
 > 其他环境自行测试，如成功请告知
 
 ### 2.2 步骤
+
+> 以下皆为 CMake 的基础操作，可能有人第一次接触，这里我详细介绍一下
 
 - Git
 
@@ -51,16 +53,20 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 - CMake-GUI
   
-  - 设置源码路径 `Where is the source code` 为之前 git clone 的路径 `<your-path-to-UGM>` 
-  - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-UGM>/build` 
+  - 设置源码路径 `Where is the source code` 为之前 git clone 的路径 `<your-path-to-source-UGM>` 
+  - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-source-UGM>/build` 
   - 点击 Configure 按钮（如有需要可进行如下配置）
     - （默认不勾选）`Ubpa_BuildTest`：可构建测试用例
-    - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速
+    - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速。
     - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019
   - 点击 Generate 按钮
   - 点击 Open Project 按钮，从而打开 VS 2019
   
 - 在 VS 2019 的”解决方案资源管理器“窗口中找到 `INSTALL` 项目，右键，选择“生成”
+
+- 将 `<your-path-to-installed-UGM>` 加入到系统环境变量 `Path` 中（或者新建一个环境变量为 `UGM_DIR`，并将其值设置为 `<your-path-to-installed-UGM>`），从而使得 CMake 的 `find_package` 可以正确找到 `UGM` 
+
+- 删掉 `<your-path-to-source-UGM>/build`，否则 CMake 的 `find_package` 会优先定位到此处，很可能导致错误
 
 ### 2.3 使用
 
@@ -77,9 +83,9 @@ int main(){
 ```
 
 ```CMake
-// CMakeLists.txt
+# CMakeLists.txt
 project(demo_project VERSION 1.0.0)
-find_package(UGM REQUIRE)
+find_package(UGM REQUIRED)
 add_executable(demo main.cpp)
 target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 ```
@@ -90,12 +96,14 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 
 ### 3.1 代数概念
 
-该库着重于正确的代数概念，使用者很可能对这方面并不了解，但只要知道基础的线性代数知识即可，下边我会简单介绍下该库涉及的代数概念。
+该库着重于正确的代数概念，使用者很可能对这方面并不了解，但只要知道基础的线性代数知识即可。
+
+下边我简单介绍下该库涉及的主要代数概念。
 
 - 加法 [`IAdd`](include/UGM/Interfaces/IAdd.h)：相同元素之间的运算，具有交换性（`a+b==b+a`）和可逆性（`a+(-a)=0`）
 - 乘法 [`IMul`](include/UGM/Interfaces/IMul.h)：相同元素之间的运算，具有可逆性（`a*(1/a)=1`），不一定具备交换性（`a*b==b*a`）。
 - 数乘 [`IScalarMul`](include/UGM/Interfaces/IScalarMul.h)：类与标量（如 `float`）之间的运算，具有交换性。
-- 线性 [`ILinear`](include/UGM/Interfaces/ILinear.h)：加法 + 数乘，该空间中的元素成为向量‘
+- 线性 [`ILinear`](include/UGM/Interfaces/ILinear.h)：加法 + 数乘，该空间中的元素称为向量
 - 环 [`IRing`](include/UGM/Interfaces/IRing.h)：加法 + 乘法
 - 度量 [`IMetric`](include/UGM/Interfaces/IMetric.h)：也叫距离
 - 范数 [`INorm`](include/UGM/Interfaces/INorm.h)：向量 => 标量的函数，一般也叫大小 / 长度，可**自然诱导**出度量（`distance(a,b) == (a-b).norm()`）
@@ -170,5 +178,64 @@ T operator+(T a, T b) const {
 
 所有接口都是类方法，方便使用，大部分情况下都可以利用 IDE 的代码提示功能（如 VS2019 的 intellisense）来查询接口。
 
-此外还提供了图形学常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等
+此外还提供了图形学常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等。
+
+## 5. SIMD
+
+该库支持 SIMD，只要求支持 SSE 指令，使用了 xsimd 作为 SSE 指令的装饰类（wrapper），但大部分情况都直接使用 SSE 指令。
+
+主要加速的类为 `float4`，包括 `vecf4`，`pointf4` 等。
+
+注意 `float3` 并没有 SIMD 加速，这是为了保持 `sizeof(float3)==3*sizeof(float)`，部分数学库通过使用含 `__m128` 的 `float3` 来实现 SIMD 加速，但这样 `sizeof(float3)==4*sizeof(float)`。目前可以通过显式将 `float3` 转成 `float4` 来获取加速效果。
+
+加速部分包括
+
+- `+-*/ ...` 
+- `min/max/min_component/max_component/abs/sin/cos/...` 
+- `transform * float4/bbox/transform` 
+- `transform inverse` 
+- `ray` 和 `sphere/triangle/bbox` 的相交
+- `float3` 的 `dot/cross`（需要扩展成 `float4` 并使用 `float4::dot3` 和 `float4::cross3`）
+
+## 6. Natvis
+
+泛型编程在 debug 时会引入大量的单继承，该库使用了单继承化技术，单继承深度也很大，导致在 IDE 中查看类成员变量会很麻烦。
+
+> **示例** 
+>
+> ![TextBox default visualization](https://docs.microsoft.com/en-us/visualstudio/debugger/media/dbg_natvis_textbox_default.png?view=vs-2019)
+
+我们可使用 VS2019 的 natvis 功能来实现定制的视图
+
+![natvis_demo.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/natvis_demo.jpg)
+
+当使用 `find_package(UGM REQUIRED)` 时，会自动给解决方案添加一个项目，包含 `UGM_<VERSION>.natvis`，从而使得其他项目都可以支持 natvis（[VS2019 支持多种方式引入 natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019#BKMK_natvis_location)，但这是目前我能想到的最合适的方式）。
+
+## Copyright and Licensing
+
+You can copy and paste the license summary from below.
+
+```
+MIT License
+
+Copyright (c) 2020 Ubpa
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 

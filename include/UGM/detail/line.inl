@@ -27,50 +27,95 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	const std::tuple<bool, std::array<T, 3>, T> line<T, N>::intersect(const triangle<T, 3>& tri) const noexcept {
 		static_assert(N == 3);
+#ifdef USE_XSIMD
+		// about 58 instructions
+		if constexpr (std::is_same_v<T, float>) {
+			vecf4 d = xsimd::load_unaligned(this->dir.data());
+			pointf4 v0 = xsimd::load_unaligned(tri[0].data());
+			pointf4 v1 = xsimd::load_unaligned(tri[1].data());
+			pointf4 v2 = xsimd::load_unaligned(tri[2].data());
 
-		const auto& p = this->point;
-		const auto& d = this->dir;
-		const auto& v0 = tri[0];
-		const auto& v1 = tri[1];
-		const auto& v2 = tri[2];
+			const vecf4 e1 = v1 - v0;
+			const vecf4 e2 = v2 - v0;
 
-		const auto e1 = v1 - v0;
-		const auto e2 = v2 - v0;
+			const vecf4 e1_x_d = e1.cross3(d);
+			const float denominator = e1_x_d.dot3(e2);
 
-		const auto e1_x_d = e1.cross(d);
-		const auto denominator = e1_x_d.dot(e2);
+			if (denominator == 0) // parallel
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-		if (denominator == 0) // parallel
-			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+			const float inv_denominator = ONE<T> / denominator;
 
-		const auto inv_denominator = ONE<T> / denominator;
+			pointf4 p = xsimd::load_unaligned(this->point.data());
+			const vecf4 s = p - v0;
 
-		const auto s = p - v0;
+			const vecf4 e2_x_s = e2.cross3(s);
+			const float r1 = e2_x_s.dot3(d);
+			const float u = r1 * inv_denominator;
+			if (u < 0 || u > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-		const auto e2_x_s = e2.cross(s);
-		const auto r1 = e2_x_s.dot(d);
-		const auto u = r1 * inv_denominator;
-		if (u < 0 || u > 1)
-			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+			const float r2 = e1_x_d.dot3(s);
+			const float v = r2 * inv_denominator;
+			if (v < 0 || v > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-		const auto r2 = e1_x_d.dot(s);
-		const auto v = r2 * inv_denominator;
-		if (v < 0 || v > 1)
-			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+			const float u_plus_v = u + v;
+			if (u_plus_v > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-		const auto u_plus_v = u + v;
-		if (u_plus_v > 1)
-			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+			const float r3 = e2_x_s.dot3(e1);
+			const float t = r3 * inv_denominator;
 
-		const auto r3 = e2_x_s.dot(e1);
-		const auto t = r3 * inv_denominator;
+			return { true, std::array<T, 3>{ONE<T> -u_plus_v, u, v}, t };
+		}
+		else
+#endif // USE_XSIMD
+		{// about 103 instructions
+			const auto& p = this->point;
+			const auto& d = this->dir;
+			const auto& v0 = tri[0];
+			const auto& v1 = tri[1];
+			const auto& v2 = tri[2];
 
-		return { true, std::array<T, 3>{ONE<T> - u_plus_v, u, v}, t };
+			const auto e1 = v1 - v0;
+			const auto e2 = v2 - v0;
+
+			const auto e1_x_d = e1.cross(d);
+			const auto denominator = e1_x_d.dot(e2);
+
+			if (denominator == 0) // parallel
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+
+			const auto inv_denominator = ONE<T> / denominator;
+
+			const auto s = p - v0;
+
+			const auto e2_x_s = e2.cross(s);
+			const auto r1 = e2_x_s.dot(d);
+			const auto u = r1 * inv_denominator;
+			if (u < 0 || u > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+
+			const auto r2 = e1_x_d.dot(s);
+			const auto v = r2 * inv_denominator;
+			if (v < 0 || v > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+
+			const auto u_plus_v = u + v;
+			if (u_plus_v > 1)
+				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+
+			const auto r3 = e2_x_s.dot(e1);
+			const auto t = r3 * inv_denominator;
+
+			return { true, std::array<T, 3>{ONE<T> -u_plus_v, u, v}, t };
+		}
 	}
 
 	template<typename T, size_t N>
 	const std::tuple<bool, T, T> line<T, N>::intersect(const bbox<T, N>& box, T tmin, T tmax) const noexcept {
-		return intersect(box, inv_dir(), tmin, tmax)
+		return intersect(box, this->inv_dir(), tmin, tmax);
 	}
 
 	template<typename T, size_t N>

@@ -1,5 +1,13 @@
 #pragma once
 
+#ifndef UBPA_FORCEINLINE
+#if (_MSC_VER >= 1200)
+#define UBPA_FORCEINLINE __forceinline
+#else
+#define UBPA_FORCEINLINE __inline
+#endif
+#endif // !UBPA_FORCEINLINE
+
 #include <cmath>
 #include <random>
 

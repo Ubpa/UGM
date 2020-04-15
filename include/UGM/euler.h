@@ -17,7 +17,7 @@ namespace Ubpa {
 	struct euler : SIIT_CRTP<TemplateList<IArray1D_Util>, euler<T>, TypeList<TypeList<T, Size<3>>, T>> {
 		using SIIT_CRTP<TemplateList<IArray1D_Util>, euler<T>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
 
-		const quat<T> to_quat() const noexcept;
+		inline const quat<T> to_quat() const noexcept;
 	};
 
 	using eulerf = euler<float>;

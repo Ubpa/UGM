@@ -8,10 +8,10 @@ namespace Ubpa {
 	struct triangle : SIIT_CRTP<TemplateList<IArrayInOut>, triangle<T, N>, TypeList<TypeList<point<T, N>, Size<3>>, T>> {
 		using SIIT_CRTP<TemplateList<IArrayInOut>, triangle<T, N>, TypeList<TypeList<point<T, N>, Size<3>>, T>>::SIIT_CRTP;
 
-		T area() const noexcept;
+		inline T area() const noexcept;
 
 		template<typename Container>
-		const point<T, N> lerp(const Container& wuv) const noexcept;
+		inline const point<T, N> lerp(const Container& wuv) const noexcept;
 	};
 
 	template<size_t N>

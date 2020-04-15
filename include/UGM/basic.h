@@ -36,29 +36,29 @@ namespace Ubpa {
 	inline T sgn(T v) noexcept;
 
 	template<typename T>
-	bool is_zero(T v) noexcept;
+	inline bool is_zero(T v) noexcept;
 
 	template<typename T>
-	bool is_nan(T v) noexcept;
+	inline bool is_nan(T v) noexcept;
 
 	template<typename T, typename F>
-	T lerp(T x, T y, F t) noexcept;
+	inline T lerp(T x, T y, F t) noexcept;
 
 	// 1 - epsilon, T: float / double
 	template<typename T>
-	constexpr T one_epsilon() noexcept;
+	inline constexpr T one_epsilon() noexcept;
 
 	// range: [0, 1), T: float / double
 	template<typename T>
-	T rand01() noexcept;
+	inline T rand01() noexcept;
 
 	// range: [0, 2^64-1]
 	inline size_t randi() noexcept;
 
 	template<typename T>
-	constexpr T pow2(T x) noexcept;
+	inline constexpr T pow2(T x) noexcept;
 	template<typename T>
-	constexpr T pow5(T x) noexcept;
+	inline constexpr T pow5(T x) noexcept;
 }
 
 #include "detail/basic.inl"

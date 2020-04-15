@@ -11,14 +11,14 @@ namespace Ubpa {
 		using Base = SIIT_CRTP<TemplateList<IInOut, ILine>, line<T, N>, TypeList<Arg_Empty, T, vec<T, N>, point<T, N>>>;
 		using Base::Base;
 
-		line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->init_ILine(p, dir); }
+		inline line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->init_ILine(p, dir); }
 
-		void print(std::ostream& os = std::cout) const;
+		inline void print(std::ostream& os = std::cout) const;
 
 		// (isIntersect, (w, u, v), t)
-		const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
+		inline const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
 		// (isIntersect, t0, t1)
-		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+		inline const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
 
@@ -26,13 +26,13 @@ namespace Ubpa {
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IInOut;
 
-		std::ostream& impl_out(std::ostream& os) const;
-		std::istream& impl_in(std::istream& is);
+		inline std::ostream& impl_out(std::ostream& os) const;
+		inline std::istream& impl_in(std::istream& is);
 
 		template<typename Base, typename Impl, typename ArgList>
 		friend struct IAffineRealSubspace;
 
-		static const line impl_move(const line& line, const point<T, N>& p) noexcept;
+		inline static const line impl_move(const line& line, const point<T, N>& p) noexcept;
 	};
 
 	template<size_t N>

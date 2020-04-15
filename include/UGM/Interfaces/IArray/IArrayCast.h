@@ -11,14 +11,26 @@ namespace Ubpa {
 
 		template<typename To>
 		const To cast_to() const noexcept {
-			To rst{};
 			constexpr size_t M = To::N;
-			using F = typename To::F;
-			for (size_t i = 0; i < std::min(N, M); i++)
-				rst[i] = static_cast<F>((*this)[i]);
-			for (size_t i = std::min(N, M); i < M; i++)
-				rst[i] = F{};
-			return rst;
+			static_assert(M <= N);
+			return cast_to<To>(std::make_index_sequence<M>{});
+		}
+
+		template<typename To>
+		To& as() & noexcept {
+			static_assert(sizeof(To) == sizeof(Impl) && typename To::T == Arg_T<ArgList>);
+			return reinterpret_cast<To&>(*this);
+		}
+
+		template<typename To>
+		const To& as() const& noexcept {
+			return const_cast<IArrayCast*>(this)->as<To>();
+		}
+
+	private:
+		template<typename To, size_t... Ns>
+		const To cast_to(std::index_sequence<Ns...>) const noexcept {
+			return { static_cast<typename To::T>((*this)[Ns])... };
 		}
 	};
 }

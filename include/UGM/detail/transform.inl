@@ -493,6 +493,11 @@ namespace Ubpa {
 	}
 
 	template<typename T>
+	const hvec<T, 4> transform<T>::operator*(const hvec<T, 4>& hv) const noexcept {
+		return (*this) * hv.as<vec<T, 4>>();
+	}
+
+	template<typename T>
 	const point<T, 3> transform<T>::operator*(const point<T, 3>& p) const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
 

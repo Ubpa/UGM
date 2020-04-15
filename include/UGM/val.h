@@ -15,13 +15,13 @@ namespace Ubpa {
 	struct val : SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
 		using SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
 
-		val(const vec<T, N>& v) noexcept;
-		val(const normal<T>& v) noexcept;
-		val(const point<T, N>& v) noexcept;
-		val(const rgb<T>& v) noexcept;
-		val(const rgba<T>& v) noexcept;
-		val(const quat<T>& v) noexcept;
-		val(const euler<T>& v) noexcept;
+		inline val(const vec<T, N>& v) noexcept;
+		inline val(const normal<T>& v) noexcept;
+		inline val(const point<T, N>& v) noexcept;
+		inline val(const rgb<T>& v) noexcept;
+		inline val(const rgba<T>& v) noexcept;
+		inline val(const quat<T>& v) noexcept;
+		inline val(const euler<T>& v) noexcept;
 	};
 
 	template<size_t N>

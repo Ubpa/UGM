@@ -57,17 +57,13 @@ Ubpa_InitInstallPrefix()
 Ubpa_InitTestSwitch()
 #set(Ubpa_BuildTest ON)
 
-find_package(xsimd)
-if(TARGET xsimd)
-	message(STATUS "xsimd_FOUND: ${xsimd_FOUND}")
-	message(STATUS "xsimd_DIR: ${xsimd_DIR}")
-endif()
-set(initTail "find_package(xsimd)")
+set(Ubpa_USE_XSIMD ON CACHE BOOL ON)
 
 Ubpa_AddDep(UTemplate 0.3.1)
 
+Ubpa_AddSubDirsRec(include)
 Ubpa_AddSubDirsRec(src)
 
 Ubpa_AddNatvis()
 
-Ubpa_Export(DIRECTORIES "include" INIT_TAIL ${initTail})
+Ubpa_Export(DIRECTORIES "include" INIT_TAIL)

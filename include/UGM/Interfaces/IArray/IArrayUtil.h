@@ -37,11 +37,11 @@ namespace Ubpa {
 
 		static const Impl lerp(const Impl& x, const Impl& y, F t) noexcept {
 			F one_minus_t = static_cast<F>(1) - t;
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return one_minus_t * x + t * y;
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst{};
 				for (size_t i = 0; i < N; i++)
@@ -61,7 +61,7 @@ namespace Ubpa {
 
 		static const Impl mix(const std::vector<Impl>& vals, const std::vector<float>& weights) noexcept {
 			assert(vals.size() > 0 && vals.size() == weights.size());
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4) {
 				auto rst = vals[0].get() * weights[0];
 				for (size_t i = 1; i < vals.size(); i++)
@@ -69,7 +69,7 @@ namespace Ubpa {
 				return rst;
 			}
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst;
 				for (size_t j = 0; j < N; j++)

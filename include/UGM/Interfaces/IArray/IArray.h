@@ -3,7 +3,7 @@
 #include "../../basic.h"
 #include "../Arg.h"
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 #include <xsimd/xsimd.hpp>
 // link: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 
@@ -63,7 +63,7 @@ namespace Ubpa {
 		}
 	};
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 	// alignas(16)
 	template<typename Base, typename Impl, typename... Args>
 	struct IArray<Base, Impl, TypeList<TypeList<float, Size<4>>, float, Args...>>

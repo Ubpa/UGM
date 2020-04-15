@@ -14,10 +14,10 @@ namespace Ubpa {
 		static constexpr size_t N = Arg_N<ArgList>;
 
 		inline const Impl abs() const noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return xsimd::abs(this->get_batch());
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -31,7 +31,7 @@ namespace Ubpa {
 		}
 
 		inline T min_component() const noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4) {
 				// 5 instructions
 				const auto& s0 = this->get_batch();
@@ -44,7 +44,7 @@ namespace Ubpa {
 				//return std::min(std::min((*this)[0], (*this)[1]), std::min((*this)[2], (*this)[3]));
 			}
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			return (*this)[min_dim()];
 		}
 
@@ -53,7 +53,7 @@ namespace Ubpa {
 		}
 
 		inline T max_component() const noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4) {
 				// 5 instructions
 				const auto& s0 = this->get_batch();
@@ -66,7 +66,7 @@ namespace Ubpa {
 				//return std::max(std::max((*this)[0], (*this)[1]), std::max((*this)[2], (*this)[3]));
 			}
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			return (*this)[max_dim()];
 		}
 
@@ -95,10 +95,10 @@ namespace Ubpa {
 		}
 
 		static const Impl min(const Impl& x, const Impl& y) noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return xsimd::min(x, y);
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -109,10 +109,10 @@ namespace Ubpa {
 		}
 
 		static const Impl max(const Impl& x, const Impl& y) noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return xsimd::min(x, y);
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)

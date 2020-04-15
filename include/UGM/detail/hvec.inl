@@ -25,15 +25,15 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	point<T, N - 1> hvec<T, N>::to_point() const noexcept {
 		assert((*this)[N - 1] != ZERO<T>);
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 		if constexpr (std::is_same_v<T, float> && N == 4)
 			return ((*this) / (*this)[3]).cast_to<pointf3>();
 		else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 		{
 			if constexpr (N >= 4) {
 				if ((*this)[N - 1] == ONE<T>)
-					return (*this)->cast_to<point<T, N - 1>>();
+					return this->cast_to<point<T, N - 1>>();
 				else {
 					point<T, N - 1> rst;
 					T inv = ONE<T> / (*this)[N - 1];

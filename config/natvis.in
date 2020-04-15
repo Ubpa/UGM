@@ -243,6 +243,28 @@
     </Expand>
   </Type>
   
+  <!-- XSIMD -->
+  <Type Name="Ubpa::hvec&lt;*&gt;>">
+    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>m_array</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
+  <!-- XSIMD -->
+  <Type Name="xsimd::batch&lt;float, 4&gt;>">
+    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+	<Expand>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>m_array</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+  
   <Type Name="Ubpa::bbox&lt;*,*&gt;>">
     <DisplayString>{{{_Elems[0]}, {_Elems[1]}}}</DisplayString>
     <Expand>
@@ -250,7 +272,7 @@
       <Item Name="max P">_Elems[1]</Item>
     </Expand>
   </Type>
-  
+   
   <Type Name="Ubpa::line&lt;*,*&gt;>">
     <DisplayString>{{{point}, {dir}}}</DisplayString>
     <Expand>

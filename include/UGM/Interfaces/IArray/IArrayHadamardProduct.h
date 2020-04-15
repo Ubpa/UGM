@@ -16,11 +16,11 @@ namespace Ubpa {
 
 		Impl& operator*=(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				x.get() *= y.get();
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			for (size_t i = 0; i < N; i++)
 				x[i] *= y[i];
 			return x;
@@ -28,11 +28,11 @@ namespace Ubpa {
 
 		const Impl operator/(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return x.get() / y.get();
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst{};
 				for (size_t i = 0; i < N; i++)
@@ -43,11 +43,11 @@ namespace Ubpa {
 
 		Impl& operator/=(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				x.get() /= y.get();
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			for (size_t i = 0; i < N; i++)
 				x[i] /= y[i];
 			return x;
@@ -56,11 +56,11 @@ namespace Ubpa {
 		inline const Impl inverse() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return 1.f / x;
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst{};
 				for (size_t i = 0; i < N; i++)
@@ -76,11 +76,11 @@ namespace Ubpa {
 		inline const Impl impl_mul(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return x.get() * y.get();
 			else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
 			{
 				Impl rst{};
 				for (size_t i = 0; i < N; i++)

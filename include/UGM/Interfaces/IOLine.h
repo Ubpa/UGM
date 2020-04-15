@@ -17,7 +17,7 @@ namespace Ubpa {
 		Arg_Vector<ArgList> dir;
 
 		Arg_Vector<ArgList> inv_dir() const noexcept {
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
 			if constexpr (std::is_same_v<F, float> && Arg_Vector<ArgList>::N == 4)
 				return 1.f / (*this).get_batch();
 			else

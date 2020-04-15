@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma region Eric_inverse
-
+#ifdef UBPA_USE_XSIMD
 namespace Ubpa::detail::IMatrixMul::Eric {
     // for column major matrix
     // we use __m128 to represent 2x2 matrix as A = | A0  A2 |
@@ -110,6 +110,7 @@ namespace Ubpa::detail::IMatrixMul::Eric {
         return r;
     }
 }
+#endif // UBPA_USE_XSIMD
 #pragma endregion
 
 namespace Ubpa::detail::IMatrixMul {
@@ -155,7 +156,7 @@ namespace Ubpa::detail::IMatrixMul {
             static_assert(M::N == 4);
             using F = typename M::F;
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
             if constexpr (std::is_same_v<F, float>) {
 #if 1 // Eric: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
                 return Eric::GetInverse(m);
@@ -259,7 +260,7 @@ namespace Ubpa::detail::IMatrixMul {
 #endif
             }
             else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
             {
                 M rst{};
 
@@ -447,10 +448,10 @@ namespace Ubpa::detail::IMatrixMul {
         static const M run(const M& x, const M& y) noexcept {
             static_assert(M::N == 4);
             using F = typename M::F;
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
             if constexpr (std::is_same_v<F, float>)
                 return { x * y[0],x * y[1],x * y[2],x * y[3] };
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
             {
                 // must unloop by hand, complier may not auto unloop
                 F f00 = x(0, 0) * y(0, 0) + x(0, 1) * y(1, 0) + x(0, 2) * y(2, 0) + x(0, 3) * y(3, 0);
@@ -484,11 +485,11 @@ namespace Ubpa::detail::IMatrixMul {
             static_assert(M::N == 4);
             using F = typename M::F;
 
-#ifdef USE_XSIMD
+#ifdef UBPA_USE_XSIMD
             if constexpr (std::is_same_v<F, float>)
                 return m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3] * v[3];
             else
-#endif // USE_XSIMD
+#endif // UBPA_USE_XSIMD
             {
                 F x = v[0];
                 F y = v[1];

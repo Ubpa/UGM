@@ -94,6 +94,14 @@ namespace Ubpa {
 #ifdef USE_XSIMD
 			if constexpr (std::is_same_v<T, float> && N == 4)
 				return x.get() - y.get();
+			/* // no benefits
+			else if constexpr (std::is_same_v<T, float> && N == 3) {
+				Vector rst;
+				auto sx = xsimd::load_unaligned(x.data());
+				auto sy = xsimd::load_unaligned(y.data());
+				auto srst = sx - sy;
+				return { srst[0], srst[1],srst[2] };
+			}*/
 			else
 #endif // USE_XSIMD
 			{

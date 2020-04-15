@@ -507,8 +507,8 @@ namespace Ubpa {
 
 #ifdef USE_XSIMD
 		if constexpr (std::is_same_v<T, float>) {
-			auto mv = m * vecf4(x, y, z, 1);
-			return (mv / mv[3]).cast_to<pointf3>();
+			auto mp = m[0] * x + m[1] * y + m[2] * z + m[4];
+			return (mp / mp[3]).cast_to<pointf3>();
 		}
 		else
 #endif // USE_XSIMD
@@ -537,7 +537,7 @@ namespace Ubpa {
 
 #ifdef USE_XSIMD
 		if constexpr (std::is_same_v<T, float>)
-			return (m * vecf4{ x, y, z, 0 }).cast_to<vecf3>();
+			return (m[0] * x + m[1] * y + m[2] * z).cast_to<vecf3>();
 		else
 #endif // USE_XSIMD
 		{
@@ -578,17 +578,17 @@ namespace Ubpa {
 #ifdef USE_XSIMD
 		if constexpr (std::is_same_v<T, float>) {
 			using V = xsimd::batch<float, 4>;
-			V Amin{ A.minP()[0], A.minP()[1], A.minP()[2], 0 };
-			V Amax{ A.maxP()[0], A.maxP()[1], A.maxP()[2], 0 };
+			//V Amin{ A.minP()[0], A.minP()[1], A.minP()[2], 0 };
+			//V Amax{ A.maxP()[0], A.maxP()[1], A.maxP()[2], 0 };
 			V Bmin = m[3].get_batch();
 			V Bmax = m[3].get_batch();
 
-			V m0Amin = m[0].get_batch() * Amin[0];
-			V m0Amax = m[0].get_batch() * Amax[0];
-			V m1Amin = m[1].get_batch() * Amin[1];
-			V m1Amax = m[1].get_batch() * Amax[1];
-			V m2Amin = m[2].get_batch() * Amin[2];
-			V m2Amax = m[2].get_batch() * Amax[2];
+			V m0Amin = m[0].get_batch() * A.minP()[0];
+			V m0Amax = m[0].get_batch() * A.maxP()[0];
+			V m1Amin = m[1].get_batch() * A.minP()[1];
+			V m1Amax = m[1].get_batch() * A.maxP()[1];
+			V m2Amin = m[2].get_batch() * A.minP()[2];
+			V m2Amax = m[2].get_batch() * A.maxP()[2];
 
 			Bmin += xsimd::min(m0Amin, m0Amax);
 			Bmin += xsimd::min(m1Amin, m1Amax);
@@ -597,7 +597,7 @@ namespace Ubpa {
 			Bmax += xsimd::max(m1Amin, m1Amax);
 			Bmax += xsimd::max(m2Amin, m2Amax);
 			
-			return { pointf3{Bmin[0], Bmin[1], Bmin[2]}, pointf3{Bmax[0], Bmax[1], Bmax[2]} };
+			return { Bmin.cast_to<pointf3>(), Bmax.cast_to<pointf3>() };
 		}
 		else
 #endif // USE_XSIMD

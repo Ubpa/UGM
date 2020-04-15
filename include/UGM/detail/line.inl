@@ -70,22 +70,49 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	const std::tuple<bool, T, T> line<T, N>::intersect(const bbox<T, N>& box, T tmin, T tmax) const noexcept {
-		const auto& origin = this->point;
-		const auto& dir = this->dir;
-		const auto& boxminP = box.minP();
-		const auto& boxmaxP = box.maxP();
+		return intersect(box, inv_dir(), tmin, tmax)
+	}
 
-		for (size_t i = 0; i < N; i++) {
-			T invD = 1 / dir[i];
-			T t0 = (boxminP[i] - origin[i]) * invD;
-			T t1 = (boxmaxP[i] - origin[i]) * invD;
-			if (invD < 0)
-				std::swap(t0, t1);
+	template<typename T, size_t N>
+	const std::tuple<bool, T, T> line<T, N>::intersect(const bbox<T, N>& box, const vec<T, N>& invdir, T tmin, T tmax) const noexcept
+	{
+#ifdef USE_XSIMD
+		if constexpr (std::is_same_v<T, float> && N == 3) {
+			// 26 instructions, no loop
+			auto sorigin = _mm_loadu_ps(this->point.data());
+			auto sboxminP = _mm_loadu_ps(box.minP().data());
+			auto sboxmaxP = _mm_loadu_ps(box.maxP().data());
+			auto sinvdir = _mm_loadu_ps(invdir.data());
+			auto sd0 = _mm_mul_ps(_mm_sub_ps(sboxminP, sorigin), sinvdir);
+			auto sd1 = _mm_mul_ps(_mm_sub_ps(sboxmaxP, sorigin), sinvdir);
+			sd0 = VecSwizzle(sd0, 0, 0, 1, 2);
+			sd1 = VecSwizzle(sd1, 0, 0, 1, 2);
+			sd0 = _mm_move_ss(sd0, _mm_set_ps1(tmin));
+			sd1 = _mm_move_ss(sd1, _mm_set_ps1(tmax));
+			const vecf4 stmin = _mm_min_ps(sd0, sd1); // const
+			const vecf4 stmax = _mm_max_ps(sd0, sd1); // const
+			float t0 = stmin.max_component(); // 5 instructions
+			float t1 = stmax.min_component(); // 5 instructions
+			return { t0 < t1, t0, t1 };
+		}
+		else
+#endif
+		{
+			/*const auto& origin = this->point;
+			const auto& boxminP = box.minP();
+			const auto& boxmaxP = box.maxP();
 
-			tmin = std::max(t0, tmin);
-			tmax = std::min(t1, tmax);
-			if (tmax < tmin)
-				return { false, ZERO<T>, ZERO<T> };
+			for (size_t i = 0; i < N; i++) {
+				T t0 = (boxminP[i] - origin[i]) * inv_dir[i];
+				T t1 = (boxmaxP[i] - origin[i]) * inv_dir[i];
+				if (inv_dir[i] < 0)
+					std::swap(t0, t1);
+
+				tmin = std::max(t0, tmin);
+				tmax = std::min(t1, tmax);
+				if (tmax < tmin)
+					return { false, ZERO<T>, ZERO<T> };
+			}*/
 		}
 
 		return { true, tmin, tmax };

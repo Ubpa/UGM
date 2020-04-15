@@ -21,6 +21,10 @@ namespace Ubpa {
 		inline const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
+		inline const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+			const vec<T, N>& inv_dir,
+			T tmin = std::numeric_limits<T>::max(),
+			T tmax = std::numeric_limits<T>::min()) const noexcept;
 
 	private:
 		template<typename Base, typename Impl, typename ArgList>

@@ -73,17 +73,6 @@ int main() {
 
 ### 3.2 步骤
 
-> 可以直接使用 [UGM_0_5_0.zip](https://github.com/Ubpa/UGM/releases/download/v0.5.0/UGM_0_5_0.zip)，解压到任意位置，有以下两种使用方式
->
-> - CMake
->   - 将 `<your-path-to-installed-UGM>` 加入到系统环境变量 `Path` 中（或者新建一个环境变量为 `UGM_DIR`，并将其值设置为 `<your-path-to-installed-UGM>`），从而使得 CMake 的 `find_package` 可以正确找到 `UGM`
->   - 删掉 `<your-path-to-source-UGM>/build`，否则 CMake 的 `find_package` 会优先定位到此处，很可能导致错误
-> - 直接使用（包含目录 `include/` 和 `include/_deps/`）
->
-> ---
->
-> 以下皆为 CMake 的基础操作，可能有人第一次接触，这里我详细介绍一下
-
 - Git
 
   ```bash
@@ -94,10 +83,10 @@ int main() {
   
   - 设置源码路径 `Where is the source code` 为之前 git clone 的路径 `<your-path-to-source-UGM>` 
   - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-source-UGM>/build` 
-  - 点击 Configure 按钮（如有需要可进行如下配置）
+  - 点击 Configure 按钮
     - （默认不勾选）`Ubpa_BuildTest`：可构建测试用例
     - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速。
-    - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019
+    - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019），注意 `<install-path>` 最后应为 `Ubpa`，如 `<install-path>=D:/Program_Files/Ubpa`，因为会同时安装 [UCMake](https://github.com/Ubpa/UCMake)，[UTemplate](https://github.com/Ubpa/UTemplate)。
   - 点击 Generate 按钮
   - 点击 Open Project 按钮，从而打开 VS 2019
   

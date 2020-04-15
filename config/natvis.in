@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?> 
-<!--@CONFIG_UCMAKE_NATVIS@-->
+@CONFIG_UCMAKE_NATVIS@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
   <Type Name="Ubpa::vec&lt;*,1&gt;>">
     <DisplayString>{{{_Elems[0]}}}</DisplayString>

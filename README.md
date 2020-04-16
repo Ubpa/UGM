@@ -171,7 +171,9 @@ T operator+(T a, T b) const {
 
 #### 4.2.2 矩阵
 
-由于该库用于图形学，基本只是用 3x3 和 4x4 的矩阵，因此该库也限制为支持 3x3 和 4x4 的矩阵。
+由于该库用于离线渲染，实时渲染，游戏等，基本只要用 float4，因此也只需 3x3 和 4x4 的矩阵，因此该库也限制为只支持 3x3 和 4x4 的矩阵(并特化矩阵的乘法与逆的实现，如循环展开，simd 加速，以提高性能)。
+
+大型矩阵的支持一般需要用线性代数库，如 Eigen 等。
 
 底层通过一维数组的数组来实现，右乘，列优先，同于 OpenGL 与 DX（右乘+列优先的方案十分适合于 SIMD，同理左乘+行优先也如此）。
 
@@ -204,9 +206,9 @@ T operator+(T a, T b) const {
 - 表面向量 [`svec`](include/UGM/svec.h)：切空间的单位向量，上方向为 z 轴
 - 齐次向量 [`hvec`](include/UGM/svec.h) 
 - 包围盒 [`bbox`](include/UGM/bbox.h)：axis-aligned bounding box (AABB)
-- 三角形 [`triangle`](include/UGM/triangle.h) 
-- 直线 [`line`](include/UGM/line.h) 
-- 射线 [`ray`](include/UGM/ray.h) 
+- 三角形 [`triangle`](include/UGM/triangle.h)：三个 `point` 
+- 直线 [`line`](include/UGM/line.h)：`point` + `direction`
+- 射线 [`ray`](include/UGM/ray.h)：增加了 `t min` 和 `t max` 的直线
 
 ## 5. 接口
 
@@ -214,7 +216,7 @@ T operator+(T a, T b) const {
 
 所有接口都是类方法，方便使用，大部分情况下都可以利用 IDE 的代码提示功能（如 VS2019 的 intellisense）来查询接口。
 
-此外还提供了图形学常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等。
+此外还提供了渲染领域常见函数 / 算法，如相交（位于 `line`，`ray` 内）、[采样](include/UGM/sample.h)、[材质](include/UGM/material.h) 等。
 
 ## 6. SIMD
 
@@ -232,6 +234,7 @@ T operator+(T a, T b) const {
 - `transform inverse` 
 - `ray` 和 `sphere/triangle/bbox` 的相交
 - `float3` 的 `dot/cross`（需要扩展成 `float4` 并使用 `float4::dot3` 和 `float4::cross3`）
+- ...
 
 ## 7. Natvis
 

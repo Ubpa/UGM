@@ -148,8 +148,8 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 
 ### 4.2 底层存储类型
 
-- 数组 [`IArray`](include/UGM/Interfaces/IArray.h)：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
-- 矩阵 [`IMetric`](include/UGM/Interfaces/IMetric.h)：一维数组的数组
+- 数组 [`IArray`](include/UGM/Interfaces/IArray/IArray.h)：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
+- 矩阵 [`IMatrix`](include/UGM/Interfaces/IMatrix/IMatrix.h)：一维数组的数组
 
 由于底层存储类型不同，上述代数概念的具体实现有所不同（抽象 => 具体），并引申出新的代数概念
 

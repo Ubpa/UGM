@@ -73,6 +73,10 @@ int main() {
 
 ### 3.2 步骤
 
+> 另外不熟悉 CMake 的用户可在 [release-v0.5.0](https://github.com/Ubpa/UGM/releases/tag/v0.5.0) 直接下载 CMake install 版本和纯头文件库
+>
+> 任何配置、使用等问题欢迎提 issues
+
 - Git
 
   ```bash
@@ -173,9 +177,9 @@ T operator+(T a, T b) const {
 
 目前各种组合（主要部分）如下
 
-![UGM_graph.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/UGM_graph.jpg)
+![UGM_graph.jpg](https://pic4.zhimg.com/v2-eaca208e1016ccadc2620acb85ece06f_r.jpg)
 
-> 若图片加载失败，请用该链接 [UGM_graph.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/UGM_graph.jpg) 
+> 若图片加载失败，请用该链接 [UGM_graph.jpg](https://pic4.zhimg.com/v2-eaca208e1016ccadc2620acb85ece06f_r.jpg) 
 
 图中含有的类有
 
@@ -232,12 +236,20 @@ T operator+(T a, T b) const {
 > **示例** 
 >
 > ![TextBox default visualization](https://docs.microsoft.com/en-us/visualstudio/debugger/media/dbg_natvis_textbox_default.png?view=vs-2019)
+>
+> > 若图片加载失败，请用该链接 [TextBox default visualization](https://docs.microsoft.com/en-us/visualstudio/debugger/media/dbg_natvis_textbox_default.png?view=vs-2019) 
 
 我们可使用 VS2019 的 natvis 功能来实现定制的视图
 
 ![natvis_demo.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/natvis_demo.jpg)
 
+> 若图片加载失败，请用该链接 [natvis_demo.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/natvis_demo.jpg) 
+
 当使用 `find_package(UGM REQUIRED)` 时，会自动给解决方案添加一个项目，包含 `UGM_<VERSION>.natvis`，从而使得其他项目都可以支持 natvis（[VS2019 支持多种方式引入 natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019#BKMK_natvis_location)，但这是目前我能想到的最合适的方式）。
+
+![use_natvis.jpg](https://pic2.zhimg.com/v2-337dda1faf70cc37552685780bf0cce1_r.jpg)
+
+> 若图片加载失败，请用该链接 [use_natvis.jpg](https://pic2.zhimg.com/v2-337dda1faf70cc37552685780bf0cce1_r.jpg) 
 
 ## Copyright and Licensing
 

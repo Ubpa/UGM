@@ -258,6 +258,14 @@ T operator+(T a, T b) const {
 
 > 若图片加载失败，请用该链接 [use_natvis.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/use_natvis.jpg) 
 
+## Future Features
+
+- 更轻量级的单继承化技术（减少 coding overhead），进一步加快编译速度
+- 提供 `config.h`，方便定制功能
+- `xfloat3`：底层用 `__m128` 的 `float3` 类，以更好地支持 SIMD，其大小为 `4*sizeof(float)`，包括 `xpoint`，`xvec`，`xrgb`，...
+- 支持 Cuda
+- ...
+
 ## Copyright and Licensing
 
 You can copy and paste the license summary from below.

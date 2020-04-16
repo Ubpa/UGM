@@ -2,12 +2,15 @@
 
 > **U**bpa **G**raphics **M**ath，Ubpa 图形学数学库
 
-- 着重正确的**代数**概念（环、线性、欧式空间、仿射空间等）
+**特点** 
+
+- 着重“正确”的**代数**概念（环、线性、欧式空间、仿射空间等）
 - 面向对象（所有方法都是类方法）
 - 只有头文件 head-only
 - 高性能：SIMD 加速，各算法最优化
 - 利用[单继承化](https://zhuanlan.zhihu.com/p/106672814)优化代码结构（不使用恶心的宏）
 - 提供 [natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019) 优化 debug 信息
+- ...
 
 ## 1. 简介
 
@@ -27,8 +30,9 @@ UGM 是着重于**代数**概念的数学库，区分点、向量、法向、颜
 
 此外，我们还通过单继承的技术实现了极佳的代码编写，特点如下
 
-- 复用函数实现（不同于 c++20 的 `concept` 或者接口，他们只是对类支持的“操作”进行了约束）
+- 复用函数实现（不同于 C++20 的 `concept` 或者接口，他们只是对类支持的“操作”进行了约束）
 - 空基类优化
+- ...
 
 ## 2. 示例
 
@@ -145,7 +149,7 @@ target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 ### 4.2 底层存储类型
 
 - 数组 [`IArray`](include/UGM/Interfaces/IArray.h)：有序的元素序列，这将是我们各种类的基类，一般是 `std::array<T, N>`，其中 `T` 可以是 `float`，`int`，也可以是 `point`，`vec` 
-- 矩阵 [`IMetric`](include/UGM/Interfaces/IMetric.h)：1 维数组的数组
+- 矩阵 [`IMetric`](include/UGM/Interfaces/IMetric.h)：一维数组的数组
 
 由于底层存储类型不同，上述代数概念的具体实现有所不同（抽象 => 具体），并引申出新的代数概念
 
@@ -169,7 +173,7 @@ T operator+(T a, T b) const {
 
 由于该库用于图形学，基本只是用 3x3 和 4x4 的矩阵，因此该库也限制为支持 3x3 和 4x4 的矩阵。
 
-底层通过 1 维数组的数组来实现，右乘，列优先，同于 OpenGL 与 DX（右乘+列优先的方案十分适合于 SIMD，同理左乘+行优先也如此）。
+底层通过一维数组的数组来实现，右乘，列优先，同于 OpenGL 与 DX（右乘+列优先的方案十分适合于 SIMD，同理左乘+行优先也如此）。
 
 ### 4.3 类
 
@@ -177,9 +181,9 @@ T operator+(T a, T b) const {
 
 目前各种组合（主要部分）如下
 
-![UGM_graph.jpg](https://pic4.zhimg.com/v2-eaca208e1016ccadc2620acb85ece06f_r.jpg)
+![graph.jpg](https://s1.ax1x.com/2020/04/16/JF0Dat.jpg)
 
-> 若图片加载失败，请用该链接 [UGM_graph.jpg](https://pic4.zhimg.com/v2-eaca208e1016ccadc2620acb85ece06f_r.jpg) 
+> 若图片加载失败，请用该链接 [graph.jpg](https://s1.ax1x.com/2020/04/16/JF0Dat.jpg) 
 
 图中含有的类有
 
@@ -247,9 +251,9 @@ T operator+(T a, T b) const {
 
 当使用 `find_package(UGM REQUIRED)` 时，会自动给解决方案添加一个项目，包含 `UGM_<VERSION>.natvis`，从而使得其他项目都可以支持 natvis（[VS2019 支持多种方式引入 natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019#BKMK_natvis_location)，但这是目前我能想到的最合适的方式）。
 
-![use_natvis.jpg](https://pic2.zhimg.com/v2-337dda1faf70cc37552685780bf0cce1_r.jpg)
+![use_natvis.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/use_natvis.jpg)
 
-> 若图片加载失败，请用该链接 [use_natvis.jpg](https://pic2.zhimg.com/v2-337dda1faf70cc37552685780bf0cce1_r.jpg) 
+> 若图片加载失败，请用该链接 [use_natvis.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/use_natvis.jpg) 
 
 ## Copyright and Licensing
 

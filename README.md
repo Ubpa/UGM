@@ -183,9 +183,9 @@ T operator+(T a, T b) const {
 
 目前各种组合（主要部分）如下
 
-![graph.jpg](https://s1.ax1x.com/2020/04/16/JF0Dat.jpg)
+![graph.jpg](https://ubpa.github.io/UData/UGM/graph.jpg)
 
-> 若图片加载失败，请用该链接 [graph.jpg](https://s1.ax1x.com/2020/04/16/JF0Dat.jpg) 
+> 若图片加载失败，请用该链接 [graph.jpg](https://ubpa.github.io/UData/UGM/graph.jpg) 
 
 图中含有的类有
 
@@ -248,15 +248,15 @@ T operator+(T a, T b) const {
 
 我们可使用 VS2019 的 natvis 功能来实现定制的视图
 
-![natvis_demo.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/natvis_demo.jpg)
+![natvis_demo.jpg](https://ubpa.github.io/UData/UGM/natvis_demo.jpg)
 
 > 若图片加载失败，请用该链接 [natvis_demo.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/natvis_demo.jpg) 
 
 当使用 `find_package(UGM REQUIRED)` 时，会自动给解决方案添加一个项目，包含 `UGM_<VERSION>.natvis`，从而使得其他项目都可以支持 natvis（[VS2019 支持多种方式引入 natvis](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2019#BKMK_natvis_location)，但这是目前我能想到的最合适的方式）。
 
-![use_natvis.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/use_natvis.jpg)
+![use_natvis.jpg](https://ubpa.github.io/UData/UGM/use_natvis.jpg)
 
-> 若图片加载失败，请用该链接 [use_natvis.jpg](https://cdn.jsdelivr.net/gh/Ubpa/UData@master/UGM/use_natvis.jpg) 
+> 若图片加载失败，请用该链接 [use_natvis.jpg](https://ubpa.github.io/UData/UGM/use_natvis.jpg) 
 
 ## Future Features
 

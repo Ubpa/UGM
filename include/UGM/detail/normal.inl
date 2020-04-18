@@ -5,7 +5,7 @@ namespace Ubpa {
 	const point<T, 2> normal<T>::to_sphere_texcoord() const noexcept {
 		assert(this->is_normalized());
 		// atan2: https://zh.wikipedia.org/wiki/Atan2
-		T u = (std::atan2(-(*this)[0], -(*this)[2]) + 1) / 2;
+		T u = (std::atan2(-(*this)[0], -(*this)[2]) / PI<float> + 1) / 2;
 		T v = 1 - std::acos((*this)[1]) / PI<float>;
 		return { u,v };
 	}

@@ -118,6 +118,9 @@ namespace Ubpa {
 			return &m_array;
 		}
 
+		constexpr size_t size() const noexcept {
+			return 4;
+		}
 	};
 #endif
 }

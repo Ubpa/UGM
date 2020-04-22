@@ -17,10 +17,10 @@ namespace Ubpa {
 		return R0 + one_R0 * pow5(one_cos_theta);
 	}
 
-	float fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance) noexcept {
-		auto R0 = rgbf::lerp(rgbf{ reflectance }, metal_color, metalness);
+	rgbf fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance) noexcept {
+		rgbf R0 = rgbf::lerp(rgbf{ reflectance }, metal_color, metalness);
 		float one_cos_theta = 1 - cos_theta;
-		return R0 + (rgbf{ 1.f } -R0) * pow5(one_cos_theta);
+		return R0 + (rgbf{ 1.f } - R0) * pow5(one_cos_theta);
 	}
 
 	float specular_reflection(float Fr, float cos_theta) noexcept {
@@ -51,7 +51,7 @@ namespace Ubpa {
 		return 0.5f * (-1 + std::sqrt(1 + pow2(alpha) * tan2_stheta));
 	}
 
-	inline float GGX_G(float alpha, const svecf& wi, const svecf& wo, const svecf& wm) {
+	inline float GGX_G(float alpha, const svecf& wi, const svecf& wo, const svecf& wm) noexcept {
 		// return 1 / (1 + GGX_Lambda(alpha, wi, wm) + GGX_Lambda(alpha, wo, wm));
 		float alpha2 = pow2(alpha);
 

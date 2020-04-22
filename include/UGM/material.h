@@ -35,7 +35,7 @@ namespace Ubpa {
 	// - metal_color: maybe call 'albedo' in model files, the word 'albedo' is for lambertian reflection
 	// [return]
 	// specular reflection coefficient
-	inline float fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance = 0.04) noexcept;
+	inline rgbf fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance = 0.04) noexcept;
 
 	// [summary]
 	// brdf of specular reflection
@@ -87,7 +87,7 @@ namespace Ubpa {
 	// - alpha: function arguments, related with roughness
 	// - w: wi/wo
 	// - wm: microfacet normal
-	inline float GGX_Lambda(float alpha, const svecf& w, const svecf& wm);
+	inline float GGX_Lambda(float alpha, const svecf& w, const svecf& wm) noexcept;
 
 	// [summary]
 	// ggx geometry function

@@ -39,14 +39,14 @@ namespace Ubpa {
 		return r * uniform_on_sphere<T>();
 	}
 
-	// z > 0
+	// rst[Axis] > 0
 	template<typename T, Axis up>
 	const val<T, 3> cos_weighted_on_hemisphere() noexcept {
 		val<T, 2> ab = uniform_in_disk<T>();
-		T c = std::sqrt(ab[0], ab[1]);
+		T c = std::sqrt(1 - ab[0]*ab[0] - ab[1]*ab[1]);
 		if constexpr (up == Axis::X)
 			return { c, ab[0], ab[1] };
-		else if constexpr (up == Axis::X)
+		else if constexpr (up == Axis::Y)
 			return { ab[0], c, ab[1] };
 		else // up == Axis::Z
 			return { ab[0], ab[1], c };

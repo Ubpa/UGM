@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # 设定项目
-project(UGM VERSION 0.5.2)
+project(UGM VERSION 0.5.3)
 message(STATUS "[Project] ${PROJECT_NAME}")
 
 # 在 Debug 模式下自动对 dll 和 lib 文件名后边加 d，但 exe 仍然需要手动设置
@@ -59,7 +59,7 @@ Ubpa_InitTestSwitch()
 
 set(Ubpa_USE_XSIMD ON CACHE BOOL ON)
 
-Ubpa_AddDep(UTemplate 0.3.2)
+Ubpa_AddDep(UTemplate 0.3.3)
 
 Ubpa_AddSubDirsRec(include)
 Ubpa_AddSubDirsRec(src)

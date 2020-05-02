@@ -4,7 +4,7 @@
 #include "../Arg.h"
 
 #ifdef UBPA_USE_XSIMD
-#include <xsimd/xsimd.hpp>
+#include "_deps/xsimd/xsimd.hpp"
 // link: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 
 #define MakeShuffleMask(x,y,z,w)           (x | (y<<2) | (z<<4) | (w<<6))

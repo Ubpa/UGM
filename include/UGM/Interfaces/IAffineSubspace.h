@@ -8,7 +8,7 @@ namespace Ubpa {
 		using Point = Arg_Point<ArgList>;
 		using Vector = Arg_Vector<ArgList>;
 		
-		static_assert(ExistInstance_v<typename Vector::AllVBs, ILinear>);
+		static_assert(Vector::template IsContain<ILinear>());
 
 		using Base::Base;
 

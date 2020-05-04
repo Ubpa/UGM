@@ -9,10 +9,11 @@ namespace Ubpa {
 	// 'O' : original point
 	template<typename Base, typename Impl, typename ArgList>
 	struct IOPlane : Base {
+		using Base::Base;
 		using Vector = Arg_Vector<ArgList>;
 		using F = Arg_F<ArgList>;
 
-		static_assert(ExistInstance_v<typename Vector::AllVBs, ILinear>);
+		static_assert(Vector::template IsContain<ILinear>());
 
 		Arg_Vector<ArgList> normal;
 

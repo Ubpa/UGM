@@ -12,8 +12,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
-		using SIIT_CRTP<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+	struct val : SI<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<T, Size<N>>, T> {
+		using SI<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<T, Size<N>>, T>::SI;
 
 		inline val(const vec<T, N>& v) noexcept;
 		inline val(const normal<T>& v) noexcept;

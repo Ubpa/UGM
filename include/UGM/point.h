@@ -7,8 +7,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct point : SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>>::SIIT_CRTP;
+	struct point : SI<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>> {
+		using SI<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>::SI;
 
 		template<typename Container>
 		inline static const point combine(const Container& points, T weight) noexcept;

@@ -5,14 +5,17 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArrayHadamardProduct : SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList> {
+	struct IArrayHadamardProduct : Base {
+		using IList = TemplateList<IMul, IArray>;
+		using Base::Base;
+
 		using F = Arg_F<ArgList>;
 		using T = Arg_T<ArgList>;
 		static constexpr size_t N = Arg_N<ArgList>;
-		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::SIVT_CRTP;
-		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::operator*=;
-		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::operator/;
-		using SIVT_CRTP<TemplateList<IMul>, Base, Impl, ArgList>::operator/=;
+
+		using Base::operator*=;
+		using Base::operator/;
+		using Base::operator/=;
 
 		Impl& operator*=(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);

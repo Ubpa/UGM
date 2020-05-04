@@ -8,16 +8,17 @@
 namespace Ubpa {
 	// euclidean affine space
 	template<typename Base, typename Point, typename ArgList>
-	struct IEuclideanA : SIVT_CRTP<TemplateList<IMetric, IAffine, IArray>, Base, Point, ArgList> {
+	struct IEuclideanA : Base {
+		using IList = TemplateList<IMetric, IAffine, IArray>;
+		using Base::Base;
+
 		static constexpr size_t N = Arg_N<ArgList>;
 		using T = Arg_T<ArgList>;
 		using F = Arg_F<ArgList>;
 		using Vector = Arg_Vector<ArgList>;
 
-		static_assert(ExistInstance_v<typename Vector::AllVBs, IEuclideanV>);
+		static_assert(Vector::template IsContain<IEuclideanV>());
 		static_assert(Vector::N == N);
-
-		using SIVT_CRTP<TemplateList<IMetric, IAffine, IArray>, Base, Point, ArgList>::SIVT_CRTP;
 
 		inline static F distance2(const Point& x, const Point& y) noexcept {
 			return (x - y).norm2();

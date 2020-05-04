@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(UGM VERSION 0.5.4)
+project(UGM VERSION 0.5.5)
 message(STATUS "[Project] ${PROJECT_NAME}")
 
 message(STATUS "find package: UCMake 0.5.0")
@@ -20,7 +20,7 @@ endif()
 
 set(Ubpa_USE_XSIMD TRUE CACHE BOOL "use xsimd")
 
-Ubpa_AddDep(UTemplate 0.3.4)
+Ubpa_AddDep(UTemplate 0.4.0)
 
 Ubpa_AddSubDirsRec(include)
 Ubpa_AddSubDirsRec(src)

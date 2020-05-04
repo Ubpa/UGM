@@ -11,8 +11,8 @@ namespace Ubpa {
 	// stheta : angle between vector and normal(z) [0 - pi], 's' means [s]urface
 	// sphi : angle between vector and tangent(x) [0 - 2pi], 's' means [s]urface
 	template<typename T>
-	struct svec : SIIT_CRTP<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<TypeList<T, Size<3>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
+	struct svec : SI<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<T, Size<3>>, T> {
+		using SI<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<T, Size<3>>, T>::SI;
 
 		// TBN matrix : local(surface) to world
 		// require: n is perpendicular to t

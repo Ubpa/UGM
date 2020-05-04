@@ -5,13 +5,13 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct vec : SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<TypeList<T, Size<N>>, T>>::SIIT_CRTP;
+	struct vec : SI<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<T, Size<N>>, T> {
+		using SI<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<T, Size<N>>, T>::SI;
 	};
 
 	template<typename T>
-	struct vec<T, 3> : SIIT_CRTP<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<TypeList<T, Size<3>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
+	struct vec<T, 3> : SI<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<T, Size<3>>, T> {
+		using SI<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<T, Size<3>>, T>::SI;
 	};
 
 	template<size_t N>

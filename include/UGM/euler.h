@@ -14,8 +14,8 @@ namespace Ubpa {
 	// Tait¨CBryan angles, extrinsic rotations (math: x-y-z, game: z-x-y)
 	// ref: https://en.wikipedia.org/wiki/Euler_angles
 	template<typename T>
-	struct euler : SIIT_CRTP<TemplateList<IArray1D_Util>, euler<T>, TypeList<TypeList<T, Size<3>>, T>> {
-		using SIIT_CRTP<TemplateList<IArray1D_Util>, euler<T>, TypeList<TypeList<T, Size<3>>, T>>::SIIT_CRTP;
+	struct euler : SI<TemplateList<IArray1D_Util>, euler<T>, TypeList<T, Size<3>>, T> {
+		using SI<TemplateList<IArray1D_Util>, euler<T>, TypeList<T, Size<3>>, T>::SI;
 
 		inline const quat<T> to_quat() const noexcept;
 	};

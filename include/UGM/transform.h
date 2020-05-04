@@ -24,8 +24,8 @@ namespace Ubpa {
 	// - affine transformation: translation + linear transformation
 	// - transformation: affine transformation + projection
 	template<typename T>
-	struct transform : SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>> {
-		using Base = SIIT_CRTP<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<TypeList<vec<T, 4>, Size<4>>, T>>;
+	struct transform : SI<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<vec<T, 4>, Size<4>>, T> {
+		using Base = SI<TemplateList<IMatrixInOut, IMatrixMul>, transform<T>, TypeList<vec<T, 4>, Size<4>>, T>;
 		using Base::Base;
 		using Base::operator*;
 

@@ -6,7 +6,10 @@
 namespace Ubpa {
 	// line in real affine subspace
 	template<typename Base, typename Impl, typename ArgList>
-	struct ILine : SIVT_CRTP<TemplateList<IAffineRealSubspace, IOLine>, Base, Impl, ArgList> {
+	struct ILine : Base {
+		using IList = TemplateList<IAffineRealSubspace, IOLine>;
+		using Base::Base;
+
 		using Point = Arg_Point<ArgList>;
 		using Vector = Arg_Vector<ArgList>;
 		using F = Arg_F<ArgList>;

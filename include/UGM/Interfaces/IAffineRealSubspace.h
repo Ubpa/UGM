@@ -4,16 +4,18 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IAffineRealSubspace : SIVT_CRTP<TemplateList<IAffineSubspace>, Base, Impl, ArgList>
+	struct IAffineRealSubspace : Base
 	{
+		using IList = TemplateList<IAffineSubspace>;
+
 		using Point = Arg_Point<ArgList>;
 		using Vector = Arg_Vector<ArgList>;
 
-		static_assert(ExistInstance_v<typename Point::AllVBs, IAffine>);
-		static_assert(ExistInstance_v<typename Vector::AllVBs, ILinear>);
+		static_assert(Point::template IsContain<IAffine>());
+		static_assert(Vector::template IsContain<ILinear>());
 		static_assert(Point::N == Vector::N);
 
-		using SIVT_CRTP<TemplateList<IAffineSubspace>, Base, Impl, ArgList>::SIVT_CRTP;
+		using Base::Base;
 
 		Arg_Point<ArgList> point;
 

@@ -7,10 +7,12 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct INorm : SIVT_CRTP<TemplateList<IMetric, ILinear>, Base, Impl, ArgList> {
+	struct INorm : Base {
+		using IList = TemplateList<IMetric, ILinear>;
+
 		using F = Arg_F<ArgList>;
 
-		using SIVT_CRTP<TemplateList<IMetric, ILinear>, Base, Impl, ArgList>::SIVT_CRTP;
+		using Base::Base;
 
 		inline F norm() const noexcept {
 			return static_cast<const Impl*>(this)->impl_norm();

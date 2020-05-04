@@ -8,8 +8,8 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct quat : SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T,Size<4>>, T>> {
-		using Base = SIIT_CRTP<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<TypeList<T, Size<4>>, T>>;
+	struct quat : SI<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<T, Size<4>>, T> {
+		using Base = SI<TemplateList<IMul, IArrayUtil>, quat<T>, TypeList<T, Size<4>>, T>;
 		using Base::Base;
 		using Base::operator*;
 

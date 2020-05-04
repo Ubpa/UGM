@@ -4,8 +4,9 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArrayCast : SIVT_CRTP<TemplateList<IArray>, Base, Impl, ArgList> {
-		using SIVT_CRTP<TemplateList<IArray>, Base, Impl, ArgList>::SIVT_CRTP;
+	struct IArrayCast : Base {
+		using IList = TemplateList<IArray>;
+		using Base::Base;
 
 		static constexpr size_t N = Arg_N<ArgList>;
 

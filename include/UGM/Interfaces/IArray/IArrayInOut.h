@@ -8,10 +8,11 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArrayInOut : SIVT_CRTP<TemplateList<IArray, IInOut>, Base, Impl, ArgList> {
-		static constexpr size_t N = Arg_N<ArgList>;
+	struct IArrayInOut : Base {
+		using IList = TemplateList<IArray, IInOut>;
+		using Base::Base;
 
-		using SIVT_CRTP<TemplateList<IArray, IInOut>, Base, Impl, ArgList>::SIVT_CRTP;
+		static constexpr size_t N = Arg_N<ArgList>;
 
 		std::ostream& impl_out(std::ostream& os) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);

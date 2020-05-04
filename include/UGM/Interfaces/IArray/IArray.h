@@ -36,15 +36,15 @@
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
 	struct IArray : Base, std::array<Arg_T<ArgList>, Arg_N<ArgList>> {
+		using T = Arg_T<ArgList>;
+		using F = Arg_F<ArgList>;
+		static constexpr size_t N = Arg_N<ArgList>;
+
 	private:
 		using Base::operator[];
 	public:
-		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::operator[];
+		using std::array<T, N>::operator[];
 
-	public:
-		using T = Arg_T<ArgList>;
-		static constexpr size_t N = Arg_N<ArgList>;
-		using F = Arg_F<ArgList>;
 		static_assert(N > 0);
 
 		using Base::Base;

@@ -6,8 +6,9 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArray1D_Util : SIVT_CRTP<TemplateList<IArray1D, IArrayUtil>, Base, Impl, ArgList> {
-		using SIVT_CRTP<TemplateList<IArray1D, IArrayUtil>, Base, Impl, ArgList>::SIVT_CRTP;
+	struct IArray1D_Util : Base {
+		using IList = TemplateList<IArray1D, IArrayUtil>;
+		using Base::Base;
 
 		using T = Arg_T<ArgList>;
 		using F = Arg_F<ArgList>;

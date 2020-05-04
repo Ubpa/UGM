@@ -4,14 +4,15 @@
 
 namespace Ubpa {
 	template<typename Base, typename Point, typename ArgList>
-	struct IAffine : SIVT_CRTP<TemplateList<IAffineSubspace>, Base, Point, ArgList> {
+	struct IAffine : Base {
+		using IList = TemplateList<IAffineSubspace>;
+
 		using Vector = Arg_Vector<ArgList>;
 		
-		static_assert(ExistInstance_v<typename Vector::AllVBs, ILinear>);
+		static_assert(Vector::template IsContain<ILinear>());
 
-		using DBase = SIVT_CRTP<TemplateList<IAffineSubspace>, Base, Point, ArgList>;
-		using DBase::DBase;
-		using DBase::operator-;
+		using Base::Base;
+		using Base::operator-;
 
 		inline const Vector operator-(const Point& y) const noexcept {
 			return static_cast<const Point*>(this)->impl_affine_minus(y);

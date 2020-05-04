@@ -7,7 +7,8 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct plane : SIIT_CRTP<TemplateList<IInOut, IPlane>, plane<T>, TypeList<Arg_Empty, T, vec<T, 3>, point<T, 3>>> {
+	struct plane : SI<TemplateList<IInOut, IPlane>, plane<T>, Arg_Empty, T, vec<T, 3>, point<T, 3>> {
+		using SI<TemplateList<IInOut, IPlane>, plane<T>, Arg_Empty, T, vec<T, 3>, point<T, 3>>::SI;
 
 		plane(const point<T, 3>& p, const vec<T, 3>& n) noexcept { this->init_IPlane(p, n); }
 

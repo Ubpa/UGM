@@ -22,12 +22,14 @@
 namespace Ubpa {
 	// euclidean vector space
 	template<typename Base, typename Impl, typename ArgList>
-	struct IEuclideanV : SIVT_CRTP<TemplateList<IInnerProduct, IArrayLinear>, Base, Impl, ArgList> {
+	struct IEuclideanV : Base {
+		using IList = TemplateList<IInnerProduct, IArrayLinear>;
+		using Base::Base;
+
 		static constexpr size_t N = Arg_N<ArgList>;
 		using T = Arg_T<ArgList>;
 		using F = Arg_F<ArgList>;
 
-		using SIVT_CRTP<TemplateList<IInnerProduct, IArrayLinear>, Base, Impl, ArgList>::SIVT_CRTP;
 
 #ifdef UBPA_USE_XSIMD
 		inline static F dot3(const Impl& x, const Impl& y) noexcept {

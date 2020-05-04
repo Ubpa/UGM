@@ -4,9 +4,11 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct ICross : SIVT_CRTP<TemplateList<IEuclideanV>, Base, Impl, ArgList> {
+	struct ICross : Base {
+		using IList = TemplateList<IEuclideanV>;
+		using Base::Base;
+
 		static_assert(Arg_N<ArgList> == 3);
-		using SIVT_CRTP<TemplateList<IEuclideanV>, Base, Impl, ArgList>::SIVT_CRTP;
 		using F = Arg_F<ArgList>;
 
 		static const Impl cross(const Impl& x, const Impl& y) noexcept {

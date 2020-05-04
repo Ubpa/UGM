@@ -4,10 +4,12 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IInnerProduct : SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList> {
+	struct IInnerProduct : Base {
+		using IList = TemplateList<INorm>;
+
 		using F = Arg_F<ArgList>;
 
-		using SIVT_CRTP<TemplateList<INorm>, Base, Impl, ArgList>::SIVT_CRTP;
+		using Base::Base;
 
 		inline static F dot(const Impl& x, const Impl& y) noexcept {
 			return Impl::impl_dot(x, y);

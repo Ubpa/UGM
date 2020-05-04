@@ -6,12 +6,14 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IMatrixMul : SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList> {
+	struct IMatrixMul : Base {
+		using IList = TemplateList<IMul, IMatrix>;
+		using Base::Base;
+
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
 
-		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::SIVT_CRTP;
-		using SIVT_CRTP<TemplateList<IMul, IMatrix>, Base, Impl, ArgList>::operator*;
+		using Base::operator*;
 
 		using Vector = Arg_T<ArgList>;
 

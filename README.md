@@ -260,11 +260,11 @@ T operator+(T a, T b) const {
 
 ## Future Features
 
-- 更轻量级的单继承化技术（减少 coding overhead），进一步加快编译速度
-- 提供 `config.h`，方便定制功能
-- `xfloat3`：底层用 `__m128` 的 `float3` 类，以更好地支持 SIMD，其大小为 `4*sizeof(float)`，包括 `xpoint`，`xvec`，`xrgb`，...
-- 支持 Cuda
-- ...
+- [x] 更轻量级的单继承化技术（减少 coding overhead），进一步加快编译速度
+- [ ] 提供 `config.h`，方便定制功能
+- [ ] `xfloat3`：底层用 `__m128` 的 `float3` 类，以更好地支持 SIMD，其大小为 `4*sizeof(float)`，包括 `xpoint`，`xvec`，`xrgb`，...
+- [ ] 支持 Cuda
+- [ ] ...
 
 ## Copyright and Licensing
 

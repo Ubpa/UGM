@@ -4,9 +4,9 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct hvec : SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<TypeList<T, Size<N>>, T>> {
+	struct hvec : SI<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<T, Size<N>>, T> {
 	private:
-		using Base = SIIT_CRTP<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<TypeList<T, Size<N>>, T>>;
+		using Base = SI<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<T, Size<N>>, T>;
 		using Base::Base;
 
 		static_assert(N > 1);

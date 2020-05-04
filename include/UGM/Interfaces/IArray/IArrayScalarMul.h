@@ -5,13 +5,15 @@
 
 namespace Ubpa {
 	template<typename Base, typename Impl, typename ArgList>
-	struct IArrayScalarMul : SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>  {
+	struct IArrayScalarMul : Base {
+		using IList = TemplateList<IScalarMul, IArray>;
+		using Base::Base;
+
 		static constexpr size_t N = Arg_N<ArgList>;
 		using F = Arg_F<ArgList>;
 		using T = Arg_T<ArgList>;
 
-		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::SIVT_CRTP;
-		using SIVT_CRTP<TemplateList<IScalarMul, IArray>, Base, Impl, ArgList>::operator*;
+		using Base::operator*;
 
 	private:
 		template<typename Base, typename Impl, typename ArgList>

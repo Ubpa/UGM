@@ -73,11 +73,11 @@ int main() {
 - [CMake-GUI](https://cmake.org/) 3.16.3 及以上
 - 支持 SIMD 扩展指令集 SSE 4.1
 
-> 其他环境自行测试，如成功请告知
+> 其他环境自行测试
 
 ### 3.2 步骤
 
-> 另外不熟悉 CMake 的用户可在 [release-v0.5.0](https://github.com/Ubpa/UGM/releases/tag/v0.5.0) 直接下载 CMake install 版本和纯头文件库
+> 另外不熟悉 CMake 的用户可在 [release-v0.5.6](https://github.com/Ubpa/UGM/releases/tag/v0.5.6) 直接下载 CMake install 版本和纯头文件库
 >
 > 任何配置、使用等问题欢迎提 issues
 

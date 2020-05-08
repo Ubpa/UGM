@@ -92,8 +92,8 @@ int main() {
   - 设置源码路径 `Where is the source code` 为之前 git clone 的路径 `<your-path-to-source-UGM>` 
   - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-source-UGM>/build` 
   - 点击 Configure 按钮
-    - （默认不勾选）`Ubpa_BuildTest`：可构建测试用例
-    - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速。
+    - （默认不勾选）`Ubpa_BuildUGMTest`：可构建测试用例
+    - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速
     - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019），注意 `<install-path>` 最后应为 `Ubpa`，如 `<install-path>=D:/Program_Files/Ubpa`，因为会同时安装 [UCMake](https://github.com/Ubpa/UCMake)，[UTemplate](https://github.com/Ubpa/UTemplate)。
   - 点击 Generate 按钮
   - 点击 Open Project 按钮，从而打开 VS 2019

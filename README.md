@@ -77,7 +77,7 @@ int main() {
 
 ### 3.2 步骤
 
-> 另外不熟悉 CMake 的用户可在 [release-0.5.6](https://github.com/Ubpa/UGM/releases/tag/0.5.6) 直接下载 CMake install 版本和纯头文件库
+> 另外不熟悉 CMake 的用户可在 [release-0.5.7](https://github.com/Ubpa/UGM/releases/tag/0.5.7) 直接下载 CMake install 版本和纯头文件库
 >
 > 任何配置、使用等问题欢迎提 issues
 
@@ -120,9 +120,21 @@ int main(){
 
 ```CMake
 # CMakeLists.txt
+cmake_minimum_required(VERSION 3.14)
 project(demo_project VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if(MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
+endif()
+
+#find_package(UGM 0.5.7 REQUIRED)
 find_package(UGM REQUIRED)
+
 add_executable(demo main.cpp)
+
 target_link_libraries(demo PUBLIC Ubpa::UGM_core)
 ```
 

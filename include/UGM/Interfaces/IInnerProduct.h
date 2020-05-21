@@ -3,13 +3,11 @@
 #include "INorm.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IInnerProduct : Base {
-		using IList = TemplateList<INorm>;
-
-		using F = Arg_F<ArgList>;
-
 		using Base::Base;
+
+		using F = ImplTraits_F<Impl>;
 
 		inline static F dot(const Impl& x, const Impl& y) noexcept {
 			return Impl::impl_dot(x, y);
@@ -58,11 +56,14 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct INorm;
 
 		inline F impl_norm() const noexcept {
 			return std::sqrt(norm2());
 		}
 	};
+
+	InterfaceTraits_Regist(IInnerProduct,
+		INorm);
 }

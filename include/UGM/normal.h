@@ -11,8 +11,14 @@ namespace Ubpa {
 	// - wikipedia-bivector: https://en.wikipedia.org/wiki/Bivector
 	// - https://stackoverflow.com/questions/30465573/transforming-surface-normal-vectors-and-tangent-vectors
 	template<typename T>
-	struct normal : SI<TemplateList<IArray1D_Util, ICross>, normal<T>, TypeList<T, Size<3>>, T> {
-		using SI<TemplateList<IArray1D_Util, ICross>, normal<T>, TypeList<T, Size<3>>, T>::SI;
+	struct normal;
+
+	template<typename T>
+	struct ImplTraits<normal<T>> : ImplTraits<vec<T, 3>> {};
+
+	template<typename T>
+	struct normal : SI<normal<T>> {
+		using SI<normal<T>>::SI;
 
 		inline const point<T, 2> to_sphere_texcoord() const noexcept;
 

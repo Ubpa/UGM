@@ -3,15 +3,15 @@
 #include "../IInOut.h"
 #include "../../basic.h"
 #include "IMatrix.h"
+
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IMatrixInOut : Base {
-		using IList = TemplateList<IArrayInOut, IMatrix>;
 		using Base::Base;
 
-		static constexpr size_t N = Arg_N<ArgList>;
+		static constexpr size_t N = ImplTraits_N<Impl>;
 
 		void print(std::ostream& os = std::cout) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
@@ -23,4 +23,7 @@ namespace Ubpa {
 			}
 		}
 	};
+
+	InterfaceTraits_Regist(IMatrixInOut,
+		IArrayInOut, IMatrix);
 }

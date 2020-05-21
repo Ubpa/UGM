@@ -7,9 +7,20 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct line : SI<TemplateList<IInOut, ILine>, line<T, N>, Arg_Empty, T, vec<T, N>, point<T, N>> {
-		using Base = SI<TemplateList<IInOut, ILine>, line<T, N>, Arg_Empty, T, vec<T, N>, point<T, N>>;
-		using Base::Base;
+	struct line;
+
+	template<typename T, size_t N_>
+	struct ImplTraits<line<T, N_>> {
+		using IList = TemplateList<IInOut, ILine>;
+		using V = vec<T, N_>;
+		using P = point<T, N_>;
+		static constexpr size_t N = N_;
+		using F = T;
+	};
+
+	template<typename T, size_t N>
+	struct line : SI<line<T, N>> {
+		using SI<line<T, N>>::SI;
 
 		inline line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->init_ILine(p, dir); }
 
@@ -27,13 +38,13 @@ namespace Ubpa {
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
 
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IInOut;
 
 		inline std::ostream& impl_out(std::ostream& os) const;
 		inline std::istream& impl_in(std::istream& is);
 
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IAffineRealSubspace;
 
 		inline static const line impl_move(const line& line, const point<T, N>& p) noexcept;

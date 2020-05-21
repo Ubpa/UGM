@@ -9,8 +9,19 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct mat : SI<TemplateList<IMatrixInOut, IMatrixMul, IArrayLinear, IRing>, mat<T, N>, TypeList<vec<T, N>, Size<N>>, T> {
-		using SI<TemplateList<IMatrixInOut, IMatrixMul, IArrayLinear, IRing>, mat<T, N>, TypeList<vec<T, N>, Size<N>>, T>::SI;
+	struct mat;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<mat<T_, N_>> {
+		using IList = TemplateList<IMatrixInOut, IMatrixMul, IArrayLinear, IRing>;
+		using T = vec<T_, N_>;
+		static constexpr size_t N = N_;
+		using F = T_;
+	};
+
+	template<typename T, size_t N>
+	struct mat : SI<mat<T, N>> {
+		using SI<mat<T, N>>::SI;
 	};
 
 	template<size_t N>

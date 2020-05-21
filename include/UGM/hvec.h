@@ -4,9 +4,15 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct hvec : SI<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<T, Size<N>>, T> {
+	struct hvec;
+
+	template<typename T, size_t N>
+	struct ImplTraits<hvec<T, N>> : ImplTraits<vec<T, N>> {};
+
+	template<typename T, size_t N>
+	struct hvec : SI<hvec<T, N>> {
 	private:
-		using Base = SI<TemplateList<IArray1D_Util, IEuclideanV>, hvec<T, N>, TypeList<T, Size<N>>, T>;
+		using Base = SI<hvec<T, N>>;
 		using Base::Base;
 
 		static_assert(N > 1);

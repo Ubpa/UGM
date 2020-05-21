@@ -6,11 +6,19 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct scale : SI<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
-		TypeList<T, Size<N>>, T>
-	{
-		using SI<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>, scale<T, N>,
-			TypeList<T, Size<N>>, T>::SI;
+	struct scale;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<scale<T_, N_>> {
+		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>;
+		using T = T_;
+		static constexpr size_t N = N_;
+		using F = T;
+	};
+
+	template<typename T, size_t N>
+	struct scale : SI<scale<T, N>> {
+		using SI<scale<T, N>>::SI;
 	};
 
 	template<size_t N>

@@ -4,6 +4,7 @@
 #include "../IInnerProduct.h"
 #include "../INorm.h"
 
+#ifdef UBPA_USE_XSIMD
 /*
 <mmintrin.h>  MMX
 <xmmintrin.h> SSE
@@ -18,17 +19,17 @@
 */
 #include <smmintrin.h>
 #define USE_SSE_4_1
+#endif // UBPA_USE_XSIMD
 
 namespace Ubpa {
 	// euclidean vector space
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IEuclideanV : Base {
-		using IList = TemplateList<IInnerProduct, IArrayLinear>;
 		using Base::Base;
 
-		static constexpr size_t N = Arg_N<ArgList>;
-		using T = Arg_T<ArgList>;
-		using F = Arg_F<ArgList>;
+		using T = ImplTraits_T<Impl>;
+		static constexpr size_t N = ImplTraits_N<Impl>;
+		using F = ImplTraits_F<Impl>;
 
 
 #ifdef UBPA_USE_XSIMD
@@ -62,7 +63,7 @@ namespace Ubpa {
 #endif
 
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IInnerProduct;
 
 		inline static F impl_dot(const Impl& x, const Impl& y) noexcept {
@@ -93,4 +94,7 @@ namespace Ubpa {
 			}
 		}
 	};
+
+	InterfaceTraits_Regist(IEuclideanV,
+		IInnerProduct, IArrayLinear);
 }

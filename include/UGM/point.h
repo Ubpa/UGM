@@ -7,8 +7,20 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct point : SI<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>> {
-		using SI<TemplateList<IArray1D_Util, IEuclideanA>, point<T, N>, TypeList<T, Size<N>>, T, vec<T, N>, point<T, N>>::SI;
+	struct point;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<point<T_, N_>> {
+		using IList = TemplateList<IArray1D_Util, IEuclideanA>;
+		using T = T_;
+		static constexpr size_t N = N_;
+		using F = T;
+		using V = vec<T, N>;
+	};
+
+	template<typename T, size_t N>
+	struct point : SI<point<T, N>> {
+		using SI<point<T, N>>::SI;
 
 		template<typename Container>
 		inline static const point combine(const Container& points, T weight) noexcept;

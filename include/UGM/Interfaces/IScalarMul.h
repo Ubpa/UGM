@@ -1,15 +1,13 @@
 #pragma once
 
-#include "Arg.h"
-
-#include <UTemplate/SI.h>
+#include "ImplTraits.h"
 
 #include <cassert>
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IScalarMul : Base  {
-		using F = Arg_F<ArgList>;
+		using F = ImplTraits_F<Impl>;
 
 		//static_assert(std::is_floating_point_v<F>);
 

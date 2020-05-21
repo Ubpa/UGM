@@ -1,9 +1,10 @@
 #pragma once
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IMul : Base {
 		using Base::Base;
+
 		using Base::operator*;
 
 		inline const Impl operator*(const Impl& y) const noexcept {

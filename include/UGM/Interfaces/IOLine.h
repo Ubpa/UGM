@@ -7,26 +7,26 @@
 namespace Ubpa {
 	// line in linear subspace
 	// 'O' : original point
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IOLine : Base {
 		using Base::Base;
 
-		using Vector = Arg_Vector<ArgList>;
-		using F = Arg_F<ArgList>;
+		using Vector = ImplTraits_V<Impl>;
+		using F = ImplTraits_F<Impl>;
 
 		static_assert(Vector::template IsContain<ILinear>());
 
-		Arg_Vector<ArgList> dir;
+		ImplTraits_V<Impl> dir;
 
-		Arg_Vector<ArgList> inv_dir() const noexcept {
+		ImplTraits_V<Impl> inv_dir() const noexcept {
 #ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<F, float> && Arg_Vector<ArgList>::N == 4)
+			if constexpr (std::is_same_v<F, float> && ImplTraits_V<Impl>::N == 4)
 				return 1.f / (*this).get_batch();
 			else
 #endif
 			{
-				Arg_Vector<ArgList> rst;
-				for (size_t i = 0; i < Arg_Vector<ArgList>::N; i++)
+				ImplTraits_V<Impl> rst;
+				for (size_t i = 0; i < ImplTraits_V<Impl>::N; i++)
 					rst[i] = ONE<F> / dir[i];
 				return rst;
 			}

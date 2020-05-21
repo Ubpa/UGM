@@ -3,21 +3,18 @@
 #include "IAffine.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
-	struct IAffineRealSubspace : Base
-	{
-		using IList = TemplateList<IAffineSubspace>;
+	template<typename Base, typename Impl>
+	struct IAffineRealSubspace : Base {
+		using Base::Base;
 
-		using Point = Arg_Point<ArgList>;
-		using Vector = Arg_Vector<ArgList>;
+		using Point = ImplTraits_P<Impl>;
+		using Vector = ImplTraits_V<Impl>;
 
 		static_assert(Point::template IsContain<IAffine>());
 		static_assert(Vector::template IsContain<ILinear>());
 		static_assert(Point::N == Vector::N);
 
-		using Base::Base;
-
-		Arg_Point<ArgList> point;
+		ImplTraits_P<Impl> point;
 
 		static const Impl move(const Impl& impl, const Point& p) noexcept {
 			return Impl::impl_move(impl, p);
@@ -36,7 +33,7 @@ namespace Ubpa {
 		void init_IAffineRealSubspace(const Point& p) { point = p; }
 
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IAffineSubspace;
 
 		const Impl impl_affine_subspace_add(const Vector& v) const noexcept {
@@ -59,4 +56,7 @@ namespace Ubpa {
 			return static_cast<Impl&>(*this);
 		}
 	};
+	
+	InterfaceTraits_Regist(IAffineRealSubspace,
+		IAffineSubspace);
 }

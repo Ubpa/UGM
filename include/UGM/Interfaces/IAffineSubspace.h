@@ -3,14 +3,13 @@
 #include "ILinear.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IAffineSubspace : Base {
-		using Point = Arg_Point<ArgList>;
-		using Vector = Arg_Vector<ArgList>;
+		using Base::Base;
+
+		using Vector = ImplTraits_V<Impl>;
 		
 		static_assert(Vector::template IsContain<ILinear>());
-
-		using Base::Base;
 
 		inline const Impl operator+(const Vector& v) const noexcept {
 			return static_cast<const Impl*>(this)->impl_affine_subspace_add(v);

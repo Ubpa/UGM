@@ -4,7 +4,7 @@
 
 namespace Ubpa {
 	// virtual : in, out
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IInOut : Base {
 		using Base::Base;
 

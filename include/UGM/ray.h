@@ -4,8 +4,14 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ray : SI<TemplateList<IInOut, ILine>, ray<T, N>, Arg_Empty, T, vec<T, N>, point<T, N>> {
-		using Base = SI<TemplateList<IInOut, ILine>, ray<T, N>, Arg_Empty, T, vec<T, N>, point<T, N>>;
+	struct ray;
+
+	template<typename T, size_t N>
+	struct ImplTraits<ray<T, N>> : ImplTraits<line<T, N>> {};
+
+	template<typename T, size_t N>
+	struct ray : SI<ray<T, N>> {
+		using SI<ray<T, N>>::SI;
 
 		T tmin;
 		T tmax;
@@ -36,13 +42,13 @@ namespace Ubpa {
 		inline const std::tuple<bool, T, point<T, 2>> intersect_std_disk() const noexcept;
 
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IInOut;
 
 		std::ostream& impl_out(std::ostream& os) const;
 		std::istream& impl_in(std::istream& is);
 
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IAffineRealSubspace;
 
 		static const ray impl_move(const ray& r, const point<T, N>& p) noexcept;

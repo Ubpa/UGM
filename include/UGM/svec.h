@@ -11,8 +11,19 @@ namespace Ubpa {
 	// stheta : angle between vector and normal(z) [0 - pi], 's' means [s]urface
 	// sphi : angle between vector and tangent(x) [0 - 2pi], 's' means [s]urface
 	template<typename T>
-	struct svec : SI<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<T, Size<3>>, T> {
-		using SI<TemplateList<IArray1D_Util, ICross>, svec<T>, TypeList<T, Size<3>>, T>::SI;
+	struct svec;
+
+	template<typename T_>
+	struct ImplTraits<svec<T_>> {
+		using IList = TemplateList<IArray1D_Util, ICross>;
+		using T = T_;
+		static constexpr size_t N = 3;
+		using F = T;
+	};
+
+	template<typename T>
+	struct svec : SI<svec<T>> {
+		using SI<svec<T>>::SI;
 
 		// TBN matrix : local(surface) to world
 		// require: n is perpendicular to t

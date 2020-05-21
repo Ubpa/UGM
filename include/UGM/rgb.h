@@ -7,9 +7,19 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct rgb : SI<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>, rgb<T>, TypeList<T, Size<3>>, T>
-	{
-		using SI<TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>, rgb<T>, TypeList<T, Size<3>>, T>::SI;
+	struct rgb;
+
+	template<typename T_>
+	struct ImplTraits<rgb<T_>> {
+		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>;
+		using T = T_;
+		static constexpr size_t N = 3;
+		using F = T;
+	};
+
+	template<typename T>
+	struct rgb : SI<rgb<T>> {
+		using SI<rgb<T>>::SI;
 
 		T illumination() const noexcept {
 			return static_cast<T>(0.2126)* (*this)[0]

@@ -3,10 +3,8 @@
 #include "IAdd.h"
 #include "IScalarMul.h"
 
+#include <UTemplate/SI.h>
+
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
-	struct ILinear : Base {
-		using IList = TemplateList<IAdd, IScalarMul>;
-		using Base::Base;
-	};
+	CombineInterface(ILinear, IAdd, IScalarMul);
 }

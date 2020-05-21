@@ -3,13 +3,12 @@
 #include "IEuclideanV.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct ICross : Base {
-		using IList = TemplateList<IEuclideanV>;
 		using Base::Base;
 
-		static_assert(Arg_N<ArgList> == 3);
-		using F = Arg_F<ArgList>;
+		static_assert(ImplTraits_N<Impl> == 3);
+		using F = ImplTraits_F<Impl>;
 
 		static const Impl cross(const Impl& x, const Impl& y) noexcept {
 			return Impl{
@@ -37,4 +36,7 @@ namespace Ubpa {
 			return sin_theta(x, y);
 		}
 	};
+
+	InterfaceTraits_Regist(ICross,
+		IEuclideanV);
 }

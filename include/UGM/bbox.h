@@ -3,9 +3,21 @@
 #include "val.h"
 
 namespace Ubpa {
+	// axis-align bounding box
 	template<typename T, size_t N>
-	struct bbox : SI<TemplateList<IArrayUtil>, bbox<T, N>, TypeList<point<T, N>, Size<2>>, T> {
-		using Base = SI<TemplateList<IArrayUtil>, bbox<T, N>, TypeList<point<T, N>, Size<2>>, T>;
+	struct bbox;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<bbox<T_, N_>> {
+		using IList = TemplateList<IArrayUtil>;
+		using T = point<T_, N_>;
+		static constexpr size_t N = 2;
+		using F = T_;
+	};
+
+	template<typename T, size_t N>
+	struct bbox : SI<bbox<T, N>> {
+		using Base = SI<bbox<T, N>>;
 		using Base::Base;
 		
 		inline bbox() noexcept;

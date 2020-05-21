@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../basic.h"
-#include "../Arg.h"
+#include "../ImplTraits.h"
 
 #ifdef UBPA_USE_XSIMD
 #include "_deps/xsimd/xsimd.hpp"
@@ -22,9 +22,19 @@
 // special shuffle
 #define VecShuffle_0101(vec1, vec2)        _mm_movelh_ps(vec1, vec2)
 #define VecShuffle_2323(vec1, vec2)        _mm_movehl_ps(vec2, vec1)
-#endif
+#endif // UBPA_USE_XSIMD
 
-#include <UTemplate/SI.h>
+namespace Ubpa::detail::IArray_ {
+#ifdef UBPA_USE_XSIMD
+	template<typename Impl>
+	struct SupportSIMD : IValue<bool, std::is_same_v<ImplTraits_T<Impl>, float>&& ImplTraits_N<Impl> == 4> {};
+#else
+	template<typename Impl>
+	struct SupportSIMD : std::false_type {};
+#endif
+	template<typename Impl>
+	constexpr bool SupportSIMD_v = SupportSIMD<Impl>::value;
+}
 
 #include <array>
 #include <vector>
@@ -34,11 +44,19 @@
 #include <cassert>
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
-	struct IArray : Base, std::array<Arg_T<ArgList>, Arg_N<ArgList>> {
-		using T = Arg_T<ArgList>;
-		using F = Arg_F<ArgList>;
-		static constexpr size_t N = Arg_N<ArgList>;
+	template<bool SIMD, typename Base, typename Impl>
+	struct IArrayImpl;
+
+	template<typename Base, typename Impl>
+	struct IArray : IArrayImpl<detail::IArray_::SupportSIMD_v<Impl>, Base, Impl> {
+		using IArrayImpl<detail::IArray_::SupportSIMD_v<Impl>, Base, Impl>::IArrayImpl;
+	};
+
+	template<typename Base, typename Impl>
+	struct IArrayImpl<false, Base, Impl> : Base, std::array<ImplTraits_T<Impl>, ImplTraits_N<Impl>> {
+		using T = ImplTraits_T<Impl>;
+		using F = ImplTraits_F<Impl>;
+		static constexpr size_t N = ImplTraits_N<Impl>;
 
 	private:
 		using Base::operator[];
@@ -48,31 +66,30 @@ namespace Ubpa {
 		static_assert(N > 0);
 
 		using Base::Base;
-		using std::array<Arg_T<ArgList>, Arg_N<ArgList>>::array;
+		using std::array<T, N>::array;
 
-		IArray() noexcept {};
+		IArrayImpl() noexcept {};
 
-		constexpr IArray(T t) noexcept {
+		constexpr IArrayImpl(T t) noexcept {
 			for (size_t i = 0; i < N; i++)
 				(*this)[i] = T{ t };
 		}
-		
+
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
-		constexpr IArray(U... data) noexcept : std::array<T, N>{static_cast<T>(data)...} {
+		constexpr IArrayImpl(U... data) noexcept : std::array<T, N>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 	};
 
 #ifdef UBPA_USE_XSIMD
 	// alignas(16)
-	template<typename Base, typename Impl, typename... Args>
-	struct IArray<Base, Impl, TypeList<TypeList<float, Size<4>>, float, Args...>>
+	template<typename Base, typename Impl>
+	struct IArrayImpl<true, Base, Impl>
 		: protected xsimd::batch<float, 4>, Base
 	{
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IEuclideanA;
 	private:
-		using ArgList = TypeList<TypeList<float, Size<4>>, float, Args...>;
 		using Base::operator[];
 
 	protected:
@@ -97,14 +114,14 @@ namespace Ubpa {
 
 		using Base::Base;
 
-		IArray() noexcept {};
+		IArrayImpl() noexcept {};
 
-		IArray(xsimd::batch<float, 4>&& b) noexcept : xsimd::batch<float, 4>{ std::move(b) } {};
+		IArrayImpl(xsimd::batch<float, 4>&& b) noexcept : xsimd::batch<float, 4>{ std::move(b) } {};
 
-		constexpr IArray(T t) noexcept : xsimd::batch<float, 4>{t} {}
+		constexpr IArrayImpl(T t) noexcept : xsimd::batch<float, 4>{t} {}
 
 		template<typename... U, typename = std::enable_if_t<(std::is_convertible_v<U, T>&&...)>>
-		constexpr IArray(U... data) noexcept : xsimd::batch<float, 4>{static_cast<T>(data)...} {
+		constexpr IArrayImpl(U... data) noexcept : xsimd::batch<float, 4>{static_cast<T>(data)...} {
 			static_assert(sizeof...(U) == N, "number of parameters is not correct");
 		}
 

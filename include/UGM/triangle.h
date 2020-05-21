@@ -5,8 +5,19 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct triangle : SI<TemplateList<IArrayInOut>, triangle<T, N>, TypeList<point<T, N>, Size<3>>, T> {
-		using SI<TemplateList<IArrayInOut>, triangle<T, N>, TypeList<point<T, N>, Size<3>>, T>::SI;
+	struct triangle;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<triangle<T_, N_>> {
+		using IList = TemplateList<IArrayInOut>;
+		using T = point<T_, N_>;
+		static constexpr size_t N = 3;
+		using F = T_;
+	};
+
+	template<typename T, size_t N>
+	struct triangle : SI<triangle<T, N>> {
+		using SI<triangle<T, N>>::SI;
 
 		inline T area() const noexcept;
 

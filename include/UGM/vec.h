@@ -5,13 +5,27 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct vec : SI<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<T, Size<N>>, T> {
-		using SI<TemplateList<IArray1D_Util, IEuclideanV>, vec<T, N>, TypeList<T, Size<N>>, T>::SI;
+	struct vec;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<vec<T_, N_>> {
+		using IList = TemplateList<IArray1D_Util, IEuclideanV>;
+		using T = T_;
+		static constexpr size_t N = N_;
+		using F = T;
 	};
 
-	template<typename T>
-	struct vec<T, 3> : SI<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<T, Size<3>>, T> {
-		using SI<TemplateList<IArray1D_Util, ICross>, vec<T, 3>, TypeList<T, Size<3>>, T>::SI;
+	template<typename T_>
+	struct ImplTraits<vec<T_, 3>> {
+		using IList = TemplateList<IArray1D_Util, ICross>;
+		using T = T_;
+		static constexpr size_t N = 3;
+		using F = T;
+	};
+
+	template<typename T, size_t N>
+	struct vec : SI<vec<T, N>> {
+		using SI<vec<T, N>>::SI;
 	};
 
 	template<size_t N>

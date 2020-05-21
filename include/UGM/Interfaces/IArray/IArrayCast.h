@@ -3,12 +3,11 @@
 #include "IArray.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IArrayCast : Base {
-		using IList = TemplateList<IArray>;
 		using Base::Base;
 
-		static constexpr size_t N = Arg_N<ArgList>;
+		static constexpr size_t N = ImplTraits_N<Impl>;
 
 		template<typename To>
 		const To cast_to() const noexcept {
@@ -19,7 +18,7 @@ namespace Ubpa {
 
 		template<typename To>
 		To& as() & noexcept {
-			static_assert(sizeof(To) == sizeof(Impl) && std::is_same_v<typename To::T, Arg_T<ArgList>>);
+			static_assert(sizeof(To) == sizeof(Impl) && std::is_same_v<typename To::T, ImplTraits_T<Impl>>);
 			return reinterpret_cast<To&>(*this);
 		}
 
@@ -34,4 +33,7 @@ namespace Ubpa {
 			return { static_cast<typename To::T>((*this)[Ns])... };
 		}
 	};
+
+	InterfaceTraits_Regist(IArrayCast,
+		IArray);
 }

@@ -6,8 +6,19 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct rgba : SI<TemplateList<IArray1D_Util>, rgba<T>, TypeList<T, Size<4>>, T> {
-		using Base = SI<TemplateList<IArray1D_Util>, rgba<T>, TypeList<T, Size<4>>, T>;
+	struct rgba;
+
+	template<typename T_>
+	struct ImplTraits<rgba<T_>> {
+		using IList = TemplateList<IArray1D_Util>;
+		using T = T_;
+		static constexpr size_t N = 4;
+		using F = T;
+	};
+
+	template<typename T>
+	struct rgba : SI<rgba<T>> {
+		using Base = SI<rgba<T>>;
 		using Base::Base;
 
 		rgba(const rgb<T>& rgb, T a) noexcept

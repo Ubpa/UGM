@@ -5,14 +5,13 @@
 
 namespace Ubpa {
 	// line in real affine subspace
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct ILine : Base {
-		using IList = TemplateList<IAffineRealSubspace, IOLine>;
 		using Base::Base;
 
-		using Point = Arg_Point<ArgList>;
-		using Vector = Arg_Vector<ArgList>;
-		using F = Arg_F<ArgList>;
+		using Point = ImplTraits_P<Impl>;
+		using Vector = ImplTraits_V<Impl>;
+		using F = ImplTraits_F<Impl>;
 
 		void init_ILine(const Point& p, const Vector& dir) noexcept {
 			this->init_IAffineRealSubspace(p);
@@ -21,4 +20,7 @@ namespace Ubpa {
 
 		const Point at(F t) const noexcept { return this->point + t * this->dir; }
 	};
+
+	InterfaceTraits_Regist(ILine,
+		IAffineRealSubspace, IOLine);
 }

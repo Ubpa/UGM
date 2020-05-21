@@ -7,15 +7,16 @@
 namespace Ubpa {
 	// plane in linear subspace
 	// 'O' : original point
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IOPlane : Base {
 		using Base::Base;
-		using Vector = Arg_Vector<ArgList>;
-		using F = Arg_F<ArgList>;
+
+		using Vector = ImplTraits_V<Impl>;
+		using F = ImplTraits_F<Impl>;
 
 		static_assert(Vector::template IsContain<ILinear>());
 
-		Arg_Vector<ArgList> normal;
+		ImplTraits_V<Impl> normal;
 
 		void init_IOPlane(const Vector& n) noexcept { normal = n; }
 	};

@@ -6,11 +6,9 @@
 #include "../basic.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct INorm : Base {
-		using IList = TemplateList<IMetric, ILinear>;
-
-		using F = Arg_F<ArgList>;
+		using F = ImplTraits_F<Impl>;
 
 		using Base::Base;
 
@@ -38,11 +36,14 @@ namespace Ubpa {
 		}
 		
 	private:
-		template<typename Base, typename Impl, typename ArgList>
+		template<typename Base, typename Impl>
 		friend struct IMetric;
 
 		inline static F impl_distance(const Impl& x, const Impl& y) noexcept {
 			return (x - y).norm();
 		}
 	};
+
+	InterfaceTraits_Regist(INorm,
+		IMetric, ILinear);
 }

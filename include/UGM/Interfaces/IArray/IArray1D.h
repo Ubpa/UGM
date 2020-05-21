@@ -3,10 +3,12 @@
 #include "IArray.h"
 
 namespace Ubpa {
-	template<typename Base, typename Impl, typename ArgList>
+	template<typename Base, typename Impl>
 	struct IArray1D : Base {
-		using IList = TemplateList<IArray>;
 		using Base::Base;
-		static_assert(std::is_same_v<Arg_T<ArgList>, Arg_F<ArgList>>);
+		static_assert(!SI_IsContain_v<ImplTraits_T<Impl>, IArray>);
 	};
+
+	InterfaceTraits_Regist(IArray1D,
+		IArray);
 }

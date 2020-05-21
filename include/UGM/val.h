@@ -12,8 +12,19 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val : SI<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<T, Size<N>>, T> {
-		using SI<TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>, val<T, N>, TypeList<T, Size<N>>, T>::SI;
+	struct val;
+
+	template<typename T_, size_t N_>
+	struct ImplTraits<val<T_, N_>> {
+		using IList = TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>;
+		using T = T_;
+		static constexpr size_t N = N_;
+		using F = T;
+	};
+
+	template<typename T, size_t N>
+	struct val : SI<val<T, N>> {
+		using SI<val<T, N>>::SI;
 
 		inline val(const vec<T, N>& v) noexcept;
 		inline val(const normal<T>& v) noexcept;

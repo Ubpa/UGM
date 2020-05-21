@@ -2,6 +2,10 @@
 
 > **U**bpa **G**raphics **M**athematics，Ubpa 图形数学库
 
+⭐ Star us on GitHub — it helps!
+
+[![repo-size](https://img.shields.io/github/languages/code-size/Ubpa/UGM?style=flat)](https://github.com/Ubpa/UGM/archive/master.zip) [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UECS/tags) [![license](https://img.shields.io/github/license/Ubpa/UGM)](LICENSE) 
+
 **特点** 
 
 - 着重“正确”的**代数**概念（环、线性、欧式空间、仿射空间等）

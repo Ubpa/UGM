@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(UGM VERSION 0.5.9)
+project(UGM VERSION 0.6.0)
 message(STATUS "[Project] ${PROJECT_NAME}")
 
 include(FetchContent)
@@ -23,6 +23,7 @@ endif()
 Ubpa_InitProject()
 
 set(Ubpa_USE_XSIMD TRUE CACHE BOOL "use xsimd")
+set(Ubpa_USE_SSE_4_1 TRUE CACHE BOOL "use sse 4.1")
 
 Ubpa_AddDep(UTemplate 0.4.5)
 

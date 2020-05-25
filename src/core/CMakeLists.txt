@@ -1,7 +1,11 @@
+set(xsimd_define "")
+
 if(Ubpa_USE_XSIMD)
-  set(xsimd_define UBPA_USE_XSIMD)
-else()
-  set(xsimd_define "")
+  list(APPEND xsimd_define UBPA_USE_XSIMD)
+endif()
+
+if(Ubpa_USE_SSE_4_1)
+  list(APPEND xsimd_define UBPA_USE_SSE_4_1)
 endif()
 
 Ubpa_AddTarget(

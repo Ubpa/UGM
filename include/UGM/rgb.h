@@ -9,10 +9,9 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<rgb<T>> : ArrayTraits<T, 3> {
-		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>;
-		using F = T;
-	};
+	struct ImplTraits<rgb<T>>
+		: Array1DTraits<T, 3>,
+		IListTraits<IArray1D_Util, IArrayHadamardProduct, IArrayLinear> {};
 
 	template<typename T>
 	struct rgb : SI<rgb<T>> {

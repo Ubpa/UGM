@@ -4,10 +4,9 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ImplTraits<bbox<T, N>> : ArrayTraits<point<T, N>, 2> {
-		using IList = TemplateList<IArrayUtil>;
-		using F = T;
-	};
+	struct ImplTraits<bbox<T, N>>
+		: ArrayTraits<point<T, N>, 2, T>,
+		IListTraits<IArrayUtil> {};
 
 	// axis-align bounding box
 	template<typename T, size_t N>

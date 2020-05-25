@@ -6,10 +6,9 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<euler<T>> : ArrayTraits<T, 3> {
-		using IList = TemplateList<IArray1D_Util>;
-		using F = T;
-	};
+	struct ImplTraits<euler<T>>
+		: Array1DTraits<T, 3>,
+		IListTraits<IArray1D_Util> {};
 
 	// same with Unity3D
 	// Z -> X -> Y

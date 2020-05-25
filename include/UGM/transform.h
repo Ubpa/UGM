@@ -17,10 +17,9 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<transform<T>> : ArrayTraits<vec<T, 4>, 4> {
-		using IList = TemplateList<IMatrixInOut, IMatrixMul>;
-		using F = T;
-	};
+	struct ImplTraits<transform<T>>
+		: ArrayTraits<vec<T, 4>, 4, T>,
+		IListTraits<IMatrixInOut, IMatrixMul> {};
 
 	// TODO: distinguish different kinds of transformations
 	// - basic transformation: translation, reflection, rotation, scaling, shearing, projection (projective transformation)

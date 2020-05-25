@@ -8,10 +8,9 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ImplTraits<scale<T, N>> : ArrayTraits<T, N> {
-		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>;
-		using F = T;
-	};
+	struct ImplTraits<scale<T, N>>
+		: Array1DTraits<T, N>,
+		IListTraits<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul> {};
 
 	template<typename T, size_t N>
 	struct scale : SI<scale<T, N>> {

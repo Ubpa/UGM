@@ -4,10 +4,9 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<svec<T>> : ArrayTraits<T, 3> {
-		using IList = TemplateList<IArray1D_Util, ICross>;
-		using F = T;
-	};
+	struct ImplTraits<svec<T>>
+		: Array1DTraits<T, 3>,
+		IListTraits<IArray1D_Util, ICross> {};
 
 	// vector in surface coordinate system (right-hand)
 	// most functions assert(normalized())

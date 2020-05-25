@@ -18,8 +18,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IScalarMul;
 
-		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-		inline const Impl impl_scalar_mul(U k) const noexcept {
+		inline const Impl impl_scalar_mul(F k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
 			auto kF = static_cast<F>(k);
 #ifdef UBPA_USE_XSIMD
@@ -35,8 +34,7 @@ namespace Ubpa {
 			}
 		}
 
-		template<typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-		inline Impl& impl_scalar_mul_to_self(U k) noexcept {
+		inline Impl& impl_scalar_mul_to_self(F k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			auto kF = static_cast<F>(k);
 #ifdef UBPA_USE_XSIMD

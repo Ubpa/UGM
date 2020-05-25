@@ -16,6 +16,12 @@
 #include "Interfaces/IMatrix/IMatrixInOut.h"
 
 namespace Ubpa {
+	template<typename T>
+	struct ImplTraits<transform<T>> : ArrayTraits<vec<T, 4>, 4> {
+		using IList = TemplateList<IMatrixInOut, IMatrixMul>;
+		using F = T;
+	};
+
 	// TODO: distinguish different kinds of transformations
 	// - basic transformation: translation, reflection, rotation, scaling, shearing, projection (projective transformation)
 	// - rigid transformation: translation + rotation + reflection
@@ -23,17 +29,6 @@ namespace Ubpa {
 	// - linear transformation: rotation + reflection + scaling + shearing
 	// - affine transformation: translation + linear transformation
 	// - transformation: affine transformation + projection
-	template<typename T>
-	struct transform;
-
-	template<typename T_>
-	struct ImplTraits<transform<T_>> {
-		using IList = TemplateList<IMatrixInOut, IMatrixMul>;
-		using T = vec<T_, 4>;
-		static constexpr size_t N = 4;
-		using F = T_;
-	};
-
 	template<typename T>
 	struct transform : SI<transform<T>> {
 		using Base = SI<transform<T>>;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "detail/traits.h"
+
 #include "Interfaces/ILinear.h"
 #include "Interfaces/IArray/IArrayLinear.h"
 #include "Interfaces/IArray/IArrayHadamardProduct.h"
@@ -7,13 +9,8 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct rgb;
-
-	template<typename T_>
-	struct ImplTraits<rgb<T_>> {
+	struct ImplTraits<rgb<T>> : ArrayTraits<T, 3> {
 		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>;
-		using T = T_;
-		static constexpr size_t N = 3;
 		using F = T;
 	};
 

@@ -6,13 +6,8 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct rgba;
-
-	template<typename T_>
-	struct ImplTraits<rgba<T_>> {
+	struct ImplTraits<rgba<T>> : ArrayTraits<T, 4> {
 		using IList = TemplateList<IArray1D_Util>;
-		using T = T_;
-		static constexpr size_t N = 4;
 		using F = T;
 	};
 

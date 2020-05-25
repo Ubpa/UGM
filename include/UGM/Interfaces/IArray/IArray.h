@@ -3,18 +3,6 @@
 #include "../../basic.h"
 #include "../ImplTraits.h"
 
-namespace Ubpa::detail::IArray_ {
-#ifdef UBPA_USE_XSIMD
-	template<typename Impl>
-	struct SupportSIMD : IValue<bool, std::is_same_v<ImplTraits_T<Impl>, float>&& ImplTraits_N<Impl> == 4> {};
-#else
-	template<typename Impl>
-	struct SupportSIMD : std::false_type {};
-#endif
-	template<typename Impl>
-	constexpr bool SupportSIMD_v = SupportSIMD<Impl>::value;
-}
-
 #include <array>
 #include <vector>
 #include <iostream>
@@ -27,8 +15,8 @@ namespace Ubpa {
 	struct IArrayImpl;
 
 	template<typename Base, typename Impl>
-	struct IArray : IArrayImpl<detail::IArray_::SupportSIMD_v<Impl>, Base, Impl> {
-		using IArrayImpl<detail::IArray_::SupportSIMD_v<Impl>, Base, Impl>::IArrayImpl;
+	struct IArray : IArrayImpl<SupportSIMD_v<Impl>, Base, Impl> {
+		using IArrayImpl<SupportSIMD_v<Impl>, Base, Impl>::IArrayImpl;
 	};
 
 	template<typename Base, typename Impl>

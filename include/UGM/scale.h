@@ -1,18 +1,15 @@
 #pragma once
 
+#include "detail/traits.h"
+
 #include "Interfaces/IArray/IArrayScalarMul.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 #include "Interfaces/IArray/IArrayHadamardProduct.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct scale;
-
-	template<typename T_, size_t N_>
-	struct ImplTraits<scale<T_, N_>> {
+	struct ImplTraits<scale<T, N>> : ArrayTraits<T, N> {
 		using IList = TemplateList<IArray1D_Util, IArrayHadamardProduct, IArrayScalarMul>;
-		using T = T_;
-		static constexpr size_t N = N_;
 		using F = T;
 	};
 

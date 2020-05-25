@@ -3,6 +3,12 @@
 #include "mat.h"
 
 namespace Ubpa {
+	template<typename T>
+	struct ImplTraits<svec<T>> : ArrayTraits<T, 3> {
+		using IList = TemplateList<IArray1D_Util, ICross>;
+		using F = T;
+	};
+
 	// vector in surface coordinate system (right-hand)
 	// most functions assert(normalized())
 	// x: tangent
@@ -10,17 +16,6 @@ namespace Ubpa {
 	// z: normal
 	// stheta : angle between vector and normal(z) [0 - pi], 's' means [s]urface
 	// sphi : angle between vector and tangent(x) [0 - 2pi], 's' means [s]urface
-	template<typename T>
-	struct svec;
-
-	template<typename T_>
-	struct ImplTraits<svec<T_>> {
-		using IList = TemplateList<IArray1D_Util, ICross>;
-		using T = T_;
-		static constexpr size_t N = 3;
-		using F = T;
-	};
-
 	template<typename T>
 	struct svec : SI<svec<T>> {
 		using SI<svec<T>>::SI;

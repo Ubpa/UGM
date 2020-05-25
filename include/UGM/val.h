@@ -12,13 +12,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct val;
-
-	template<typename T_, size_t N_>
-	struct ImplTraits<val<T_, N_>> {
+	struct ImplTraits<val<T, N>> : ArrayTraits<T, N> {
 		using IList = TemplateList<IArrayLinear, IArrayHadamardProduct, IArray1D_Util>;
-		using T = T_;
-		static constexpr size_t N = N_;
 		using F = T;
 	};
 

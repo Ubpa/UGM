@@ -7,12 +7,10 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	struct triangle;
 
-	template<typename T_, size_t N_>
-	struct ImplTraits<triangle<T_, N_>> {
+	template<typename T, size_t N>
+	struct ImplTraits<triangle<T, N>> : ArrayTraits<point<T, N>, 3> {
 		using IList = TemplateList<IArrayInOut>;
-		using T = point<T_, N_>;
-		static constexpr size_t N = 3;
-		using F = T_;
+		using F = T;
 	};
 
 	template<typename T, size_t N>

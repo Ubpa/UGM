@@ -4,9 +4,6 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct hvec;
-
-	template<typename T, size_t N>
 	struct ImplTraits<hvec<T, N>> : ImplTraits<vec<T, N>> {};
 
 	template<typename T, size_t N>

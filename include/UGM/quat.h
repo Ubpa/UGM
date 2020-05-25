@@ -1,20 +1,15 @@
 #pragma once
 
-#include "euler.h"
 #include "point.h"
+#include "euler.h"
 
 #include "Interfaces/IArray/IArrayUtil.h"
 #include "Interfaces/IMul.h"
 
 namespace Ubpa {
 	template<typename T>
-	struct quat;
-
-	template<typename T_>
-	struct ImplTraits<quat<T_>> {
+	struct ImplTraits<quat<T>> : ArrayTraits<T, 4> {
 		using IList = TemplateList<IMul, IArrayUtil>;
-		using T = T_;
-		static constexpr size_t N = 4;
 		using F = T;
 	};
 

@@ -76,6 +76,9 @@ int main() {
 	for (size_t i = 0; i < 4; i++)
 		std::cin >> vs[i];
 
-	std::cout << vs[2] + vs[3];
-	std::cout << vecf3(vs[0][0] + vs[1][0], vs[0][1] + vs[1][1], vs[0][2] + vs[1][2]);
+	cout << vs[2] + vs[3] << endl;
+	cout << vecf3(vs[0][0] + vs[1][0], vs[0][1] + vs[1][1], vs[0][2] + vs[1][2]) << endl;
+
+	vecu3 ddd{ 1,2,3 };
+	cout << ddd + (-ddd) << endl;
 }

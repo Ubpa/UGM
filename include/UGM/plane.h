@@ -7,9 +7,6 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct plane;
-
-	template<typename T>
 	struct ImplTraits<plane<T>> {
 		using IList = TemplateList<IInOut, IPlane>;
 		using V = vec<T, 3>;

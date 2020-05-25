@@ -1,25 +1,20 @@
 #pragma once
 
+#include "detail/traits.h"
+
 #include "Interfaces/IArray/ICross.h"
 #include "Interfaces/IArray/IArray1D_Util.h"
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct vec;
-
-	template<typename T_, size_t N_>
-	struct ImplTraits<vec<T_, N_>> {
+	struct ImplTraits<vec<T, N>> : ArrayTraits<T, N> {
 		using IList = TemplateList<IArray1D_Util, IEuclideanV>;
-		using T = T_;
-		static constexpr size_t N = N_;
 		using F = T;
 	};
 
-	template<typename T_>
-	struct ImplTraits<vec<T_, 3>> {
+	template<typename T>
+	struct ImplTraits<vec<T, 3>> : ArrayTraits<T, 3> {
 		using IList = TemplateList<IArray1D_Util, ICross>;
-		using T = T_;
-		static constexpr size_t N = 3;
 		using F = T;
 	};
 

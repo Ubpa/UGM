@@ -42,6 +42,6 @@ int main() {
 	cout << t * normalf{} << endl;
 
 	cout << transformf::rotate_with<Axis::X>(to_radian(180.f)).decompose_quatenion() << endl;
-	auto trs = transformf{ pointf3{1.f}, scalef3{2.f,3.f,4.f}, quatf{vecf3{1,1,1},to_radian(45.f)} };
+	auto trs = transformf{ pointf3{1.f}, quatf{vecf3{1,1,1},to_radian(45.f)}, scalef3{2.f,3.f,4.f} };
 	cout << trs * trs.inverse_sim() << endl;
 }

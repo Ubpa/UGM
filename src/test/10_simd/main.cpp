@@ -121,7 +121,8 @@ int main(int argc, char* argv[])
         cin >> m;
         auto tm = m.transpose();
         cout << tm << endl;
-        cout << m[0].back() << endl;
+        auto m2 = m + m;
+        cout << m2 << endl;
     }
 
     return 0;

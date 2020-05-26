@@ -28,6 +28,10 @@ namespace Ubpa {
 			   0, s[1],    0,    0,
 			   0,    0, s[2],    0,
 			   0,    0,    0,    1 } { }
+
+	template<typename F>
+	transform<F>::transform(F s) noexcept
+		: transform{ scale<F,3>{s} } {}
 	
 	template<typename F>
 	transform<F>::transform(const quat<F>& q) noexcept {
@@ -72,6 +76,38 @@ namespace Ubpa {
 	}
 
 	template<typename F>
+	transform<F>::transform(const vec<F, 3>& axis, F theta) noexcept {
+		auto a = axis.normalize();
+
+		F sinTheta = std::sin(theta);
+		F cosTheta = std::cos(theta);
+		F OneMinusCosTheta = ONE<F> -cosTheta;
+
+		auto& m = static_cast<transform&>(*this);
+		// Compute rotation of first basis vector
+		m(0, 0) = a[0] * a[0] * OneMinusCosTheta + cosTheta;
+		m(0, 1) = a[0] * a[1] * OneMinusCosTheta - a[2] * sinTheta;
+		m(0, 2) = a[0] * a[2] * OneMinusCosTheta + a[1] * sinTheta;
+		m(0, 3) = 0;
+
+		// Compute rotations of second and third basis vectors
+		m(1, 0) = a[0] * a[1] * OneMinusCosTheta + a[2] * sinTheta;
+		m(1, 1) = a[1] * a[1] * OneMinusCosTheta + cosTheta;
+		m(1, 2) = a[1] * a[2] * OneMinusCosTheta - a[0] * sinTheta;
+		m(1, 3) = 0;
+
+		m(2, 0) = a[0] * a[2] * OneMinusCosTheta - a[1] * sinTheta;
+		m(2, 1) = a[1] * a[2] * OneMinusCosTheta + a[0] * sinTheta;
+		m(2, 2) = a[2] * a[2] * OneMinusCosTheta + cosTheta;
+		m(2, 3) = 0;
+
+		m(3, 0) = 0;
+		m(3, 1) = 0;
+		m(3, 2) = 0;
+		m(3, 3) = 1;
+	}
+
+	template<typename F>
 	transform<F>::transform(const point<F, 3>& t, const scale<F, 3>& s) noexcept :
 		transform{ std::array<F, 4 * 4>{
 			s[0],    0,    0, t[0],
@@ -105,7 +141,11 @@ namespace Ubpa {
 	}
 
 	template<typename F>
-	transform<F>::transform(const point<F, 3>& p, const scale<F, 3>& s, const quat<F>& q) noexcept {
+	transform<F>::transform(const quat<F>& rot, const scale<F, 3>& scale) noexcept
+		: transform{ point<F, 3>{0,0,0}, rot, scale } {}
+
+	template<typename F>
+	transform<F>::transform(const point<F, 3>& p, const quat<F>& q, const scale<F, 3>& s) noexcept {
 		F x = q.imag()[0];
 		F y = q.imag()[1];
 		F z = q.imag()[2];
@@ -121,44 +161,26 @@ namespace Ubpa {
 		F zz = z * z;
 		F zw = z * w;
 
+#ifdef UBPA_USE_SIMD
+		if constexpr (SupportSIMD_v<ImplTraits_T<transform<F>>>) {
+			this->init(
+				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), p[0],
+				    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), p[1],
+				    2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), p[2],
+				                0,                 0,                 0,    1
+			);
+			(*this)[0] *= s[0];
+			(*this)[1] *= s[1];
+			(*this)[2] *= s[2];
+		}
+		else
+#endif // UBPA_USE_SIMD
 		this->init(
 			s[0] * (1 - 2 * (yy + zz)), s[1] * (    2 * (xy - zw)), s[2] * (    2 * (xz + yw)), p[0],
 			s[0] * (    2 * (xy + zw)), s[1] * (1 - 2 * (zz + xx)), s[2] * (    2 * (yz - xw)), p[1],
 			s[0] * (    2 * (xz - yw)), s[1] * (    2 * (yz + xw)), s[2] * (1 - 2 * (xx + yy)), p[2],
 			                         0,                          0,                          0,    1
 		);
-	}
-
-	template<typename F>
-	transform<F>::transform(const vec<F, 3>& axis, F theta) noexcept {
-		auto a = axis.normalize();
-
-		F sinTheta = std::sin(theta);
-		F cosTheta = std::cos(theta);
-		F OneMinusCosTheta = ONE<F> - cosTheta;
-
-		auto& m = static_cast<transform&>(*this);
-		// Compute rotation of first basis vector
-		m(0, 0) = a[0] * a[0] * OneMinusCosTheta + cosTheta;
-		m(0, 1) = a[0] * a[1] * OneMinusCosTheta - a[2] * sinTheta;
-		m(0, 2) = a[0] * a[2] * OneMinusCosTheta + a[1] * sinTheta;
-		m(0, 3) = 0;
-
-		// Compute rotations of second and third basis vectors
-		m(1, 0) = a[0] * a[1] * OneMinusCosTheta + a[2] * sinTheta;
-		m(1, 1) = a[1] * a[1] * OneMinusCosTheta + cosTheta;
-		m(1, 2) = a[1] * a[2] * OneMinusCosTheta - a[0] * sinTheta;
-		m(1, 3) = 0;
-
-		m(2, 0) = a[0] * a[2] * OneMinusCosTheta - a[1] * sinTheta;
-		m(2, 1) = a[1] * a[2] * OneMinusCosTheta + a[0] * sinTheta;
-		m(2, 2) = a[2] * a[2] * OneMinusCosTheta + cosTheta;
-		m(2, 3) = 0;
-
-		m(3, 0) = 0;
-		m(3, 1) = 0;
-		m(3, 2) = 0;
-		m(3, 3) = 1;
 	}
 
 	template<typename F>
@@ -177,10 +199,7 @@ namespace Ubpa {
 		// [ R -RF ]
 		// [ 0   1 ]
 
-		assert(up.is_normalized());
-
 		const vec<F,3> front = (target - pos).normalize();
-		assert(front != up);
 		vec<F, 3> right = front.cross(up).normalize();
 		const vec<F,3> camUp = right.cross(front);
 		auto posV = pos.cast_to<vec<F, 3>>();
@@ -302,22 +321,6 @@ namespace Ubpa {
 	}
 
 	template<typename F>
-	const scale<F, 3> transform<F>::decompose_scale() const noexcept {
-		const auto& m = static_cast<const transform&>(*this);
-#ifdef UBPA_USE_SIMD
-		if constexpr (std::is_same_v<F, float>)
-			return { m[0].norm(), m[1].norm(), m[2].norm() };
-		else
-#endif // UBPA_USE_SIMD
-		{
-			vec<F, 3> col0(m(0, 0), m(1, 0), m(2, 0));
-			vec<F, 3> col1(m(0, 1), m(1, 1), m(2, 1));
-			vec<F, 3> col2(m(0, 2), m(1, 2), m(2, 2));
-			return { col0.norm(), col1.norm(), col2.norm() };
-		}
-	}
-
-	template<typename F>
 	const mat<F, 3> transform<F>::decompose_rotation_matrix() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
 #ifdef UBPA_USE_SIMD
@@ -356,7 +359,7 @@ namespace Ubpa {
 
 		if (tr > 0) {
 			F S = std::sqrt(tr + 1) * 2;// S = 4 * real 
-			real = static_cast<F>(0.25)* S;
+			real = static_cast<F>(0.25) * S;
 			imag[0] = (rM(2, 1) - rM(1, 2)) / S;
 			imag[1] = (rM(0, 2) - rM(2, 0)) / S;
 			imag[2] = (rM(1, 0) - rM(0, 1)) / S;
@@ -435,6 +438,22 @@ namespace Ubpa {
 			m(1,0), m(1,1), m(1,2),
 			m(2,0), m(2,1), m(2,2)
 		};
+	}
+
+	template<typename F>
+	const scale<F, 3> transform<F>::decompose_scale() const noexcept {
+		const auto& m = static_cast<const transform&>(*this);
+#ifdef UBPA_USE_SIMD
+		if constexpr (std::is_same_v<F, float>)
+			return { m[0].norm(), m[1].norm(), m[2].norm() };
+		else
+#endif // UBPA_USE_SIMD
+		{
+			vec<F, 3> col0(m(0, 0), m(1, 0), m(2, 0));
+			vec<F, 3> col1(m(0, 1), m(1, 1), m(2, 1));
+			vec<F, 3> col2(m(0, 2), m(1, 2), m(2, 2));
+			return { col0.norm(), col1.norm(), col2.norm() };
+		}
 	}
 
 	namespace detail {

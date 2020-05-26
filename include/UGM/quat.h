@@ -12,6 +12,7 @@ namespace Ubpa {
 		: Array1DTraits<T, 4>,
 		IListTraits<IMul, IArrayUtil> {};
 
+	// TODO: SIMD
 	template<typename T>
 	struct quat : SI<quat<T>> {
 		using Base = SI<quat<T>>;

@@ -38,13 +38,13 @@ namespace Ubpa {
 		IArrayImpl() noexcept {};
 		template<size_t... Ns>
 		IArrayImpl(const IArrayImpl& arr, std::index_sequence<Ns...>) noexcept {
-			((this->at(Ns) = arr[Ns]), ...);
+			(((*this)[Ns] = arr[Ns]), ...);
 		};
 		IArrayImpl(const IArrayImpl& arr) noexcept : IArrayImpl{ arr, std::make_index_sequence<N>{} } {}
 
 		template<size_t... Ns>
 		IArrayImpl(T t, std::index_sequence<Ns...>) noexcept {
-			((this->at(Ns) = t), ...);
+			(((*this)[Ns] = t), ...);
 		};
 		constexpr IArrayImpl(T t) noexcept : IArrayImpl{ t, std::make_index_sequence<N>{} } {}
 

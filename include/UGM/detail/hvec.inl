@@ -25,11 +25,11 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	point<T, N - 1> hvec<T, N>::to_point() const noexcept {
 		assert((*this)[N - 1] != ZERO<T>);
-#ifdef UBPA_USE_XSIMD
-		if constexpr (std::is_same_v<T, float> && N == 4)
+#ifdef UBPA_USE_SIMD
+		if constexpr (SupportSIMD_v<hvec>)
 			return ((*this) / (*this)[3]).cast_to<pointf3>();
 		else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 		{
 			if constexpr (N >= 4) {
 				if ((*this)[N - 1] == ONE<T>)

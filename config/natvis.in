@@ -37,13 +37,13 @@
       </ArrayItems>
     </Expand>
   </Type>
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::vec&lt;*,4&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
     <Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
@@ -85,13 +85,13 @@
     </Expand>
   </Type>
   
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::point&lt;*,4&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
     <Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
@@ -132,13 +132,13 @@
       </ArrayItems>
     </Expand>
   </Type>
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::val&lt;*,4&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
     <Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
@@ -170,13 +170,13 @@
       </ArrayItems>
     </Expand>
   </Type>
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::scale&lt;*,4&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
     <Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
@@ -211,13 +211,13 @@
     </Expand>
   </Type>
   
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::quat&lt;*&gt;>">
-    <DisplayString>{{[{m_array[0]}, {m_array[1]}, {m_array[2]}], {m_array[3]}}}</DisplayString>
+    <DisplayString>{{[{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}], {m.m128_f32[3]}}}</DisplayString>
 	<Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
@@ -232,35 +232,35 @@
     </Expand>
   </Type>
   
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::rgba&lt;*&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
 	<Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
   
-  <!-- XSIMD -->
+  <!-- SIMD -->
   <Type Name="Ubpa::hvec&lt;*&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
 	<Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
   
-  <!-- XSIMD -->
-  <Type Name="xsimd::batch&lt;float, 4&gt;>">
-    <DisplayString>{{{m_array[0]}, {m_array[1]}, {m_array[2]}, {m_array[3]}}}</DisplayString>
+  <!-- SIMD -->
+  <Type Name="SIMD::batch&lt;float, 4&gt;>">
+    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
 	<Expand>
       <ArrayItems>
         <Size>4</Size>
-        <ValuePointer>m_array</ValuePointer>
+        <ValuePointer>m.m128_f32</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>

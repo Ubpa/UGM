@@ -37,7 +37,7 @@ namespace Ubpa::detail::IMatrix {
 	template<>
 	struct transpose<3> {
 		template<typename M>
-		inline static const M run(M& m) noexcept {
+		inline static const M run(const M& m) noexcept {
 			static_assert(M::N == 3);
 
 			return std::array<typename M::F, 3 * 3>{
@@ -51,15 +51,24 @@ namespace Ubpa::detail::IMatrix {
 	template<>
 	struct transpose<4> {
 		template<typename M>
-		inline static const M run(M& m) noexcept {
+		inline static const M run(const M& m) noexcept {
 			static_assert(M::N == 4);
-
-			return std::array<typename M::F, 4 * 4>{
-				m(0, 0), m(1, 0), m(2, 0), m(3, 0),
-				m(0, 1), m(1, 1), m(2, 1), m(3, 1),
-				m(0, 2), m(1, 2), m(2, 2), m(3, 2),
-				m(0, 3), m(1, 3), m(2, 3), m(3, 3)
-			};
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<ImplTraits_T<M>>) {
+				M rst{ m };
+				_MM_TRANSPOSE4_PS(rst[0], rst[1], rst[2], rst[3]);
+				return rst;
+			}
+			else
+#endif // UBPA_USE_SIMD
+			{
+				return std::array<typename M::F, 4 * 4>{
+					m(0, 0), m(1, 0), m(2, 0), m(3, 0),
+					m(0, 1), m(1, 1), m(2, 1), m(3, 1),
+					m(0, 2), m(1, 2), m(2, 2), m(3, 2),
+					m(0, 3), m(1, 3), m(2, 3), m(3, 3)
+				};
+			}
 		}
 	};
 }

@@ -51,11 +51,11 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	const std::tuple<bool, T> ray<T, N>::intersect_std_sphere() const noexcept {
-#ifdef UBPA_USE_XSIMD
+#ifdef UBPA_USE_SIMD
 		// 36 instructions
 		if constexpr (std::is_same_v<T, float> && N == 3) {
-			vecf4 oc = xsimd::load_unaligned(this->point.data());
-			vecf4 dir = xsimd::load_unaligned(this->dir.data());
+			vecf4 oc = _mm_loadu_ps(this->point.data());
+			vecf4 dir = _mm_loadu_ps(this->dir.data());
 			T a = dir.dot3(dir);
 			T b = oc.dot3(dir);
 			T c = oc.dot3(oc) - 1;
@@ -78,7 +78,7 @@ namespace Ubpa {
 			return { true, t };
 		}
 		else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 		// 51 instructions
 		{
 			vec<T, N> oc = this->point.cast_to<vec<T, N>>();

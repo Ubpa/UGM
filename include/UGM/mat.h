@@ -8,14 +8,14 @@
 #include "Interfaces/IRing.h"
 
 namespace Ubpa {
-	template<typename T, size_t N>
-	struct ImplTraits<mat<T, N>>
-		: ArrayTraits<vec<T, N>, N, T>,
+	template<typename F, size_t N>
+	struct ImplTraits<mat<F, N>>
+		: ArrayTraits<vec<F, N>, N, F>,
 		IListTraits<IMatrixInOut, IMatrixMul, IArrayLinear, IRing>{};
 
-	template<typename T, size_t N>
-	struct mat : SI<mat<T, N>> {
-		using SI<mat<T, N>>::SI;
+	template<typename F, size_t N>
+	struct mat : SI<mat<F, N>> {
+		using SI<mat<F, N>>::SI;
 	};
 
 	template<size_t N>

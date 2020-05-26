@@ -1,9 +1,8 @@
 #include <iostream>
-//#include <UGM/vec.h>
-//#include <UGM/point.h>
-//#include <UGM/mat.h>
-#include <UGM/line.h>
-#include <UGM/ray.h>
+
+#include <UGM/vec.h>
+#include <UGM/point.h>
+#include <UGM/mat.h>
 
 using namespace Ubpa;
 using namespace std;
@@ -116,6 +115,14 @@ int main(int argc, char* argv[])
     //    auto [isIntersect, t] = r.intersect_std_sphere();
     //    cout << isIntersect << endl << t << endl;
     //}
+
+    {
+        matf4 m;
+        cin >> m;
+        auto tm = m.transpose();
+        cout << tm << endl;
+        cout << m[0].back() << endl;
+    }
 
     return 0;
 }

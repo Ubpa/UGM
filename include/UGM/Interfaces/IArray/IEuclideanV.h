@@ -15,7 +15,7 @@ namespace Ubpa {
 		using F = ImplTraits_F<Impl>;
 
 
-#ifdef UBPA_USE_XSIMD
+#ifdef UBPA_USE_SIMD
 		inline static F dot3(const Impl& x, const Impl& y) noexcept {
 			static_assert(N == 4);
 			auto srst = _mm_dp_ps(x, y, 0x71); // 0x71 : 01110001
@@ -50,8 +50,8 @@ namespace Ubpa {
 		friend struct IInnerProduct;
 
 		inline static F impl_dot(const Impl& x, const Impl& y) noexcept {
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4) {
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>) {
 				// ref
 				// https://stackoverflow.com/questions/4120681/how-to-calculate-single-vector-dot-product-using-sse-intrinsic-functions-in-c
 #ifdef UBPA_USE_SSE_4_1
@@ -67,7 +67,7 @@ namespace Ubpa {
 #endif // USE_SSE_4_1
 			}
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				F rst;
 				rst = x[0] * y[0];

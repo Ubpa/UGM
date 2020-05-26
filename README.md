@@ -97,7 +97,7 @@ int main() {
   - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-source-UGM>/build` 
   - 点击 Configure 按钮
     - （默认不勾选）`Ubpa_BuildUGMTest`：可构建测试用例
-    - （默认勾选）`Ubpa_USE_XSIMD`：使用 SIMD 加速
+    - （默认勾选）`Ubpa_USE_SIMD`：使用 SIMD 加速
     - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019），注意 `<install-path>` 最后应为 `Ubpa`，如 `<install-path>=D:/Program_Files/Ubpa`，因为会同时安装 [UCMake](https://github.com/Ubpa/UCMake)，[UTemplate](https://github.com/Ubpa/UTemplate)。
   - 点击 Generate 按钮
   - 点击 Open Project 按钮，从而打开 VS 2019
@@ -236,7 +236,7 @@ T operator+(T a, T b) const {
 
 ## 6. SIMD
 
-该库支持 SIMD，只要求支持 SSE 指令，使用了 xsimd 作为 SSE 指令的装饰类（wrapper），但大部分情况都直接使用 SSE 指令。
+该库支持 SIMD，只要求支持 SSE2 指令。
 
 主要加速的类为 `float4`，包括 `vecf4`，`pointf4` 等。
 
@@ -280,7 +280,7 @@ T operator+(T a, T b) const {
 - [x] 提供 `config.h`，方便定制功能
 - [ ] `xfloat3`：底层用 `__m128` 的 `float3` 类，以更好地支持 SIMD，其大小为 `4*sizeof(float)`，包括 `xpoint`，`xvec`，`xrgb`，...
 - [ ] 支持 CUDA
-- [ ] 去除依赖 XSIMD
+- [x] 去除依赖 XSIMD
 - [ ] ...
 
 ## Copyright and Licensing

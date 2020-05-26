@@ -1,7 +1,10 @@
 #pragma once
 
 #pragma region Eric_inverse
-#ifdef UBPA_USE_XSIMD
+#ifdef UBPA_USE_SIMD
+
+#include "../../val.h"
+
 namespace Ubpa::detail::IMatrixMul::Eric {
     // for column major matrix
     // we use __m128 to represent 2x2 matrix as A = | A0  A2 |
@@ -110,7 +113,7 @@ namespace Ubpa::detail::IMatrixMul::Eric {
         return r;
     }
 }
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 #pragma endregion
 
 namespace Ubpa::detail::IMatrixMul {
@@ -156,12 +159,12 @@ namespace Ubpa::detail::IMatrixMul {
             static_assert(M::N == 4);
             using F = typename M::F;
 
-#ifdef UBPA_USE_XSIMD
-            if constexpr (std::is_same_v<F, float>) {
+#ifdef UBPA_USE_SIMD
+            if constexpr (SupportSIMD_v<ImplTraits_T<M>>) {
 #if 1 // Eric: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
                 return Eric::GetInverse(m);
 #else // intel: https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
-                using V = xsimd::batch<float, 4>;
+                using V = val<float, 4>;
                 // The inverse is calculated using "Divide and Conquer" technique. The 
                 // original matrix is divide into four 2x2 sub-matrices. Since each 
                 // register holds four matrix element, the smaller matrices are 
@@ -223,7 +226,7 @@ namespace Ubpa::detail::IMatrixMul {
 
                 //  det = |A|*|D| + |B|*|C| - trace(A#*B*D#*C)
                 det = d1 + d2 - d;
-                rd = (V)(float(1.0f) / det);
+                rd = det.inverse();
 #ifdef ZERO_SINGULAR
                 rd = _mm_and_ps(_mm_cmpneq_ss(det, _mm_setzero_ps()), rd);
 #endif
@@ -237,7 +240,7 @@ namespace Ubpa::detail::IMatrixMul {
 
                 rd = _mm_shuffle_ps(rd, rd, 0);
                 alignas(16) const uint32_t _Sign_PNNP[4] = { 0x00000000, 0x80000000, 0x80000000, 0x00000000 };
-                rd ^= (*(V*)&_Sign_PNNP);
+                rd = _mm_xor_ps(rd, (*(V*)&_Sign_PNNP));
 
                 //  iB = C*|B| - D*B#*A
                 iB = C * (V)_mm_shuffle_ps(dB, dB, 0) - iB;
@@ -251,16 +254,15 @@ namespace Ubpa::detail::IMatrixMul {
                 iC *= rd;
                 iD *= rd;
 
-                V rst0 = _mm_shuffle_ps(iA, iB, 0x77);
-                V rst1 = _mm_shuffle_ps(iA, iB, 0x22);
-                V rst2 = _mm_shuffle_ps(iC, iD, 0x77);
-                V rst3 = _mm_shuffle_ps(iC, iD, 0x22);
+                __m128 rst0 = _mm_shuffle_ps(iA, iB, 0x77);
+                __m128 rst1 = _mm_shuffle_ps(iA, iB, 0x22);
+                __m128 rst2 = _mm_shuffle_ps(iC, iD, 0x77);
+                __m128 rst3 = _mm_shuffle_ps(iC, iD, 0x22);
                 return { rst0,rst1,rst2,rst3 };
-            }
 #endif
             }
             else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
             {
                 M rst{};
 
@@ -448,10 +450,10 @@ namespace Ubpa::detail::IMatrixMul {
         static const M run(const M& x, const M& y) noexcept {
             static_assert(M::N == 4);
             using F = typename M::F;
-#ifdef UBPA_USE_XSIMD
+#ifdef UBPA_USE_SIMD
             if constexpr (std::is_same_v<F, float>)
                 return { x * y[0],x * y[1],x * y[2],x * y[3] };
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
             {
                 // must unloop by hand, complier may not auto unloop
                 F f00 = x(0, 0) * y(0, 0) + x(0, 1) * y(1, 0) + x(0, 2) * y(2, 0) + x(0, 3) * y(3, 0);
@@ -485,11 +487,11 @@ namespace Ubpa::detail::IMatrixMul {
             static_assert(M::N == 4);
             using F = typename M::F;
 
-#ifdef UBPA_USE_XSIMD
-            if constexpr (std::is_same_v<F, float>)
+#ifdef UBPA_USE_SIMD
+            if constexpr (SupportSIMD_v<ImplTraits_T<M>>)
                 return m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3] * v[3];
             else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
             {
                 F x = v[0];
                 F y = v[1];

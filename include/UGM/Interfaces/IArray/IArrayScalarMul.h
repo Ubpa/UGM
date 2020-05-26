@@ -20,31 +20,29 @@ namespace Ubpa {
 
 		inline const Impl impl_scalar_mul(F k) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-			auto kF = static_cast<F>(k);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x.get() * kF;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return _mm_mul_ps(x, Impl{ k });
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
-					rst[i] = x[i] * kF;
+					rst[i] = x[i] * k;
 				return rst;
 			}
 		}
 
 		inline Impl& impl_scalar_mul_to_self(F k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-			auto kF = static_cast<F>(k);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x.get() *= kF;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return x = x * k;
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				for (size_t i = 0; i < N; i++)
-					x[i] *= kF;
+					x[i] *= k;
 				return x;
 			}
 		}

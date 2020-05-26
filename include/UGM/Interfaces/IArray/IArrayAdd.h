@@ -18,11 +18,11 @@ namespace Ubpa {
 
 		inline const Impl impl_add(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x.get() + y.get();
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return _mm_add_ps(x, y);
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -33,11 +33,11 @@ namespace Ubpa {
 
 		inline Impl& impl_add_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x += y;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return x = x + y;
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				for (size_t i = 0; i < N; i++)
 					x[i] += y[i];
@@ -47,11 +47,12 @@ namespace Ubpa {
 
 		inline const Impl impl_add_inverse() const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return -x;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				// ref: https://stackoverflow.com/questions/20083997/how-to-negate-change-sign-of-the-floating-point-elements-in-a-m128-type-vari
+				return _mm_sub_ps(Impl{ 0.f }, x);
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++) {
@@ -66,12 +67,12 @@ namespace Ubpa {
 
 		inline const Impl impl_minus(const Impl& y) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4) {
-				return x - y;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>) {
+				return _mm_sub_ps(x, y);
 			}
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -82,12 +83,12 @@ namespace Ubpa {
 
 		inline Impl& impl_minus_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4) {
-				return x -= y;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>) {
+				return x = x - y;
 			}
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				for (size_t i = 0; i < N; i++)
 					x[i] -= y[i];
@@ -98,11 +99,11 @@ namespace Ubpa {
 		template<typename U, std::enable_if_t<std::is_integral_v<U>>* = nullptr>
 		inline Impl impl_add_mul(U v) const noexcept {
 			auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x.get() * v;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return _mm_mul_ps(x, Impl{ v });
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -114,11 +115,11 @@ namespace Ubpa {
 		template<typename U, std::enable_if_t<std::is_integral_v<U>>* = nullptr>
 		inline Impl& impl_add_mul_to_self(U v) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef UBPA_USE_XSIMD
-			if constexpr (std::is_same_v<T, float> && N == 4)
-				return x *= v;
+#ifdef UBPA_USE_SIMD
+			if constexpr (SupportSIMD_v<Impl>)
+				return x = x * v;
 			else
-#endif // UBPA_USE_XSIMD
+#endif // UBPA_USE_SIMD
 			{
 				for (size_t i = 0; i < N; i++)
 					x[i] *= v;

@@ -12,9 +12,9 @@ if(NOT UCMake_FOUND)
   set(_address "https://github.com/Ubpa/UCMake")
   message(STATUS "fetch: ${_address} with tag ${UCMake_VERSION}")
   FetchContent_Declare(
-  UCMake
-  GIT_REPOSITORY ${_address}
-  GIT_TAG ${UCMake_VERSION}
+    UCMake
+    GIT_REPOSITORY ${_address}
+    GIT_TAG ${UCMake_VERSION}
   )
   FetchContent_MakeAvailable(UCMake)
   message(STATUS "UCMake ${UCMake_VERSION} build done")
@@ -22,7 +22,7 @@ endif()
 
 Ubpa_InitProject()
 
-set(Ubpa_USE_XSIMD TRUE CACHE BOOL "use xsimd")
+set(Ubpa_USE_SIMD TRUE CACHE BOOL "use simd")
 set(Ubpa_USE_SSE_4_1 TRUE CACHE BOOL "use sse 4.1")
 
 Ubpa_AddDep(UTemplate 0.4.5)

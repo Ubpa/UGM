@@ -4,7 +4,7 @@
 
 ⭐ Star us on GitHub — it helps!
 
-[![repo-size](https://img.shields.io/github/languages/code-size/Ubpa/UGM?style=flat)](https://github.com/Ubpa/UGM/archive/master.zip) [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UECS/tags) [![license](https://img.shields.io/github/license/Ubpa/UGM)](LICENSE) 
+[![repo-size](https://img.shields.io/github/languages/code-size/Ubpa/UGM?style=flat)](https://github.com/Ubpa/UGM/archive/master.zip) [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UGM/tags) [![license](https://img.shields.io/github/license/Ubpa/UGM)](LICENSE) 
 
 **特点** 
 
@@ -81,7 +81,7 @@ int main() {
 
 ### 3.2 步骤
 
-> 另外不熟悉 CMake 的用户可在 [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UECS/tags) 直接下载 CMake install 版本和纯头文件库
+> 另外不熟悉 CMake 的用户可在 [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UGM/tags) 直接下载 CMake install 版本和纯头文件库
 >
 > 任何配置、使用等问题欢迎提 issues
 

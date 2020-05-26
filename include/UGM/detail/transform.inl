@@ -7,27 +7,27 @@ namespace Ubpa {
 
 	template<typename F>
 	inline transform<F>::transform(const mat<F, 3>& m) noexcept :
-		transform{ std::array<F, 4 * 4>{
+		transform{
 			m[0][0], m[1][0], m[2][0],    0,
 			m[0][1], m[1][1], m[2][1],    0,
 			m[0][2], m[1][2], m[2][2],    0,
-			      0,       0,       0,    1 } } { }
+			      0,       0,       0,    1 } {}
 
 	template<typename F>
 	transform<F>::transform(const point<F, 3>& p) noexcept :
-		transform{ std::array<F, 4 * 4>{
+		transform{
 			1, 0, 0, p[0],
 			0, 1, 0, p[1],
 			0, 0, 1, p[2],
-			0, 0, 0,    1 } } { }
+			0, 0, 0,    1 } { }
 
 	template<typename F>
 	transform<F>::transform(const scale<F, 3>& s) noexcept :
-		transform{ std::array<F, 4 * 4>{
+		transform{
 			s[0],    0,    0,    0,
 			   0, s[1],    0,    0,
 			   0,    0, s[2],    0,
-			   0,    0,    0,    1 } } { }
+			   0,    0,    0,    1 } { }
 	
 	template<typename F>
 	transform<F>::transform(const quat<F>& q) noexcept {
@@ -46,12 +46,12 @@ namespace Ubpa {
 		F zz = z * z;
 		F zw = z * w;
 
-		this->init(std::array<F, 4 * 4> {
+		this->init(
 			1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), 0,
 			    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), 0,
 				2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), 0,
-				            0,                 0,                 0, 1,
-		});
+				            0,                 0,                 0, 1
+		);
 	}
 
 	template<typename F>
@@ -63,12 +63,12 @@ namespace Ubpa {
 		F cZ = std::cos(e[2]);
 		F sZ = std::sin(e[2]);
 
-		this->init(std::array<F, 4 * 4>{
+		this->init(
 			  cY * cZ + sX * sY * sZ, - cY * sZ + sX * sY * cZ, cX * sY, 0,
 			                 cX * sZ,                  cX * cZ,    - sX, 0,
 			- sY * cZ + sX * cY * sZ,   sY * sZ + sX * cY * cZ, cX * cY, 0,
-			                       0,                        0,       0, 1,
-		});
+			                       0,                        0,       0, 1
+		);
 	}
 
 	template<typename F>
@@ -96,12 +96,12 @@ namespace Ubpa {
 		F zz = z * z;
 		F zw = z * w;
 
-		this->init(std::array<F, 4 * 4> {
+		this->init(
 			1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), p[0],
 			    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), p[1],
 				2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), p[2],
-				            0,                 0,                 0,    1,
-		});
+				            0,                 0,                 0,    1
+		);
 	}
 
 	template<typename F>
@@ -121,12 +121,12 @@ namespace Ubpa {
 		F zz = z * z;
 		F zw = z * w;
 
-		this->init(std::array<F, 4 * 4> {
+		this->init(
 			s[0] * (1 - 2 * (yy + zz)), s[1] * (    2 * (xy - zw)), s[2] * (    2 * (xz + yw)), p[0],
 			s[0] * (    2 * (xy + zw)), s[1] * (1 - 2 * (zz + xx)), s[2] * (    2 * (yz - xw)), p[1],
 			s[0] * (    2 * (xz - yw)), s[1] * (    2 * (yz + xw)), s[2] * (1 - 2 * (xx + yy)), p[2],
-			                         0,                          0,                          0,    1,
-		});
+			                         0,                          0,                          0,    1
+		);
 	}
 
 	template<typename F>
@@ -219,7 +219,7 @@ namespace Ubpa {
 		F m22 = 2 / (zNear - zFar);
 		F m23 = (zFar + zNear) / (zNear - zFar);
 
-		return std::array<F, 4 * 4>{
+		return {
 			m00,   0,   0,   0,
 			  0, m11,   0,   0,
 			  0,   0, m22, m23,
@@ -239,11 +239,11 @@ namespace Ubpa {
 		F m22 = (zFar + zNear) / (zNear - zFar);
 		F m23 = (2 * zFar * zNear) / (zNear - zFar);
 
-		return std::array<F, 4 * 4>{
+		return {
 			m00,   0,   0,   0,
 			  0, m11,   0,   0,
 			  0,   0, m22, m23,
-			  0,   0,  -1,   0,
+			  0,   0,  -1,   0
 		};
 	}
 
@@ -329,11 +329,11 @@ namespace Ubpa {
 		}
 #endif
 		{
-			mat<F, 3> m3{ std::array<F, 3 * 3>{
+			mat<F, 3> m3{
 				m(0, 0), m(0, 1), m(0, 2),
 				m(1, 0), m(1, 1), m(1, 2),
 				m(2, 0), m(2, 1), m(2, 2)
-			} };
+			};
 
 			m3[0].normalize_self();
 			m3[1].normalize_self();
@@ -430,7 +430,7 @@ namespace Ubpa {
 	template<typename F>
 	const mat<F, 3> transform<F>::decompose_mat3() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
-		return std::array<F, 3 * 3>{
+		return {
 			m(0,0), m(0,1), m(0,2),
 			m(1,0), m(1,1), m(1,2),
 			m(2,0), m(2,1), m(2,2)
@@ -448,7 +448,7 @@ namespace Ubpa {
 				F c = std::cos(angle);
 				F s = std::sin(angle);
 				
-				return std::array<F, 4 * 4>{
+				return {
 					1, 0,  0, 0,
 					0, c, -s, 0,
 					0, s,  c, 0,
@@ -464,7 +464,7 @@ namespace Ubpa {
 				F c = std::cos(angle);
 				F s = std::sin(angle);
 
-				return std::array<F, 4 * 4>{
+				return {
 					 c, 0, s, 0,
 					 0, 1, 0, 0,
 					-s, 0, c, 0,
@@ -480,7 +480,7 @@ namespace Ubpa {
 				F c = std::cos(angle);
 				F s = std::sin(angle);
 
-				return std::array<F, 4 * 4>{
+				return {
 					c, -s, 0, 0,
 					s,  c, 0, 0,
 					0,  0, 1, 0,

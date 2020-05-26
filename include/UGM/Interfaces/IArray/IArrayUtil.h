@@ -39,7 +39,7 @@ namespace Ubpa {
 			F one_minus_t = static_cast<F>(1) - t;
 #ifdef UBPA_USE_SIMD
 			if constexpr (SupportSIMD_v<Impl>)
-				return one_minus_t * x + t * y;
+				return _mm_add_ps(_mm_mul_ps(x, _mm_set1_ps(one_minus_t)), _mm_mul_ps(y, _mm_set1_ps(t)));
 			else
 #endif // UBPA_USE_SIMD
 			{
@@ -59,13 +59,22 @@ namespace Ubpa {
 			return lerp(x, y, static_cast<F>(0.5));
 		}
 
-		static const Impl mix(const std::vector<Impl>& vals, const std::vector<float>& weights) noexcept {
+		template<typename ValContainer, typename WeightContainer>
+		static const Impl mix(const ValContainer& vals, const WeightContainer& weights) noexcept {
 			assert(vals.size() > 0 && vals.size() == weights.size());
+			auto val_iter = vals.begin();
+			auto weight_iter = weights.begin();
+
 #ifdef UBPA_USE_SIMD
 			if constexpr (SupportSIMD_v<Impl>) {
-				auto rst = vals[0].get() * weights[0];
-				for (size_t i = 1; i < vals.size(); i++)
-					rst += vals[i].get() * weights[i];
+				__m128 rst = _mm_mul_ps(*val_iter, *weight_iter);
+				++val_iter;
+				++weight_iter;
+				while (val_iter != vals.end()) {
+					rst = _mm_add_ps(rst, _mm_mul_ps(*val_iter, *weight_iter));
+					++val_iter;
+					++weight_iter;
+				}
 				return rst;
 			}
 			else
@@ -73,10 +82,12 @@ namespace Ubpa {
 			{
 				Impl rst;
 				for (size_t j = 0; j < N; j++)
-					rst[j] = vals[0][j] * weights[0];
-				for (size_t i = 1; i < vals.size(); i++) {
+					rst[j] = (*val_iter)[j] * (*weight_iter);
+				while (val_iter != vals.end()) {
 					for (size_t j = 0; j < N; j++)
-						rst[j] += vals[i][j] * weights[i];
+						rst[j] += (*val_iter)[j] * (*weight_iter);
+					++val_iter;
+					++weight_iter;
 				}
 				return rst;
 			}

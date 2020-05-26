@@ -27,7 +27,7 @@ namespace Ubpa {
 		assert((*this)[N - 1] != ZERO<T>);
 #ifdef UBPA_USE_SIMD
 		if constexpr (SupportSIMD_v<hvec>)
-			return ((*this) / this->w()).cast_to<pointf3>();
+			return ((*this) / this->get<3>()).cast_to<pointf3>();
 		else
 #endif // UBPA_USE_SIMD
 		{

@@ -18,5 +18,5 @@ int main() {
 	//cout << v.abs() << endl;
 	cout << valf3(abs(v[0]), abs(v[1]), abs(v[2])) << endl;
 	//cout << v.max_dim() << endl;
-	cout << valf3::mix({ valf3{1.f,2.f,3.f}, valf3{2.f}, valf3{1.f,2.f,3.f} }, { 0.f,1.f,2.f }) << endl;
+	cout << valf3::mix(array<valf3,3>{ valf3{1.f,2.f,3.f}, valf3{2.f}, valf3{1.f,2.f,3.f} }, array<float, 3>{ 0.f,1.f,2.f }) << endl;
 }

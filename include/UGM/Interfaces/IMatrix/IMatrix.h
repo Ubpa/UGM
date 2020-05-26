@@ -21,23 +21,51 @@ namespace Ubpa {
 		static_assert(N == 3 || N == 4);
 		static_assert(Vector::N == N);
 
-		inline IMatrix(const std::array<F,N*N>& data) noexcept { init(data); }
+		// column first
+		inline IMatrix(const std::array<F, N * N>& data) noexcept { init(data); }
 
-		inline void init(const std::array<F, N * N>& data) noexcept {
-			// unloop in /O2
-			for (size_t i = 0; i < N * N; i++)
-				(*this)(i) = data[i];
+		// column first
+		inline void init(const std::array<F, N* N>& data) noexcept {
+			auto& m = static_cast<Impl&>(*this);
+			detail::IMatrix_::init<N>::run(m, data);
+		}
+
+		// row first
+		// -o-o-o-o-o-o-
+		// U0 is used to avoid MSVC's compiler bug
+		// because IArrayImpl has same constructor:
+		// - template<typename... Us, nullptr> IArrayImpl(Us... vals);
+		template<typename U0, typename... Us, std::enable_if_t<1 + sizeof...(Us) == N * N>* = nullptr>
+		constexpr IMatrix(U0 val0, Us... vals) noexcept { init(val0, vals...); }
+
+		// row first
+		template<typename... Us, std::enable_if_t<sizeof...(Us) == N * N>* = nullptr>
+		inline void init(Us... vals) noexcept {
+			auto t = std::make_tuple(static_cast<F>(vals)...);
+			if constexpr (N == 3) {
+				init(std::array<F, 3 * 3>{
+					std::get<0>(t), std::get<3>(t), std::get<6>(t),
+					std::get<1>(t), std::get<4>(t), std::get<7>(t),
+					std::get<2>(t), std::get<5>(t), std::get<8>(t),
+				});
+			}
+			else // if constexpr (N == 4)
+			{
+				init(std::array<F, 4 * 4>{
+					std::get< 0>(t), std::get< 4>(t), std::get< 8>(t), std::get<12>(t),
+					std::get< 1>(t), std::get< 5>(t), std::get< 9>(t), std::get<13>(t),
+					std::get< 2>(t), std::get< 6>(t), std::get<10>(t), std::get<14>(t),
+					std::get< 3>(t), std::get< 7>(t), std::get<11>(t), std::get<15>(t),
+				});
+			}
 		}
 
 		inline static const Impl eye() noexcept {
-			return detail::IMatrix::eye<Impl, N>::run();
+			return detail::IMatrix_::eye<Impl, N>::run();
 		}
 
 		inline static const Impl zero() noexcept {
-			Impl rst;
-			for (size_t i = 0; i < N * N; i++)
-				(*this)(i) = static_cast<F>(0);
-			return rst;
+			return detail::IMatrix_::zero<N>::template run<Impl>();
 		}
 
 		inline F& operator()(size_t r, size_t c) noexcept {
@@ -79,23 +107,21 @@ namespace Ubpa {
 		}
 
 		inline F trace() const noexcept {
-			F rst = (*this)[0][0];
-			for (size_t i = 1; i < N; i++)
-				rst += (*this)[i][i];
-			return rst;
+			const auto& m = static_cast<const Impl&>(*this);
+			return detail::IMatrix_::trace<N>::run(m);
 		}
 
 		inline const Impl transpose() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix::transpose<N>::run(m);
+			return detail::IMatrix_::transpose<N>::run(m);
 		}
 
 		F* data() noexcept {
-			return &(*this)[0][0];
+			return reinterpret_cast<F*>(this);
 		}
 
 		const F* data() const noexcept {
-			return &(*this)[0][0];
+			return const_cast<IMatrix*>(this)->data();
 		}
 	};
 

@@ -81,7 +81,7 @@ int main() {
 
 ### 3.2 步骤
 
-> 另外不熟悉 CMake 的用户可在 [release-0.6.0](https://github.com/Ubpa/UGM/releases/tag/0.6.0) 直接下载 CMake install 版本和纯头文件库
+> 另外不熟悉 CMake 的用户可在 [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UECS/tags) 直接下载 CMake install 版本和纯头文件库
 >
 > 任何配置、使用等问题欢迎提 issues
 

@@ -51,7 +51,7 @@ namespace Ubpa {
 		}
 
 		inline const Impl lerp(const Impl& y, F t) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return lerp(x, y, t);
 		}
 

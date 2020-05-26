@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(UGM VERSION 0.6.0)
+project(UGM VERSION 0.6.1)
 message(STATUS "[Project] ${PROJECT_NAME}")
 
 include(FetchContent)

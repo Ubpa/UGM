@@ -19,7 +19,7 @@ namespace Ubpa {
 		}
 
 		const Impl cross(const Impl& y) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return cross(x, y);
 		}
 
@@ -32,7 +32,7 @@ namespace Ubpa {
 		}
 
 		F sin_theta(const Impl& y) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return sin_theta(x, y);
 		}
 	};

@@ -14,34 +14,112 @@ namespace Ubpa {
 		static constexpr size_t N = ImplTraits_N<Impl>;
 		using F = ImplTraits_F<Impl>;
 
-
 #ifdef UBPA_USE_SIMD
-		inline static F dot3(const Impl& x, const Impl& y) noexcept {
-			static_assert(N == 4);
-			auto srst = _mm_dp_ps(x, y, 0x71); // 0x71 : 01110001
-			return srst.m128_f32[0];
-		}
-
-		inline F dot3(const Impl& y) const noexcept {
-			const auto& x = static_cast<const Impl&>(*this);
-			return dot3(x, y);
-		}
-
-		inline static const Impl cross3(const Impl& a, const Impl& b) noexcept {
-			static_assert(N == 4);
+		// w == 0
+		inline static const Impl v3_cross(const Impl& x, const Impl& y) noexcept {
+			static_assert(SupportSIMD_v<Impl>);
 			/*
 			|a.x|   |b.x|   | a.y * b.z - a.z * b.y |
 			|a.y| X |b.y| = | a.z * b.x - a.x * b.z |
 			|a.z|   |b.z|   | a.x * b.y - a.y * b.x |
 			*/
-			return VecSwizzle(_mm_sub_ps(_mm_mul_ps(VecSwizzle(a, 2, 0, 1, 3), b),
-				_mm_mul_ps(VecSwizzle(b, 2, 0, 1, 3), a)),
+			return VecSwizzle(_mm_sub_ps(_mm_mul_ps(VecSwizzle(x, 2, 0, 1, 3), y),
+				_mm_mul_ps(VecSwizzle(y, 2, 0, 1, 3), x)),
 				2, 0, 1, 3);
 		}
 
-		inline const Impl cross3(const Impl& b) const noexcept {
-			const auto& a = static_cast<const Impl&>(*this);
-			return cross3(a, b);
+		// w == 0
+		inline const Impl v3_cross(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_cross(x, y);
+		}
+
+		// x = y = z = w
+		inline static Impl v3_dot(const Impl& x, const Impl& y) noexcept {
+			static_assert(SupportSIMD_v<Impl>);
+			// 0x7f : 011111111
+			return _mm_dp_ps(x, y, 0x7f);
+		}
+
+		// x = y = z = w
+		inline Impl v3_dot(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_dot(x, y);
+		}
+
+		// x = y = z = w
+		inline Impl v3_norm2() const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_dot(x, x);
+		}
+
+		// x = y = z = w
+		inline Impl v3_norm() const noexcept {
+			return _mm_sqrt_ps(v3_norm2());
+		}
+
+		inline const Impl v3_normalize() const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			auto n = x.v3_norm();
+			assert(n.get<0>() > static_cast<F>(0));
+			return x / n; // ILinear
+		}
+
+		inline bool v3_is_normalized() const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return std::abs(x.v3_norm().get<0>() - 1) < EPSILON<F>;
+		}
+
+		inline Impl& v3_normalize_self() noexcept {
+			auto& x = static_cast<Impl&>(*this);
+			return x = v3_normalize();
+		}
+
+		// x = y = z = w
+		inline static Impl v3_distance2(const Impl& x, const Impl& y) noexcept {
+			return (x - y).v3_norm2();
+		}
+
+		// x = y = z = w
+		inline Impl v3_distance2(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_distance2(x, y);
+		}
+
+		// x = y = z = w
+		inline static Impl v3_distance(const Impl& x, const Impl& y) noexcept {
+			return _mm_sqrt_ps(v3_distance2(x, y));
+		}
+
+		// x = y = z = w
+		inline Impl v3_distance(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_distance(x, y);
+		}
+
+		// x = y = z = w
+		inline static Impl v3_cos_theta(const Impl& x, const Impl& y) noexcept {
+			auto xN = x.v3_norm();
+			auto yN = y.v3_norm();
+			auto xyN = _mm_mul_ps(xN, yN);
+			assert(_mm_cvtss_f32(xyN) != static_cast<F>(0));
+			return v3_dot(x, y) / xyN;
+		}
+
+		// x = y = z = w
+		inline Impl v3_cos_theta(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_cos_theta(x, y);
+		}
+
+		const Impl v3_project(const Impl& n) const noexcept {
+			assert(n.v3_is_normalized());
+			return v3_dot(n) * n;
+		}
+
+		const Impl v3_perpendicular(const Impl& n) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x - x.v3_project(n);
 		}
 #endif
 

@@ -11,15 +11,50 @@ namespace Ubpa {
 		using T = ImplTraits_T<Impl>;
 		static constexpr size_t N = ImplTraits_N<Impl>;
 		using F = ImplTraits_F<Impl>;
-
+		
+#ifdef UBPA_USE_SIMD
 		using Base::operator*;
+		using Base::operator*=;
+		using Base::operator/;
+		using Base::operator/=;
+
+		inline bool is_scalar() const noexcept {
+			static_assert(SupportSIMD_v<Impl>);
+			const auto& x = static_cast<const Impl&>(*this);
+			return x == x.replicate<0>();
+		}
+
+		inline Impl operator*(const __m128& k) const noexcept {
+			static_assert(SupportSIMD_v<Impl>);
+			const auto& x = static_cast<const Impl&>(*this);
+			assert(Impl{ k }.is_scalar() || x.is_scalar());
+			return _mm_mul_ps(x, k);
+		}
+
+		inline Impl& operator*=(const __m128& k) noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x = x * k;
+		}
+
+		inline Impl operator/(const __m128& k) const noexcept {
+			static_assert(SupportSIMD_v<Impl>);
+			const auto& x = static_cast<const Impl&>(*this);
+			assert(Impl{ k }.is_scalar());
+			return _mm_div_ps(x, k);
+		}
+
+		inline Impl& operator/=(const __m128& k) noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x = x / k;
+		}
+#endif // UBPA_USE_SIMD
 
 	private:
 		template<typename Base, typename Impl>
 		friend struct IScalarMul;
 
-		inline const Impl impl_scalar_mul(F k) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+		inline Impl impl_scalar_mul(F k) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_USE_SIMD
 			if constexpr (SupportSIMD_v<Impl>)
 				return _mm_mul_ps(x, Impl{ k });

@@ -18,7 +18,7 @@ namespace Ubpa {
 
 	private:
 		std::ostream& out(std::ostream& os) const {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return x.impl_out(os);
 		}
 

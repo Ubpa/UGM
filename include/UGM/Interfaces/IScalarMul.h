@@ -44,7 +44,7 @@ namespace Ubpa {
 		inline const Impl operator/(F k) const noexcept {
 			assert(k != static_cast<F>(0));
 			F inverseK = static_cast<F>(1) / k;
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return x * inverseK;
 		}
 

@@ -69,6 +69,14 @@ namespace Ubpa {
 			static_assert(i < N);
 			(*this)[i] = v;
 		}
+
+		template<size_t i>
+		Impl replicate() const noexcept {
+			static_assert(i < N);
+			Impl rst;
+			rst.fill(get<i>());
+			return rst;
+		}
 	};
 
 #ifdef UBPA_USE_SIMD
@@ -140,6 +148,43 @@ namespace Ubpa {
 		reference back() noexcept { return to_array().back(); }
 		const_reference back() const noexcept { return to_array().back(); }
 
+		float* data() noexcept { return reinterpret_cast<float*>(this); }
+		const float* data() const noexcept { return const_cast<IArray_Impl*>(this)->data(); }
+
+		friend bool operator==(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpeq_ps(x, y)) == 0xf; // 1111
+		}
+		friend bool operator!=(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpneq_ps(x, y)) == 0xf; // 1111
+		}
+		friend bool operator<(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmplt_ps(x, y)) == 0xf; // 1111
+		}
+		friend bool operator<=(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmple_ps(x, y)) == 0xf; // 1111
+		}
+		friend bool operator>(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpgt_ps(x, y)) == 0xf; // 1111
+		}
+		friend bool operator>=(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpge_ps(x, y)) == 0xf; // 1111
+		}
+
+		// ==================
+
+		IArray_Impl() noexcept {}
+		IArray_Impl(const float* f4) noexcept : m{ _mm_loadu_ps(f4) } {}
+		IArray_Impl(__m128 f4) noexcept : m{ f4 } {} // align
+		explicit IArray_Impl(float v) noexcept : m{ _mm_set1_ps(v) } {}
+		IArray_Impl(const IArray_Impl& f4) noexcept : m{ f4.m } {}
+		IArray_Impl& operator=(const IArray_Impl& f4) noexcept { m = f4.m; return *this; }
+		operator __m128& () noexcept { return m; }
+		operator const __m128&() const noexcept { return const_cast<IArray_Impl*>(this)->operator __m128 &(); }
+		IArray_Impl(float x, float y, float z, float w) noexcept : m{ _mm_set_ps(w, z, y, x) } {} // little-endianness
+		template<typename Ux, typename Uy, typename Uz, typename Uw>
+		IArray_Impl(Ux x, Uy y, Uz z, Uw w) noexcept
+			: IArray_Impl{ static_cast<float>(x),static_cast<float>(y),static_cast<float>(z),static_cast<float>(w) } {}
+
 		template<size_t i>
 		float get() const noexcept {
 			static_assert(i < 4);
@@ -169,23 +214,11 @@ namespace Ubpa {
 			}
 		}
 
-		float* data() noexcept { return reinterpret_cast<float*>(this); }
-		const float* data() const noexcept { return const_cast<IArray_Impl*>(this)->data(); }
-
-		// ==================
-
-		IArray_Impl() noexcept {}
-		IArray_Impl(const float* f4) noexcept : m{ _mm_loadu_ps(f4) } {}
-		IArray_Impl(__m128 f4) noexcept : m{ f4 } {} // align
-		explicit IArray_Impl(float v) noexcept : m{ _mm_set1_ps(v) } {}
-		IArray_Impl(const IArray_Impl& f4) noexcept : m{ f4.m } {}
-		IArray_Impl& operator=(const IArray_Impl& f4) noexcept { m = f4.m; return *this; }
-		operator __m128& () noexcept { return m; }
-		operator const __m128&() const noexcept { return const_cast<IArray_Impl*>(this)->operator __m128 &(); }
-		IArray_Impl(float x, float y, float z, float w) noexcept : m{ _mm_set_ps(w, z, y, x) } {} // little-endianness
-		template<typename Ux, typename Uy, typename Uz, typename Uw>
-		IArray_Impl(Ux x, Uy y, Uz z, Uw w) noexcept
-			: IArray_Impl{ static_cast<float>(x),static_cast<float>(y),static_cast<float>(z),static_cast<float>(w) } {}
+		template<size_t i>
+		Impl replicate() const noexcept {
+			static_assert(i < N);
+			return _mm_shuffle_ps(m, m, _MM_SHUFFLE(i, i, i, i));
+		}
 	};
 #endif
 }

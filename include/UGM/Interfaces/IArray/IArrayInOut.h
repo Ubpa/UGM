@@ -14,7 +14,7 @@ namespace Ubpa {
 		static constexpr size_t N = ImplTraits_N<Impl>;
 
 		std::ostream& impl_out(std::ostream& os) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 
 			for (size_t i = 0; i < N - 1; i++)
 				os << rmv_epsilon(x[i]) << " ";

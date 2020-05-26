@@ -14,12 +14,12 @@ namespace Ubpa {
 		}
 
 		inline F dot(const Impl& y) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return dot(x, y);
 		}
 
 		inline F norm2() const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return dot(x, x);
 		}
 
@@ -28,7 +28,7 @@ namespace Ubpa {
 		}
 
 		inline F distance2(const Impl& y) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return distance2(x, y);
 		}
 
@@ -41,7 +41,7 @@ namespace Ubpa {
 		}
 
 		inline F cos_theta(const Impl& y) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+			const auto& x = static_cast<const Impl&>(*this);
 			return cos_theta(x, y);
 		}
 
@@ -50,8 +50,8 @@ namespace Ubpa {
 			return dot(n) * n;
 		}
 
-		const Impl orthogonalize(const Impl& n) const noexcept {
-			auto& x = static_cast<const Impl&>(*this);
+		const Impl perpendicular(const Impl& n) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
 			return x - x.project(n);
 		}
 

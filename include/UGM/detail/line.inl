@@ -30,32 +30,32 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 		// about 58 instructions
 		if constexpr (std::is_same_v<T, float>) {
-			vecf4 d = _mm_loadu_ps(this->dir.data());
-			pointf4 v0 = _mm_loadu_ps(tri[0].data());
-			pointf4 v1 = _mm_loadu_ps(tri[1].data());
-			pointf4 v2 = _mm_loadu_ps(tri[2].data());
+			vecf4 d{ this->dir.data() };
+			pointf4 v0{ tri[0].data() };
+			pointf4 v1{ tri[1].data() };
+			pointf4 v2{ tri[2].data() };
 
 			const vecf4 e1 = v1 - v0;
 			const vecf4 e2 = v2 - v0;
 
-			const vecf4 e1_x_d = e1.cross3(d);
-			const float denominator = e1_x_d.dot3(e2);
+			const vecf4 e1_x_d = e1.v3_cross(d);
+			const float denominator = e1_x_d.v3_dot(e2).get<0>();
 
 			if (denominator == 0) // parallel
 				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
 			const float inv_denominator = ONE<T> / denominator;
 
-			pointf4 p = _mm_loadu_ps(this->point.data());
+			pointf4 p{ this->point.data() };
 			const vecf4 s = p - v0;
 
-			const vecf4 e2_x_s = e2.cross3(s);
-			const float r1 = e2_x_s.dot3(d);
+			const vecf4 e2_x_s = e2.v3_cross(s);
+			const float r1 = e2_x_s.v3_dot(d).get<0>();
 			const float u = r1 * inv_denominator;
 			if (u < 0 || u > 1)
 				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-			const float r2 = e1_x_d.dot3(s);
+			const float r2 = e1_x_d.v3_dot(s).get<0>();
 			const float v = r2 * inv_denominator;
 			if (v < 0 || v > 1)
 				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
@@ -64,7 +64,7 @@ namespace Ubpa {
 			if (u_plus_v > 1)
 				return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
 
-			const float r3 = e2_x_s.dot3(e1);
+			const float r3 = e2_x_s.v3_dot(e1).get<0>();
 			const float t = r3 * inv_denominator;
 
 			return { true, std::array<T, 3>{ONE<T> -u_plus_v, u, v}, t };

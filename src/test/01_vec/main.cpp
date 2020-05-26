@@ -67,9 +67,9 @@ int main() {
 	cout << iv * 5 << endl;
 	cout << iv * 7 << endl;
 
-	// project, orthogonalize
+	// project, perpendicular
 	cout << v.project(u.normalize()) << endl;
-	cout << v.orthogonalize(u.normalize()) << endl;
+	cout << v.perpendicular(u.normalize()) << endl;
 
 	vecf3 vs[4];
 

@@ -83,8 +83,8 @@ int main(int argc, char* argv[])
     /*{
         vecf4 u, v;
         cin >> u >> v;
-        cout << vecf4::dot3(u, v) << endl;
-        cout << vecf4::cross3(u, v) << endl;
+        cout << vecf4::v3_dot(u, v) << endl;
+        cout << vecf4::v3_cross(u, v) << endl;
     }*/
 
     //{

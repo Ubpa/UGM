@@ -81,10 +81,6 @@ int main() {
 
 ### 3.2 步骤
 
-> 另外不熟悉 CMake 的用户可在 [![tag](https://img.shields.io/github/v/tag/Ubpa/UGM)](https://github.com/Ubpa/UGM/tags) 直接下载 CMake install 版本和纯头文件库
->
-> 任何配置、使用等问题欢迎提 issues
-
 - Git
 
   ```bash
@@ -110,6 +106,8 @@ int main() {
 
 ### 3.3 使用
 
+代码可在 [demo](demo) 处找到
+
 ```c++
 // main.cpp
 #include <UGM/UGM.h>
@@ -130,11 +128,7 @@ project(demo_project VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
-endif()
-
-#find_package(UGM 0.5.8 REQUIRED)
+#find_package(UGM 0.6.1 REQUIRED)
 find_package(UGM REQUIRED)
 
 add_executable(demo main.cpp)

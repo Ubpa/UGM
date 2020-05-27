@@ -18,7 +18,9 @@ namespace Ubpa {
 
 		template<typename To>
 		To& as() & noexcept {
-			static_assert(sizeof(To) == sizeof(Impl) && std::is_same_v<typename To::T, ImplTraits_T<Impl>>);
+			static_assert(sizeof(To) == sizeof(Impl)
+				&& std::is_same_v<ImplTraits_T<To>, ImplTraits_T<Impl>>
+				&& alignof(Impl) == alignof(To));
 			return reinterpret_cast<To&>(*this);
 		}
 

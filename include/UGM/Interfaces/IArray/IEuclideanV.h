@@ -121,6 +121,122 @@ namespace Ubpa {
 			const auto& x = static_cast<const Impl&>(*this);
 			return x - x.v3_project(n);
 		}
+
+		static bool v3_eq(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmpeq_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		static bool v3_neq(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmpneq_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		bool v3_eq(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_eq(x, y);
+		}
+		bool v3_neq(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_neq(x, y);
+		}
+
+		static bool v3_lex_lt(const Impl& x, const Impl& y) noexcept {
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 3; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return true;
+				else
+					return false;
+			}
+			return false;
+		}
+		static bool v3_lex_le(const Impl& x, const Impl& y) noexcept {
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 3; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return true;
+				else
+					return false;
+			}
+			return true;
+		}
+		static bool v3_lex_gt(const Impl& x, const Impl& y) noexcept {
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 3; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return false;
+				else
+					return true;
+			}
+			return false;
+		}
+		static bool v3_lex_ge(const Impl& x, const Impl& y) noexcept {
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 3; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return false;
+				else
+					return true;
+			}
+			return true;
+		}
+		bool v3_lex_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_lex_lt(x, y);
+		}
+		bool v3_lex_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_lex_le(x, y);
+		}
+		bool v3_lex_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_lex_gt(x, y);
+		}
+		bool v3_lex_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_lex_ge(x, y);
+		}
+		static bool v3_all_lt(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmplt_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		static bool v3_all_le(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmple_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		static bool v3_all_gt(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmpgt_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		static bool v3_all_ge(const Impl& x, const Impl& y) noexcept {
+			return (_mm_movemask_ps(_mm_cmpge_ps(x, y)) & 0x7) == 0x7; // 0111
+		}
+		bool v3_all_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_all_lt(x, y);
+		}
+		bool v3_all_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_all_le(x, y);
+		}
+		bool v3_all_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_all_gt(x, y);
+		}
+		bool v3_all_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return v3_all_ge(x, y);
+		}
 #endif
 
 	private:

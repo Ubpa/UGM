@@ -58,6 +58,10 @@ namespace Ubpa {
 		template<typename... Us, std::enable_if_t<sizeof...(Us) == N>* = nullptr>
 		constexpr IArray_Impl(Us... vals) noexcept : std::array<T, N>{static_cast<T>(vals)...} {}
 
+		static Impl zero() noexcept {
+			return Impl{ T{static_cast<F>(0)} };
+		}
+
 		template<size_t i>
 		T get() const noexcept {
 			static_assert(i < N);
@@ -152,22 +156,111 @@ namespace Ubpa {
 		const float* data() const noexcept { return const_cast<IArray_Impl*>(this)->data(); }
 
 		friend bool operator==(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmpeq_ps(x, y)) == 0xf; // 1111
+			return _mm_movemask_ps(_mm_cmpeq_ps(x, y)) == 0xf;
 		}
 		friend bool operator!=(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmpneq_ps(x, y)) == 0xf; // 1111
+			return _mm_movemask_ps(_mm_cmpneq_ps(x, y)) == 0xf;
 		}
+
 		friend bool operator<(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmplt_ps(x, y)) == 0xf; // 1111
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 4; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return true;
+				else
+					return false;
+			}
+			return false;
 		}
 		friend bool operator<=(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmple_ps(x, y)) == 0xf; // 1111
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 4; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return true;
+				else
+					return false;
+			}
+			return true;
 		}
 		friend bool operator>(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmpgt_ps(x, y)) == 0xf; // 1111
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 4; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return false;
+				else
+					return true;
+			}
+			return false;
 		}
 		friend bool operator>=(const Impl& x, const Impl& y) noexcept {
-			return _mm_movemask_ps(_mm_cmpge_ps(x, y)) == 0xf; // 1111
+			int mask_lt = _mm_movemask_ps(_mm_cmplt_ps(x, y));
+			int mask_eq = _mm_movemask_ps(_mm_cmpeq_ps(x, y));
+			for (size_t i = 0; i < 4; i++) {
+				int cur_bit = (1 << i);
+				if (mask_eq & cur_bit)
+					continue;
+				if (mask_lt & cur_bit)
+					return false;
+				else
+					return true;
+			}
+			return true;
+		}
+		bool lex_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return lex_lt(x, y);
+		}
+		bool lex_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return lex_le(x, y);
+		}
+		bool lex_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return lex_gt(x, y);
+		}
+		bool lex_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return lex_ge(x, y);
+		}
+		static bool all_lt(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmplt_ps(x, y)) == 0xf;
+		}
+		static bool all_le(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmple_ps(x, y)) == 0xf;
+		}
+		static bool all_gt(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpgt_ps(x, y)) == 0xf;
+		}
+		static bool all_ge(const Impl& x, const Impl& y) noexcept {
+			return _mm_movemask_ps(_mm_cmpge_ps(x, y)) == 0xf;
+		}
+		bool all_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_lt(x, y);
+		}
+		bool all_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_le(x, y);
+		}
+		bool all_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_gt(x, y);
+		}
+		bool all_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_ge(x, y);
 		}
 
 		// ==================
@@ -184,6 +277,10 @@ namespace Ubpa {
 		template<typename Ux, typename Uy, typename Uz, typename Uw>
 		IArray_Impl(Ux x, Uy y, Uz z, Uw w) noexcept
 			: IArray_Impl{ static_cast<float>(x),static_cast<float>(y),static_cast<float>(z),static_cast<float>(w) } {}
+
+		static Impl zero() noexcept {
+			return _mm_setzero_ps();
+		}
 
 		template<size_t i>
 		float get() const noexcept {

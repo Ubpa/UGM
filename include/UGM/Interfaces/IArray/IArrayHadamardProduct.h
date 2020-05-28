@@ -19,7 +19,7 @@ namespace Ubpa {
 		Impl& operator*=(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				x = x * y;
 			else
 #endif // UBPA_USE_SIMD
@@ -31,7 +31,7 @@ namespace Ubpa {
 		const Impl operator/(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_div_ps(x, y);
 			else
 #endif // UBPA_USE_SIMD
@@ -46,7 +46,7 @@ namespace Ubpa {
 		Impl& operator/=(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return x = x / y;
 			else
 #endif // UBPA_USE_SIMD
@@ -59,7 +59,7 @@ namespace Ubpa {
 			const auto& x = static_cast<const Impl&>(*this);
 
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_div_ps(Impl{ 1.f }, x);
 			else
 #endif // UBPA_USE_SIMD
@@ -79,7 +79,7 @@ namespace Ubpa {
 			const auto& x = static_cast<const Impl&>(*this);
 
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_mul_ps(x, y);
 			else
 #endif // UBPA_USE_SIMD

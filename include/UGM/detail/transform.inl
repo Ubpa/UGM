@@ -162,7 +162,7 @@ namespace Ubpa {
 		F zw = z * w;
 
 #ifdef UBPA_USE_SIMD
-		if constexpr (SupportSIMD_v<ImplTraits_T<transform<F>>>) {
+		if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<transform<F>>>) {
 			this->init(
 				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), p[0],
 				    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), p[1],
@@ -247,7 +247,7 @@ namespace Ubpa {
 	}
 
 	template<typename F>
-	const transform<F> transform<F>::perspective(F fovY, F aspect, F zNear, F zFar) noexcept {
+	const transform<F> transform<F>::perspective(F fovY, F aspect, F zNear, F zFar, F near_clip_vlaue) noexcept {
 		assert(fovY > 0 && aspect > 0 && zNear >= 0 && zFar > zNear);
 
 		F tanHalfFovY = std::tan(fovY / static_cast<F>(2));
@@ -255,8 +255,8 @@ namespace Ubpa {
 
 		F m00 = cotHalfFovY / aspect;
 		F m11 = cotHalfFovY;
-		F m22 = (zFar + zNear) / (zNear - zFar);
-		F m23 = (2 * zFar * zNear) / (zNear - zFar);
+		F m22 = (zFar - near_clip_vlaue * zNear) / (zNear - zFar);
+		F m23 = ((1 - near_clip_vlaue) * zFar * zNear) / (zNear - zFar);
 
 		return {
 			m00,   0,   0,   0,

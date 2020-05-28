@@ -56,7 +56,7 @@ namespace Ubpa::detail::IMatrix_ {
 		inline static const M run(const M& m) noexcept {
 			static_assert(M::N == 4);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<ImplTraits_T<M>>) {
+			if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<M>>) {
 				M rst{ m };
 				_MM_TRANSPOSE4_PS(rst[0], rst[1], rst[2], rst[3]);
 				return rst;
@@ -95,7 +95,7 @@ namespace Ubpa::detail::IMatrix_ {
 		inline static ImplTraits_F<M> run(const M& m) noexcept {
 			static_assert(M::N == 4);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<ImplTraits_T<M>>)
+			if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<M>>)
 				return m[0].get<0>() + m[1].get<1>() + m[2].get<2>() + m[3].get<3>();
 			else
 #endif // UBPA_USE_SIMD
@@ -123,7 +123,7 @@ namespace Ubpa::detail::IMatrix_ {
 		inline static void run(M& m, const std::array<ImplTraits_F<M>, 4 * 4>& data) noexcept {
 			static_assert(M::N == 4);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<ImplTraits_T<M>>) {
+			if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<M>>) {
 				m[0] = _mm_loadu_ps(&(data[0]));
 				m[1] = _mm_loadu_ps(&(data[4]));
 				m[2] = _mm_loadu_ps(&(data[8]));
@@ -161,7 +161,7 @@ namespace Ubpa::detail::IMatrix_ {
 		inline static M run() noexcept {
 			static_assert(M::N == 4);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<ImplTraits_T<M>>) {
+			if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<M>>) {
 				using V = ImplTraits_T<M>;
 				const __m128 z = _mm_set1_ps(0.f);
 				return { V{z}, V{z}, V{z}, V{z} };

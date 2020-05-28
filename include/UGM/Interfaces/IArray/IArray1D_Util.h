@@ -16,7 +16,7 @@ namespace Ubpa {
 		inline const Impl abs() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_abs_ps(x);
 #endif // UBPA_USE_SIMD
 			{
@@ -33,7 +33,7 @@ namespace Ubpa {
 
 		inline T min_component() const noexcept {
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>) {
+			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
@@ -55,7 +55,7 @@ namespace Ubpa {
 
 		inline T max_component() const noexcept {
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>) {
+			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
@@ -97,7 +97,7 @@ namespace Ubpa {
 
 		static const Impl min(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_min_ps(x, y);
 #endif // UBPA_USE_SIMD
 			{
@@ -111,7 +111,7 @@ namespace Ubpa {
 
 		static const Impl max(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_USE_SIMD
-			if constexpr (SupportSIMD_v<Impl>)
+			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_max_ps(x, y);
 #endif // UBPA_USE_SIMD
 			{

@@ -2,6 +2,10 @@
 
 #include <UTemplate/SI.h>
 
+namespace Ubpa::detail::ImplTraits_ {
+	template<typename Impl> struct ImplTraits_SupportSIMD;
+}
+
 namespace Ubpa {
 	// element type
 	template<typename Impl>
@@ -23,13 +27,22 @@ namespace Ubpa {
 	template<typename Impl>
 	using ImplTraits_P = typename ImplTraits<Impl>::P;
 
-#ifdef UBPA_USE_SIMD
 	template<typename Impl>
-	struct SupportSIMD : IValue<bool, std::is_same_v<ImplTraits_T<Impl>, float> && ImplTraits_N<Impl> == 4> {};
+	constexpr bool ImplTraits_SupportSIMD = detail::ImplTraits_::ImplTraits_SupportSIMD<Impl>::value;
+}
+
+namespace Ubpa::detail::ImplTraits_ {
+#ifdef UBPA_USE_SIMD
+	template<typename Enabler, typename Impl>
+	struct ImplTraits_SupportSIMD_Helper : std::true_type {};
+	template<typename Impl>
+	struct ImplTraits_SupportSIMD_Helper<std::enable_if_t<!ImplTraits<Impl>::support_SIMD>, Impl>
+		: std::false_type {};
+
+	template<typename Impl>
+	struct ImplTraits_SupportSIMD : IValue<bool, ImplTraits_SupportSIMD_Helper<void, Impl>::value && std::is_same_v<ImplTraits_T<Impl>, float>&& ImplTraits_N<Impl> == 4> {};
 #else
 	template<typename Impl>
-	struct SupportSIMD : std::false_type {};
+	struct ImplTraits_SupportSIMD : std::false_type {};
 #endif
-	template<typename Impl>
-	constexpr bool SupportSIMD_v = SupportSIMD<Impl>::value;
 }

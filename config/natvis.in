@@ -132,16 +132,6 @@
       </ArrayItems>
     </Expand>
   </Type>
-  <!-- SIMD -->
-  <Type Name="Ubpa::val&lt;*,4&gt;>">
-    <DisplayString>{{{m.m128_f32[0]}, {m.m128_f32[1]}, {m.m128_f32[2]}, {m.m128_f32[3]}}}</DisplayString>
-    <Expand>
-      <ArrayItems>
-        <Size>4</Size>
-        <ValuePointer>m.m128_f32</ValuePointer>
-      </ArrayItems>
-    </Expand>
-  </Type>
   
   <Type Name="Ubpa::scale&lt;*,1&gt;>">
     <DisplayString>{{{_Elems[0]}}}</DisplayString>

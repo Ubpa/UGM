@@ -15,8 +15,8 @@ namespace Ubpa {
 	struct IArray_Impl;
 
 	template<typename Base, typename Impl>
-	struct IArray : IArray_Impl<SupportSIMD_v<Impl>, Base, Impl> {
-		using IArray_Impl<SupportSIMD_v<Impl>, Base, Impl>::IArray_Impl;
+	struct IArray : IArray_Impl<ImplTraits_SupportSIMD<Impl>, Base, Impl> {
+		using IArray_Impl<ImplTraits_SupportSIMD<Impl>, Base, Impl>::IArray_Impl;
 	};
 
 	template<typename IArray_Base, typename Impl>

@@ -54,3 +54,7 @@ __m128 _mm_abs_ps(__m128 a)
 #endif // UBPA_USE_SSE_4_1
 
 #endif // UBPA_USE_SIMD
+
+// opengl : -1
+// dx : 0
+#define UBPA_DEFAULT_NEAR_CLIP_VALUE -1

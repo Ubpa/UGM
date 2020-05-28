@@ -35,7 +35,7 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 			if constexpr (SupportSIMD_v<Impl>) {
 				// 5 instructions
-				const auto& s0 = this->m128();
+				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
 				auto s2 = _mm_min_ps(s0, s1);
 				auto s3 = VecSwizzle(s2, 2, 3, 0, 1);
@@ -57,7 +57,7 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 			if constexpr (SupportSIMD_v<Impl>) {
 				// 5 instructions
-				const auto& s0 = this->m128();
+				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
 				auto s2 = _mm_max_ps(s0, s1);
 				auto s3 = VecSwizzle(s2, 2, 3, 0, 1);

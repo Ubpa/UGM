@@ -275,6 +275,7 @@ T operator+(T a, T b) const {
 - [x] 给 `float4` 一系列 `v3_*` 接口
 - [ ] 支持 CUDA
 - [x] 去除依赖 XSIMD
+- [ ] vector op: log, exp, cos, sin, ...
 - [ ] ...
 
 ## Copyright and Licensing

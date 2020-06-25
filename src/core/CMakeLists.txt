@@ -2,7 +2,7 @@ set(core_define "")
 set(core_c_option "")
 
 if(MSVC)
-  list(APPEND core_c_option "/fp:fast")
+  list(APPEND core_c_option "/fp:fast;/permissive-")
 endif()
 
 if(Ubpa_USE_XSIMD)

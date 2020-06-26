@@ -7,6 +7,16 @@ namespace Ubpa {
 	}
 
 	template<typename T>
+	inline quat<T>::quat(const vec<T, 3>& from, const vec<T, 3>& to) noexcept {
+		assert(from.is_normalized() && to.is_normalized());
+		auto sin_theta_axis = from.cross(to);
+		float cos_theta = from.dot(to);
+		float cos_half_theta = std::sqrt(std::max(ZERO<T>, (cos_theta + 1) / 2));
+		imag() = sin_theta_axis / (2 * cos_half_theta);
+		real() = cos_half_theta;
+	}
+
+	template<typename T>
 	quat<T>::quat(const vec<T, 3>& axis, T theta) noexcept {
 		T halfTheta = static_cast<T>(0.5)* theta;
 		real() = std::cos(halfTheta);
@@ -91,16 +101,15 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const point<T, 3> quat<T>::operator*(const point<T, 3>& p) const noexcept {
+	const vec<T, 3> quat<T>::operator*(const vec<T, 3>& v) const noexcept {
 		// slow
-		//return point<T,3>((q * quat(p) * q.inverse()).imag());
+		//return (q * quat(v) * q.inverse()).imag();
 
 		// fast
-		auto pV = p.cast_to<vec<T, 3>>();
 		T r = real();
 		const auto& im = imag();
-		return ((r * r - im.norm2()) * pV
-			+ 2 * (im.dot(pV) * im + r * im.cross(pV))).cast_to<point<T, 3>>();
+		return (r * r - im.norm2()) * v
+			+ 2 * (im.dot(v) * im + r * im.cross(v));
 	}
 
 	template<typename T>

@@ -14,8 +14,8 @@ int main() {
 	cout << q.axis() << endl;
 	cout << q.theta() << endl;
 	quatf x({1,1,1}, 0);
-	pointf3 p(1, 0, 0);
-	cout << q * p << endl;
+	vecf3 v(1, 0, 0);
+	cout << q * v << endl;
 	cout << quatf::identity() << endl;
 	cout << q.theta() << endl;
 	cout << q.is_identity() << endl;

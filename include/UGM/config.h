@@ -12,7 +12,7 @@
 #include <emmintrin.h>
 
 // ref: https://www.cnblogs.com/elvisxu/archive/2011/06/26/2090832.html
-__m128 _mm_abs_ps(__m128 a)
+inline __m128 _mm_abs_ps(__m128 a)
 {
     alignas(16) static const union { int i[4]; __m128 m; } __mm_abs_mask_cheat_ps
         = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };

@@ -23,6 +23,9 @@ namespace Ubpa {
 
 		inline quat(const vec<T, 3>& axis, T theta) noexcept;
 
+		// from and to is normalized
+		inline quat(const vec<T, 3>& from, const vec<T, 3>& to) noexcept;
+
 		// axis * sin(theta/2)
 		inline vec<T, 3>& imag() noexcept;
 		inline const vec<T, 3>& imag() const noexcept;
@@ -48,7 +51,7 @@ namespace Ubpa {
 
 		inline const euler<T> to_euler() const noexcept;
 
-		inline const point<T, 3> operator*(const point<T, 3>& p) const noexcept;
+		inline const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
 
 	private:
 		template<typename Base, typename quat>

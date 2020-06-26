@@ -23,6 +23,11 @@ namespace Ubpa {
 
 		template<typename PContainer, typename WContainer>
 		inline static const point combine(PContainer points, WContainer weights) noexcept;
+
+		template<typename Container>
+		inline static const point center(const Container& points) noexcept {
+			return combine(points, static_cast<T>(1) / static_cast<T>(points.size()));
+		}
 	};
 
 	template<size_t N>

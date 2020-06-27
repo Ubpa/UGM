@@ -46,6 +46,69 @@ namespace Ubpa::detail::IMatrix_ {
 	// =======================================================
 
 	template<size_t N>
+	struct det;
+
+	template<>
+	struct det<2> {
+		template<typename M>
+		inline static typename M::F run(const M& m) noexcept {
+			using F = typename M::F;
+			return m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0);
+		}
+	};
+
+	template<>
+	struct det<3> {
+		template<typename M>
+		inline static typename M::F run(const M& m) noexcept {
+			using F = typename M::F;
+			return m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
+				+ m[1][0] * (m[2][1] * m[0][2] - m[0][1] * m[2][2])
+				+ m[2][0] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]);
+		}
+	};
+
+	template<>
+	struct det<4> {
+		template<typename M>
+		inline static typename M::F run(const M& m) noexcept {
+			using F = typename M::F;
+
+			F r00 = m[1][1] * m[2][2] * m[3][3] -
+				m[1][1] * m[2][3] * m[3][2] -
+				m[2][1] * m[1][2] * m[3][3] +
+				m[2][1] * m[1][3] * m[3][2] +
+				m[3][1] * m[1][2] * m[2][3] -
+				m[3][1] * m[1][3] * m[2][2];
+
+			F r10 = -m[1][0] * m[2][2] * m[3][3] +
+				m[1][0] * m[2][3] * m[3][2] +
+				m[2][0] * m[1][2] * m[3][3] -
+				m[2][0] * m[1][3] * m[3][2] -
+				m[3][0] * m[1][2] * m[2][3] +
+				m[3][0] * m[1][3] * m[2][2];
+
+			F r20 = m[1][0] * m[2][1] * m[3][3] -
+				m[1][0] * m[2][3] * m[3][1] -
+				m[2][0] * m[1][1] * m[3][3] +
+				m[2][0] * m[1][3] * m[3][1] +
+				m[3][0] * m[1][1] * m[2][3] -
+				m[3][0] * m[1][3] * m[2][1];
+
+			F r30 = -m[1][0] * m[2][1] * m[3][2] +
+				m[1][0] * m[2][2] * m[3][1] +
+				m[2][0] * m[1][1] * m[3][2] -
+				m[2][0] * m[1][2] * m[3][1] -
+				m[3][0] * m[1][1] * m[2][2] +
+				m[3][0] * m[1][2] * m[2][1];
+
+			F det = m[0][0] * r00 + m[0][1] * r10 + m[0][2] * r20 + m[0][3] * r30;
+		}
+	};
+
+	// =======================================================
+
+	template<size_t N>
 	struct transpose;
 
 	template<>

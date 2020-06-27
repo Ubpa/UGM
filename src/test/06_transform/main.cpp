@@ -60,4 +60,14 @@ int main() {
 	U3.print();
 	S3.print();
 	V3.print();
+
+	matf2 s2{ 1,0,0,-1 };
+	auto [sU2, sS2, sV2] = s2.SVD();
+	sU2.print();
+	sS2.print();
+	sV2.print();
+	auto [pU2, pS2, pV2] = s2.signed_SVD();
+	pU2.print();
+	pS2.print();
+	pV2.print();
 }

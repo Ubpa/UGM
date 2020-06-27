@@ -121,11 +121,30 @@ namespace Ubpa {
 			return detail::IMatrix_::transpose<N>::run(m);
 		}
 
+		// return (U, S, V)
 		// not accurate in 3x3 but fast (1~2 ms)
 		inline const std::tuple<Impl, Impl, Impl> SVD() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			static_assert(N == 2 || (N == 3 && std::is_same_v<F, float>)); // only support 2x2 and 3x3 matrix by now
 			return detail::IMatrix_::SVD<N>::run(m);
+		}
+
+		// return (U, S, V)
+		// det(UV^T) > 0, last sigma may be negative
+		// not accurate in 3x3 but fast (1~2 ms)
+		inline const std::tuple<Impl, Impl, Impl> signed_SVD() const noexcept {
+			auto [U, S, V] = SVD();
+			auto U_VT = U * V.transpose();
+			if (U_VT.det() < 0) {
+				V[0] = -V[0];
+				S[N - 1] = -S[N - 1];
+			}
+			return { U,S,V };
+		}
+
+		inline F det() const noexcept {
+			const auto& m = static_cast<const Impl&>(*this);
+			return detail::IMatrix_::det<N>::run(m);
 		}
 
 		F* data() noexcept {

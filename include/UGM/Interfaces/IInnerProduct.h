@@ -36,13 +36,26 @@ namespace Ubpa {
 			F xN = x.norm();
 			F yN = y.norm();
 			F xyN = xN * yN;
-			assert(xyN != static_cast<F>(0));
+			assert(xyN != ZERO<F>);
 			return Impl::dot(x, y) / xyN;
 		}
 
 		inline F cos_theta(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return cos_theta(x, y);
+		}
+
+		inline static F cot_theta(const Impl& x, const Impl& y) noexcept {
+			float c = cos_theta(x, y);
+			F s2 = 1 - pow2(c);
+			assert(s2 > ZERO<F>);
+			F s = std::sqrt(s2);
+			return c / s;
+		}
+
+		inline F cot_theta(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return cot_theta(x, y);
 		}
 
 		const Impl project(const Impl& n) const noexcept {

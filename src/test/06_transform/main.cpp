@@ -44,4 +44,20 @@ int main() {
 	cout << transformf::rotate_with<Axis::X>(to_radian(180.f)).decompose_quatenion() << endl;
 	auto trs = transformf{ pointf3{1.f}, quatf{vecf3{1,1,1},to_radian(45.f)}, scalef3{2.f,3.f,4.f} };
 	cout << trs * trs.inverse_sim() << endl;
+
+	matf2 m2{ 2,9,5,3 };
+	auto [U2, S2, V2] = m2.SVD();
+	U2.print();
+	S2.print();
+	V2.print();
+
+	matf3 m3{
+		-0.558253, -0.0461681, -0.505735,
+		-0.411397,  0.0365854,  0.199707,
+		 0.285389, -0.3137890,  0.200189
+	};
+	auto [U3, S3, V3] = m3.SVD();
+	U3.print();
+	S3.print();
+	V3.print();
 }

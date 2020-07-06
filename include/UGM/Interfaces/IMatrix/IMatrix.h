@@ -136,7 +136,7 @@ namespace Ubpa {
 			auto [U, S, V] = SVD();
 			auto U_VT = U * V.transpose();
 			if (U_VT.det() < 0) {
-				V[0] = -V[0];
+				V[N - 1] = -V[N - 1];
 				S[N - 1] = -S[N - 1];
 			}
 			return { U,S,V };

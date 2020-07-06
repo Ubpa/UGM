@@ -1,22 +1,29 @@
-set(core_define "")
-set(core_c_option "")
+set(core_defines "")
+set(core_c_options "")
+set(sources "")
 
 if(MSVC)
-  list(APPEND core_c_option "/fp:fast;/permissive-")
+  list(APPEND core_c_options "/fp:fast;/permissive-")
+  list(APPEND sources "${PROJECT_SOURCE_DIR}/vs/UGM.natvis")
 endif()
 
 if(Ubpa_USE_XSIMD)
-  list(APPEND core_define UBPA_USE_SIMD)
-endif()
-
-if(Ubpa_USE_SSE_4_1)
-  list(APPEND core_define UBPA_USE_SSE_4_1)
+  list(APPEND core_defines UBPA_USE_SIMD)
+  if(Ubpa_USE_SSE_4_1)
+    list(APPEND core_defines UBPA_USE_SSE_4_1)
+  endif()
 endif()
 
 Ubpa_AddTarget(
-  MODE HEAD
-  LIB Ubpa::UTemplate_core
-  DEFINE ${core_define}
-  C_OPTION ${core_c_option}
-  INC include
+  MODE INTERFACE
+  SOURCE
+    ${sources}
+  DEFINE
+    ${core_defines}
+  C_OPTION
+    ${core_c_options}
+  INC
+    "${PROJECT_SOURCE_DIR}/include"
+  LIB
+    Ubpa::UTemplate_core
 )

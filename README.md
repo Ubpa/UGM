@@ -47,9 +47,11 @@ using namespace Ubpa;
 using namespace std;
 
 int main() {
-    transformf tsfm{ pointf3{1,1,1},
-                    scalef3{2.f},
-                    quatf{vecf3{1,0,0}, to_radian(90.f)} }; // T * R * S
+    transformf tsfm{
+        vecf3{1,1,1},                        // T
+        quatf{vecf3{1,0,0}, to_radian(90.f), // R
+        scalef3{2.f}}                        // S
+    }; // T * R * S
 
     pointf3 p{ 1,2,3 };
     vecf3 v{ 1,1,1 };

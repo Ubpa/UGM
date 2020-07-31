@@ -37,21 +37,26 @@ namespace Ubpa {
 		inline explicit transform(const mat<F, 4>& m) noexcept;
 		inline explicit transform(const mat<F, 3>& m) noexcept;
 
-		inline explicit transform(const point<F, 3>& pos) noexcept;
+		inline explicit transform(const vec<F, 3>& translation) noexcept;
 		inline explicit transform(const quat<F>& rot) noexcept;
 		inline explicit transform(const euler<F>& euler) noexcept;
 		inline transform(const vec<F, 3>& axis, F radian) noexcept;
 		inline explicit transform(const scale<F, 3>& scale) noexcept;
 		inline explicit transform(F scale) noexcept;
 
-		inline transform(const point<F, 3>& pos, const scale<F, 3>& scale) noexcept;
-		inline transform(const point<F, 3>& pos, const quat<F>& rot) noexcept;
+		inline transform(const vec<F, 3>& translation, const scale<F, 3>& scale) noexcept;
+		inline transform(const vec<F, 3>& translation, const quat<F>& rot) noexcept;
 		inline transform(const quat<F>& rot, const scale<F, 3>& scale) noexcept;
-		inline transform(const point<F, 3>& pos, const quat<F>& rot, const scale<F, 3>& scale) noexcept;
+		inline transform(const vec<F, 3>& translation, const quat<F>& rot, const scale<F, 3>& scale) noexcept;
 
 		// world space -> camera space
 		// right hand, forward is camera's back
-		inline static const transform look_at(const point<F, 3>& pos, const point<F, 3>& target, const vec<F, 3>& up = vec<F, 3>(0, 1, 0)) noexcept;
+		inline static const transform look_at(
+			const point<F, 3>& pos,
+			const point<F, 3>& target,
+			const vec<F, 3>& up = vec<F, 3>(0, 1, 0)
+		) noexcept;
+
 		// orthographic, camera space -> clip space
 		inline static const transform orthographic(F width, F height, F zNear, F zFar) noexcept;
 		// perspective, camera space -> clip space
@@ -64,7 +69,7 @@ namespace Ubpa {
 		template<Axis axis>
 		inline static const transform rotate_with(F theta) noexcept;
 
-		inline const point<F, 3> decompose_position() const noexcept { return { (*this)(0,3), (*this)(1,3), (*this)(2,3) }; }
+		inline const vec<F, 3> decompose_translation() const noexcept;
 		inline const mat<F, 3> decompose_rotation_matrix() const noexcept;
 		inline const quat<F> decompose_quatenion() const noexcept;
 		inline const euler<F> decompose_euler() const noexcept;

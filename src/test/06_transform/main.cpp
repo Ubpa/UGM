@@ -29,7 +29,7 @@ int main() {
 	cout << transformf::perspective(to_radian(60.f), 16.f / 9.f, 0.1f, 100.f) << endl;
 	cout << transformf::orthographic(10.f, 10.f, 0.1f, 100.f) << endl;
 
-	cout << t.decompose_position() << endl;
+	cout << t.decompose_translation() << endl;
 	cout << t.decompose_mat3() << endl;
 	cout << t.decompose_scale() << endl;
 	cout << t.decompose_euler() << endl;
@@ -42,7 +42,7 @@ int main() {
 	cout << t * normalf{} << endl;
 
 	cout << transformf::rotate_with<Axis::X>(to_radian(180.f)).decompose_quatenion() << endl;
-	auto trs = transformf{ pointf3{1.f}, quatf{vecf3{1,1,1},to_radian(45.f)}, scalef3{2.f,3.f,4.f} };
+	auto trs = transformf{ vecf3{1.f}, quatf{vecf3{1,1,1},to_radian(45.f)}, scalef3{2.f,3.f,4.f} };
 	cout << trs * trs.inverse_sim() << endl;
 
 	matf2 m2{ 2,9,5,3 };

@@ -14,11 +14,11 @@ namespace Ubpa {
 			      0,       0,       0,    1 } {}
 
 	template<typename F>
-	transform<F>::transform(const point<F, 3>& p) noexcept :
+	transform<F>::transform(const vec<F, 3>& t) noexcept :
 		transform{
-			1, 0, 0, p[0],
-			0, 1, 0, p[1],
-			0, 0, 1, p[2],
+			1, 0, 0, t[0],
+			0, 1, 0, t[1],
+			0, 0, 1, t[2],
 			0, 0, 0,    1 } { }
 
 	template<typename F>
@@ -108,7 +108,7 @@ namespace Ubpa {
 	}
 
 	template<typename F>
-	transform<F>::transform(const point<F, 3>& t, const scale<F, 3>& s) noexcept :
+	transform<F>::transform(const vec<F, 3>& t, const scale<F, 3>& s) noexcept :
 		transform{ std::array<F, 4 * 4>{
 			s[0],    0,    0, t[0],
 			   0, s[1],    0, t[1],
@@ -116,7 +116,7 @@ namespace Ubpa {
 			   0,    0,    0,    1 } } { }
 
 	template<typename F>
-	transform<F>::transform(const point<F, 3>& p, const quat<F>& q) noexcept {
+	transform<F>::transform(const vec<F, 3>& t, const quat<F>& q) noexcept {
 		F x = q.imag()[0];
 		F y = q.imag()[1];
 		F z = q.imag()[2];
@@ -133,19 +133,19 @@ namespace Ubpa {
 		F zw = z * w;
 
 		this->init(
-			1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), p[0],
-			    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), p[1],
-				2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), p[2],
+			1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), t[0],
+			    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), t[1],
+				2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), t[2],
 				            0,                 0,                 0,    1
 		);
 	}
 
 	template<typename F>
 	transform<F>::transform(const quat<F>& rot, const scale<F, 3>& scale) noexcept
-		: transform{ point<F, 3>{0,0,0}, rot, scale } {}
+		: transform{ vec<F, 3>{0,0,0}, rot, scale } {}
 
 	template<typename F>
-	transform<F>::transform(const point<F, 3>& p, const quat<F>& q, const scale<F, 3>& s) noexcept {
+	transform<F>::transform(const vec<F, 3>& t, const quat<F>& q, const scale<F, 3>& s) noexcept {
 		F x = q.imag()[0];
 		F y = q.imag()[1];
 		F z = q.imag()[2];
@@ -164,9 +164,9 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 		if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<transform<F>>>) {
 			this->init(
-				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), p[0],
-				    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), p[1],
-				    2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), p[2],
+				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), t[0],
+				    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), t[1],
+				    2 * (xz - yw),     2 * (yz + xw), 1 - 2 * (xx + yy), t[2],
 				                0,                 0,                 0,    1
 			);
 			(*this)[0] *= s[0];
@@ -176,9 +176,9 @@ namespace Ubpa {
 		else
 #endif // UBPA_USE_SIMD
 		this->init(
-			s[0] * (1 - 2 * (yy + zz)), s[1] * (    2 * (xy - zw)), s[2] * (    2 * (xz + yw)), p[0],
-			s[0] * (    2 * (xy + zw)), s[1] * (1 - 2 * (zz + xx)), s[2] * (    2 * (yz - xw)), p[1],
-			s[0] * (    2 * (xz - yw)), s[1] * (    2 * (yz + xw)), s[2] * (1 - 2 * (xx + yy)), p[2],
+			s[0] * (1 - 2 * (yy + zz)), s[1] * (    2 * (xy - zw)), s[2] * (    2 * (xz + yw)), t[0],
+			s[0] * (    2 * (xy + zw)), s[1] * (1 - 2 * (zz + xx)), s[2] * (    2 * (yz - xw)), t[1],
+			s[0] * (    2 * (xz - yw)), s[1] * (    2 * (yz + xw)), s[2] * (1 - 2 * (xx + yy)), t[2],
 			                         0,                          0,                          0,    1
 		);
 	}
@@ -318,6 +318,11 @@ namespace Ubpa {
 			// TODO
 			return Base::inverse();
 		}
+	}
+
+	template<typename F>
+	const vec<F, 3> transform<F>::decompose_translation() const noexcept {
+		return { (*this)(0,3), (*this)(1,3), (*this)(2,3) };
 	}
 
 	template<typename F>

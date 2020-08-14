@@ -69,74 +69,10 @@ int main() {
 }
 ```
 
-## 3. 安装
+## 3. 文档
 
-### 3.1 环境
-
-- Win10
-- [Git](https://git-scm.com/) 
-- VS 2019
-- [CMake-GUI](https://cmake.org/) 3.16.3 及以上
-- 支持 SIMD 扩展指令集 SSE 4.1
-
-> 其他环境自行测试
-
-### 3.2 步骤
-
-- Git
-
-  ```bash
-  git clone https://github.com/Ubpa/UGM
-  ```
-
-- CMake-GUI
-  
-  - 设置源码路径 `Where is the source code` 为之前 git clone 的路径 `<your-path-to-source-UGM>` 
-  - 设置构建（中间代码）路径 `Where to build the binaries` 为 `<your-path-to-source-UGM>/build` 
-  - 点击 Configure 按钮
-    - （默认不勾选）`Ubpa_BuildUGMTest`：可构建测试用例
-    - （默认勾选）`Ubpa_USE_SIMD`：使用 SIMD 加速
-    - 修改安装路径 `CMAKE_INSTALL_PREFIX`，记为 `<install-path>`（默认为 `C:/...`，此时需要以**管理员**方式打开 VS 2019），注意 `<install-path>` 最后应为 `Ubpa`，如 `<install-path>=D:/Program_Files/Ubpa`，因为会同时安装 [UCMake](https://github.com/Ubpa/UCMake)，[UTemplate](https://github.com/Ubpa/UTemplate)。
-  - 点击 Generate 按钮
-  - 点击 Open Project 按钮，从而打开 VS 2019
-  
-- 在 VS 2019 的”解决方案资源管理器“窗口中找到 `INSTALL` 项目，右键，选择“生成”
-
-- 将 `<your-path-to-installed-UGM>` 加入到系统环境变量 `Path` 中（或者新建一个环境变量为 `UGM_DIR`，并将其值设置为 `<your-path-to-installed-UGM>`），从而使得 CMake 的 `find_package` 可以正确找到 `UGM` 
-
-- 删掉 `<your-path-to-source-UGM>/build`，否则 CMake 的 `find_package` 会优先定位到此处，很可能导致错误
-
-### 3.3 使用
-
-代码可在 [demo](demo) 处找到
-
-```c++
-// main.cpp
-#include <UGM/UGM.h>
-#include <iostream>
-using namespace Ubpa;
-int main(){
-    pointf3 p{0, 1, 2};
-    pointf3 q{2, 1, 0};
-    std::cout << p - q << std::endl;
-}
-```
-
-```CMake
-# CMakeLists.txt
-cmake_minimum_required(VERSION 3.14)
-project(demo_project VERSION 1.0.0)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-#find_package(UGM 0.6.6 REQUIRED)
-find_package(UGM REQUIRED)
-
-add_executable(demo main.cpp)
-
-target_link_libraries(demo PUBLIC Ubpa::UGM_core)
-```
+- [安装使用说明](setup.md) 
+- API (TODO)
 
 ## 4. 设计思路
 

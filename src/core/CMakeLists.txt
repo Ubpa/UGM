@@ -7,7 +7,7 @@ if(MSVC)
   list(APPEND sources "${PROJECT_SOURCE_DIR}/vs/UGM.natvis")
 endif()
 
-if(Ubpa_USE_XSIMD)
+if(Ubpa_USE_SIMD)
   list(APPEND core_defines UBPA_USE_SIMD)
   if(Ubpa_USE_SSE_4_1)
     list(APPEND core_defines UBPA_USE_SSE_4_1)

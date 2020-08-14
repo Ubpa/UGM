@@ -72,7 +72,7 @@ int main() {
 ## 3. 文档
 
 - [安装使用说明](setup.md) 
-- API (TODO)
+- [API](API.md) 
 
 ## 4. 设计思路
 

@@ -81,6 +81,8 @@ namespace Ubpa {
 			rst.fill(get<i>());
 			return rst;
 		}
+
+		// TODO: add compare
 	};
 
 #ifdef UBPA_USE_SIMD
@@ -220,19 +222,19 @@ namespace Ubpa {
 		}
 		bool lex_lt(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return lex_lt(x, y);
+			return x < y;
 		}
 		bool lex_le(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return lex_le(x, y);
+			return x <= y;
 		}
 		bool lex_gt(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return lex_gt(x, y);
+			return x > y;
 		}
 		bool lex_ge(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return lex_ge(x, y);
+			return x >= y;
 		}
 		static bool all_lt(const Impl& x, const Impl& y) noexcept {
 			return _mm_movemask_ps(_mm_cmplt_ps(x, y)) == 0xf;

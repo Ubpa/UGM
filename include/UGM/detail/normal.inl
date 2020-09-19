@@ -13,7 +13,6 @@ namespace Ubpa {
 	template<typename T>
 	const vec<T, 3> normal<T>::to_sphere_tangent() const noexcept {
 		assert(this->is_normalized());
-		// atan2: https://zh.wikipedia.org/wiki/Atan2
 		if (*this == normal{ 0, 1, 0 })
 			return { 1,0,0 };
 		else

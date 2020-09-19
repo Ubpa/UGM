@@ -31,7 +31,7 @@ namespace Ubpa {
 	template<typename T>
 	inline constexpr T to_radian(T degree) noexcept;
 
-	template<typename T, typename = std::enable_if_t<std::is_floating_point_v<T>>>
+	template<typename T>
 	inline constexpr T to_degree(T radian) noexcept;
 
 	template<typename T>

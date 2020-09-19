@@ -15,6 +15,7 @@ namespace Ubpa {
 	// roll -> pitch -> yaw
 	// Tait¨CBryan angles, extrinsic rotations (math: x-y-z, game: z-x-y)
 	// ref: https://en.wikipedia.org/wiki/Euler_angles
+	// degree
 	template<typename T>
 	struct euler : SI<euler<T>> {
 		using SI<euler<T>>::SI;

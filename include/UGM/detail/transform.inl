@@ -60,12 +60,15 @@ namespace Ubpa {
 
 	template<typename F>
 	transform<F>::transform(const euler<F>& e) noexcept {
-		F cX = std::cos(e[0]);
-		F sX = std::sin(e[0]);
-		F cY = std::cos(e[1]);
-		F sY = std::sin(e[1]);
-		F cZ = std::cos(e[2]);
-		F sZ = std::sin(e[2]);
+		F x = to_radian(e[0]);
+		F y = to_radian(e[1]);
+		F z = to_radian(e[2]);
+		F cX = std::cos(x);
+		F sX = std::sin(x);
+		F cY = std::cos(y);
+		F sY = std::sin(y);
+		F cZ = std::cos(z);
+		F sZ = std::sin(z);
 
 		this->init(
 			  cY * cZ + sX * sY * sZ, - cY * sZ + sX * sY * cZ, cX * sY, 0,
@@ -425,13 +428,21 @@ namespace Ubpa {
 			*      0      0     -1
 			* -sin Y  cos Y      0
 			*/
-			return { sgn(rM(1, 2)) * to_radian<F>(90), std::atan2(rM(0, 1), rM(2, 1)), 0 };
+			return {
+				sgn(rM(1, 2)) * static_cast<F>(90),
+				to_degree(std::atan2(rM(0, 1), rM(2, 1))),
+				0
+			};
 		}
 		else {
 			F x = std::asin(-rM(1, 2)); // rM(1,2) == -sinX
 			F y = std::atan2(rM(0, 2), rM(2, 2)); // rM(0,2) == cXsY, rM(2,2) == cXcY
 			F z = std::atan2(rM(1, 0), rM(1, 1)); // rM(1,0) == cXsZ, rM(1,1) == cXcZ
-			return { x, y, z };
+			return {
+				to_degree(x),
+				to_degree(y),
+				to_degree(z)
+			};
 		}
 	}
 

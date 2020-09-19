@@ -89,14 +89,22 @@ namespace Ubpa {
 		if (std::abs(sX) == 1) {
 			T half_sY = x * y - z * w;
 			T half_cY = y * z + x * w;
-			return { std::asin(sX), std::atan2(half_sY, half_cY), 0 };
+			return {
+				to_degree(std::asin(sX)),
+				to_degree(std::atan2(half_sY, half_cY)),
+				0
+			};
 		}
 		else {
 			T cXsY = 2 * (x * z + y * w);
 			T cXcY = 1 - 2 * (x * x + y * y);
 			T cXsZ = 2 * (x * y + z * w);
 			T cXcZ = 1 - 2 * (z * z + x * x);
-			return{ std::asin(sX), std::atan2(cXsY,cXcY), std::atan2(cXsZ,cXcZ) };
+			return {
+				to_degree(std::asin(sX)),
+				to_degree(std::atan2(cXsY,cXcY)),
+				to_degree(std::atan2(cXsZ,cXcZ))
+			};
 		}
 	}
 

@@ -12,9 +12,9 @@ namespace Ubpa {
 		*/
 
 		// fast
-		T x = (*this)[0] / 2;
-		T y = (*this)[1] / 2;
-		T z = (*this)[2] / 2;
+		T x = to_radian((*this)[0]) / 2;
+		T y = to_radian((*this)[1]) / 2;
+		T z = to_radian((*this)[2]) / 2;
 
 		T cX = std::cos(x);
 		T cY = std::cos(y);

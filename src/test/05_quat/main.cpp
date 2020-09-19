@@ -20,5 +20,5 @@ int main() {
 	cout << q.theta() << endl;
 	cout << q.is_identity() << endl;
 	cout << quatf::rotate_with<Axis::X>(to_radian(45.f)) << endl;
-	cout << eulerf(to_radian(45.f), to_radian(45.f), to_radian(45.f)).to_quat() << endl;
+	cout << eulerf{ 45.f }.to_quat() << endl;
 }

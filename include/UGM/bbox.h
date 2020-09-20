@@ -1,6 +1,7 @@
 #pragma once
 
 #include "val.h"
+#include "point.h"
 
 namespace Ubpa {
 	template<typename F, size_t N>

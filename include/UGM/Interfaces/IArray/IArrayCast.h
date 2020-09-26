@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IArray.h"
+#include "IArray1D.h"
 
 namespace Ubpa {
 	template<typename Base, typename Impl>
@@ -12,7 +13,7 @@ namespace Ubpa {
 		template<typename To>
 		const To cast_to() const noexcept {
 			constexpr size_t M = To::N;
-			static_assert(M <= N);
+			static_assert(M <= N && SI_IsContain_v<Impl, IArray1D> == SI_IsContain_v<To, IArray1D>);
 			return cast_to<To>(std::make_index_sequence<M>{});
 		}
 

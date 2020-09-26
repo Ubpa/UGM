@@ -22,7 +22,7 @@ namespace Ubpa {
 		val(const euler<T>& v) noexcept { *this = v.as<val>(); }
 		val(const hvec<T, N>& v) noexcept { *this = v.as<val>(); }
 		template<size_t M>
-		val(const mat<T, M>& v) noexcept { return *this = v.as<val>(); }
+		val(const mat<T, M>& v) noexcept { *this = v.as<val>(); }
 		val(const normal<T>& v) noexcept { *this = v.as<val>(); }
 		val(const point<T, N>& v) noexcept { *this = v.as<val>(); }
 		val(const quat<T>& v) noexcept { *this = v.as<val>(); }
@@ -30,22 +30,22 @@ namespace Ubpa {
 		val(const rgba<T>& v) noexcept { *this = v.as<val>(); }
 		val(const scale<T, N>& v) noexcept { *this = v.as<val>(); }
 		val(const svec<T>& v) noexcept { *this = v.as<val>(); }
-		val(const transform<T>& v) noexcept { return *this = v.as<val>(); }
+		val(const transform<T>& v) noexcept { *this = v.as<val>(); }
 		val(const vec<T, N>& v) noexcept { *this = v.as<val>(); }
 
-		operator euler<T>& () noexcept { return this->as<euler<T>>(); }
-		operator hvec<T, N>& () noexcept { return this->as<hvec<T, N>>(); }
+		operator euler<T> () noexcept { return this->cast_to<euler<T>>(); }
+		operator hvec<T, N> () noexcept { return this->cast_to<hvec<T, N>>(); }
 		template<size_t M>
-		operator mat<T, M>& () noexcept { return this->as<mat<T, M>>(); }
-		operator normal<T>& () noexcept { return this->as<normal<T>>(); }
-		operator point<T, N>& () noexcept { return this->as<point<T, N>>(); }
-		operator quat<T>& () noexcept { return this->as<quat<T>>(); }
-		operator rgb<T>& () noexcept { return this->as<rgb<T>>(); }
-		operator rgba<T>& () noexcept { return this->as<rgba<T>>(); }
-		operator scale<T, N>& () noexcept { return this->as<scale<T, N>>(); }
-		operator svec<T>& () noexcept { return this->as<svec<T>>(); }
-		operator transform<T>& () noexcept { return this->as<transform<T>>(); }
-		operator vec<T, N>& () noexcept { return this->as<vec<T, N>>(); }
+		operator mat<T, M>() noexcept;
+		operator normal<T> () noexcept { return this->cast_to<normal<T>>(); }
+		operator point<T, N> () noexcept { return this->cast_to<point<T, N>>(); }
+		operator quat<T> () noexcept { return this->cast_to<quat<T>>(); }
+		operator rgb<T> () noexcept { return this->cast_to<rgb<T>>(); }
+		operator rgba<T> () noexcept { return this->cast_to<rgba<T>>(); }
+		operator scale<T, N> () noexcept { return this->cast_to<scale<T, N>>(); }
+		operator svec<T> () noexcept { return this->cast_to<svec<T>>(); }
+		operator transform<T>() noexcept;
+		operator vec<T, N> () noexcept { return this->cast_to<vec<T, N>>(); }
 	};
 
 	template<size_t N>
@@ -75,3 +75,5 @@ namespace Ubpa {
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(valf4) == 4 * sizeof(float));
 }
+
+#include "detail/val.inl"

@@ -16,4 +16,9 @@ Ubpa_AddDep(UTemplate 0.4.8)
 Ubpa_AddSubDirsRec(include)
 Ubpa_AddSubDirsRec(src)
 
-Ubpa_Export(DIRECTORIES "include;vs")
+Ubpa_Export(
+  TARGET
+  DIRECTORIES
+    "include"
+    "vs"
+)

@@ -590,9 +590,7 @@ namespace Ubpa {
 
 	template<typename F>
 	const normal<F> transform<F>::operator*(const normal<F>& n) const noexcept {
-		// TODO: transform::operator*(normal) SIMD
-
-		// N = (M^{-1})^F * n
+		// N = (M^{-1})^T * n
 
 		mat<F, 3> m3 = decompose_mat3().inverse();
 

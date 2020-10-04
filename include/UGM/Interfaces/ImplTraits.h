@@ -40,7 +40,10 @@ namespace Ubpa::details::ImplTraits_ {
 		: std::false_type {};
 
 	template<typename Impl>
-	struct ImplTraits_SupportSIMD : IValue<bool, ImplTraits_SupportSIMD_Helper<void, Impl>::value && std::is_same_v<ImplTraits_T<Impl>, float>&& ImplTraits_N<Impl> == 4> {};
+	struct ImplTraits_SupportSIMD : IValue<bool,
+		ImplTraits_SupportSIMD_Helper<void, Impl>::value
+		&& std::is_same_v<ImplTraits_T<Impl>, float>
+		&& ImplTraits_N<Impl> == 4> {};
 #else
 	template<typename Impl>
 	struct ImplTraits_SupportSIMD : std::false_type {};

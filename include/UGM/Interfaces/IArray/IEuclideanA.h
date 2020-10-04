@@ -121,5 +121,8 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IEuclideanA,
-		IMetric, IAffine, IArray);
+		IMetric,
+		IAffine,
+		IArray
+	);
 }

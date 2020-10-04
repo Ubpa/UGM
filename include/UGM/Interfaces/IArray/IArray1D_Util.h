@@ -18,6 +18,7 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_abs_ps(x);
+			else
 #endif // UBPA_USE_SIMD
 			{
 				Impl rst;
@@ -99,6 +100,7 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_min_ps(x, y);
+			else
 #endif // UBPA_USE_SIMD
 			{
 				Impl rst;
@@ -113,6 +115,7 @@ namespace Ubpa {
 #ifdef UBPA_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_max_ps(x, y);
+			else
 #endif // UBPA_USE_SIMD
 			{
 				Impl rst;
@@ -124,5 +127,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArray1D_Util,
-		IArray1D, IArrayUtil);
+		IArray1D,
+		IArrayUtil
+	);
 }

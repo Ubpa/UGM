@@ -8,5 +8,6 @@ namespace Ubpa {
 	CombineInterface(IArrayLinear,
 		IArrayAdd,
 		IArrayScalarMul,
-		ILinear);
+		ILinear
+	);
 }

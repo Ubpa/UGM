@@ -33,19 +33,19 @@ namespace Ubpa {
 		val(const transform<T>& v) noexcept { *this = v.as<val>(); }
 		val(const vec<T, N>& v) noexcept { *this = v.as<val>(); }
 
-		operator euler<T> () noexcept { return this->cast_to<euler<T>>(); }
-		operator hvec<T, N> () noexcept { return this->cast_to<hvec<T, N>>(); }
+		operator euler<T> () const noexcept { return this->cast_to<euler<T>>(); }
+		operator hvec<T, N> () const noexcept { return this->cast_to<hvec<T, N>>(); }
 		template<size_t M>
-		operator mat<T, M>() noexcept;
-		operator normal<T> () noexcept { return this->cast_to<normal<T>>(); }
-		operator point<T, N> () noexcept { return this->cast_to<point<T, N>>(); }
-		operator quat<T> () noexcept { return this->cast_to<quat<T>>(); }
-		operator rgb<T> () noexcept { return this->cast_to<rgb<T>>(); }
-		operator rgba<T> () noexcept { return this->cast_to<rgba<T>>(); }
-		operator scale<T, N> () noexcept { return this->cast_to<scale<T, N>>(); }
-		operator svec<T> () noexcept { return this->cast_to<svec<T>>(); }
-		operator transform<T>() noexcept;
-		operator vec<T, N> () noexcept { return this->cast_to<vec<T, N>>(); }
+		operator mat<T, M>() const noexcept;
+		operator normal<T> () const noexcept { return this->cast_to<normal<T>>(); }
+		operator point<T, N> () const noexcept { return this->cast_to<point<T, N>>(); }
+		operator quat<T> () const noexcept { return this->cast_to<quat<T>>(); }
+		operator rgb<T> () const noexcept { return this->cast_to<rgb<T>>(); }
+		operator rgba<T> () const noexcept { return this->cast_to<rgba<T>>(); }
+		operator scale<T, N> () const noexcept { return this->cast_to<scale<T, N>>(); }
+		operator svec<T> () const noexcept { return this->cast_to<svec<T>>(); }
+		operator transform<T>() const noexcept;
+		operator vec<T, N> () const noexcept { return this->cast_to<vec<T, N>>(); }
 	};
 
 	template<size_t N>

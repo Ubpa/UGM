@@ -84,5 +84,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArrayScalarMul,
-		IScalarMul, IArray);
+		IScalarMul,
+		IArray
+	);
 }

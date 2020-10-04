@@ -25,7 +25,5 @@ namespace Ubpa {
 				rst[i] = ONE<F> / dir[i];
 			return rst;
 		}
-
-		void init_IOLine(const Vector& v) noexcept { dir = v; }
 	};
 }

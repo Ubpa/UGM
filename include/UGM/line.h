@@ -20,7 +20,7 @@ namespace Ubpa {
 	struct line : SI<line<T, N>> {
 		using SI<line<T, N>>::SI;
 
-		inline line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->init_ILine(p, dir); }
+		inline line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->point = p; this->dir = dir; }
 
 		inline void print(std::ostream& os = std::cout) const;
 

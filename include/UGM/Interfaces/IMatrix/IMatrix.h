@@ -157,5 +157,6 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IMatrix,
-		IArrayUtil);
+		IArrayUtil
+	);
 }

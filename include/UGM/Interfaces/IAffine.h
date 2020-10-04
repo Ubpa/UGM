@@ -19,5 +19,6 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IAffine,
-		IAffineSubspace);
+		IAffineSubspace
+	);
 }

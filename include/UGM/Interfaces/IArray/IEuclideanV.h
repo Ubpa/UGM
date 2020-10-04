@@ -273,5 +273,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IEuclideanV,
-		IInnerProduct, IArrayLinear);
+		IInnerProduct,
+		IArrayLinear
+	);
 }

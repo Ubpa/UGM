@@ -6,5 +6,8 @@
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	CombineInterface(ILinear, IAdd, IScalarMul);
+	CombineInterface(ILinear,
+		IAdd,
+		IScalarMul
+	);
 }

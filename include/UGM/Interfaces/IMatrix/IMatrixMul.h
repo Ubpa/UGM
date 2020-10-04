@@ -37,5 +37,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IMatrixMul,
-		IMul, IMatrix);
+		IMul,
+		IMatrix
+	);
 }

@@ -20,13 +20,28 @@ namespace Ubpa {
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct alignas(alignof(ImplTraits_T<Impl>)) IArray_Impl<false, IArray_Base, Impl> : IArray_Base, std::array<ImplTraits_T<Impl>, ImplTraits_N<Impl>> {
+	struct alignas(alignof(ImplTraits_T<Impl>)) IArray_Impl<false, IArray_Base, Impl>
+		: IArray_Base, std::array<ImplTraits_T<Impl>, ImplTraits_N<Impl>>
+	{
 		using T = ImplTraits_T<Impl>;
 		using F = ImplTraits_F<Impl>;
 		static constexpr size_t N = ImplTraits_N<Impl>;
 
 	private:
 		using IArray_Base::operator[];
+
+		template<size_t... Ns>
+		inline IArray_Impl(const T* arr, std::index_sequence<Ns...>) noexcept {
+			(((*this)[Ns] = arr[Ns]), ...);
+		}
+		template<size_t... Ns>
+		inline IArray_Impl(const T& t, std::index_sequence<Ns...>) noexcept {
+			(((*this)[Ns] = t), ...);
+		};
+		template<size_t... Ns>
+		inline IArray_Impl(const IArray_Impl& arr, std::index_sequence<Ns...>) noexcept {
+			(((*this)[Ns] = arr[Ns]), ...);
+		};
 	public:
 		using std::array<T, N>::operator[];
 
@@ -37,28 +52,16 @@ namespace Ubpa {
 
 		IArray_Impl() noexcept {};
 
-		template<size_t... Ns>
-		IArray_Impl(const T* arr, std::index_sequence<Ns...>) noexcept {
-			(((*this)[Ns] = arr[Ns]), ...);
-		}
-		IArray_Impl(const T* arr) noexcept : IArray_Impl{ arr, std::make_index_sequence<N>{} } {}
+		constexpr IArray_Impl(const T* arr) noexcept : IArray_Impl{ arr, std::make_index_sequence<N>{} } {}
 
-		template<size_t... Ns>
-		IArray_Impl(const IArray_Impl& arr, std::index_sequence<Ns...>) noexcept {
-			(((*this)[Ns] = arr[Ns]), ...);
-		};
-		IArray_Impl(const IArray_Impl& arr) noexcept : IArray_Impl{ arr, std::make_index_sequence<N>{} } {}
+		constexpr IArray_Impl(const IArray_Impl& arr) noexcept : IArray_Impl{ arr, std::make_index_sequence<N>{} } {}
 
-		template<size_t... Ns>
-		IArray_Impl(T t, std::index_sequence<Ns...>) noexcept {
-			(((*this)[Ns] = t), ...);
-		};
-		constexpr IArray_Impl(T t) noexcept : IArray_Impl{ t, std::make_index_sequence<N>{} } {}
+		constexpr IArray_Impl(const T& t) noexcept : IArray_Impl{ t, std::make_index_sequence<N>{} } {}
 
-		template<typename... Us, std::enable_if_t<sizeof...(Us) == N>* = nullptr>
+		template<typename... Us, std::enable_if_t<sizeof...(Us) == N, int> = 0>
 		constexpr IArray_Impl(Us... vals) noexcept : std::array<T, N>{static_cast<T>(vals)...} {}
 
-		static Impl zero() noexcept {
+		static constexpr Impl zero() noexcept {
 			return Impl{ T{static_cast<F>(0)} };
 		}
 
@@ -82,14 +85,71 @@ namespace Ubpa {
 			return rst;
 		}
 
-		// TODO: add compare
+		bool lex_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x < y;
+		}
+		bool lex_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x <= y;
+		}
+		bool lex_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x > y;
+		}
+		bool lex_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return x >= y;
+		}
+		static bool all_lt(const Impl& x, const Impl& y) noexcept {
+			for (size_t i = 0; i < N; i++) {
+				if (x[i] >= y[i])
+					return false;
+			}
+			return true;
+		}
+		static bool all_le(const Impl& x, const Impl& y) noexcept {
+			for (size_t i = 0; i < N; i++) {
+				if (x[i] > y[i])
+					return false;
+			}
+			return true;
+		}
+		static bool all_gt(const Impl& x, const Impl& y) noexcept {
+			for (size_t i = 0; i < N; i++) {
+				if (x[i] <= y[i])
+					return false;
+			}
+			return true;
+		}
+		static bool all_ge(const Impl& x, const Impl& y) noexcept {
+			for (size_t i = 0; i < N; i++) {
+				if (x[i] < y[i])
+					return false;
+			}
+			return true;
+		}
+		bool all_lt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_lt(x, y);
+		}
+		bool all_le(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_le(x, y);
+		}
+		bool all_gt(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_gt(x, y);
+		}
+		bool all_ge(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return all_ge(x, y);
+		}
 	};
 
 #ifdef UBPA_USE_SIMD
-	// alignas(16)
 	template<typename IArray_Base, typename Impl>
-	struct alignas(16) IArray_Impl<true, IArray_Base, Impl> : IArray_Base
-	{
+	struct alignas(16) IArray_Impl<true, IArray_Base, Impl> : IArray_Base {
 	public:
 		__m128 m;
 

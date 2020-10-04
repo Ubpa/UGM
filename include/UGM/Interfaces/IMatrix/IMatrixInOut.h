@@ -25,5 +25,6 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IMatrixInOut,
-		IMatrix);
+		IMatrix
+	);
 }

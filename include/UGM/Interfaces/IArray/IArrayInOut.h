@@ -34,5 +34,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArrayInOut,
-		IArray, IInOut);
+		IArray,
+		IInOut
+	);
 }

@@ -30,8 +30,6 @@ namespace Ubpa {
 			return static_cast<Impl&>(*this);
 		}
 
-		void init_IAffineRealSubspace(const Point& p) { point = p; }
-
 	private:
 		template<typename Base, typename Impl>
 		friend struct IAffineSubspace;
@@ -58,5 +56,6 @@ namespace Ubpa {
 	};
 	
 	InterfaceTraits_Register(IAffineRealSubspace,
-		IAffineSubspace);
+		IAffineSubspace
+	);
 }

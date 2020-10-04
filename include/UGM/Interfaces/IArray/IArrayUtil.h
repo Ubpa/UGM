@@ -95,5 +95,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArrayUtil,
-		IArrayCast, IArrayInOut);
+		IArrayCast,
+		IArrayInOut
+	);
 }

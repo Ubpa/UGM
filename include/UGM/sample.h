@@ -36,4 +36,4 @@ namespace Ubpa {
 	inline const svecf sample_GGX_D(float alpha) noexcept;
 }
 
-#include "detail/sample.inl"
+#include "details/sample.inl"

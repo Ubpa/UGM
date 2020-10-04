@@ -1,6 +1,6 @@
 macro(Ubpa_InitUCMake)
   include(FetchContent)
-  set(UCMake_VERSION 0.6.1)
+  set(UCMake_VERSION 0.6.2)
   message(STATUS "find package: UCMake ${UCMake_VERSION}")
   find_package(UCMake ${UCMake_VERSION} QUIET)
   if(NOT UCMake_FOUND)

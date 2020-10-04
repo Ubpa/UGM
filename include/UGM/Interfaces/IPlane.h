@@ -18,6 +18,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IPlane,
+	InterfaceTraits_Register(IPlane,
 		IAffineRealSubspace, IOPlane);
 }

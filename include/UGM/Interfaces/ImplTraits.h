@@ -2,7 +2,7 @@
 
 #include <UTemplate/SI.h>
 
-namespace Ubpa::detail::ImplTraits_ {
+namespace Ubpa::details::ImplTraits_ {
 	template<typename Impl> struct ImplTraits_SupportSIMD;
 }
 
@@ -28,10 +28,10 @@ namespace Ubpa {
 	using ImplTraits_P = typename ImplTraits<Impl>::P;
 
 	template<typename Impl>
-	constexpr bool ImplTraits_SupportSIMD = detail::ImplTraits_::ImplTraits_SupportSIMD<Impl>::value;
+	constexpr bool ImplTraits_SupportSIMD = details::ImplTraits_::ImplTraits_SupportSIMD<Impl>::value;
 }
 
-namespace Ubpa::detail::ImplTraits_ {
+namespace Ubpa::details::ImplTraits_ {
 #ifdef UBPA_USE_SIMD
 	template<typename Enabler, typename Impl>
 	struct ImplTraits_SupportSIMD_Helper : std::true_type {};

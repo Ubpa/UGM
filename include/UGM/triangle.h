@@ -29,4 +29,4 @@ namespace Ubpa {
 	static_assert(sizeof(trianglef3) == 9 * sizeof(float));
 }
 
-#include "detail/triangle.inl"
+#include "details/triangle.inl"

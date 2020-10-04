@@ -61,4 +61,4 @@ namespace Ubpa {
 	static_assert(sizeof(rayf3) == 8 * sizeof(float));
 }
 
-#include "detail/ray.inl"
+#include "details/ray.inl"

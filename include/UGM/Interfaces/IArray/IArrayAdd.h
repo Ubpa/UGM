@@ -128,6 +128,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IArrayAdd,
+	InterfaceTraits_Register(IArrayAdd,
 		IAdd, IArray);
 }

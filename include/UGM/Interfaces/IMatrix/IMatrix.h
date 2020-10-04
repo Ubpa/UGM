@@ -2,7 +2,7 @@
 
 #include "../IArray/IArrayUtil.h"
 
-#include "IMatrix_detail.h"
+#include "details/IMatrix.inl"
 
 namespace Ubpa {
 	// simple [square] 2D array
@@ -13,7 +13,7 @@ namespace Ubpa {
 
 		using Vector = ImplTraits_T<Impl>;
 
-		static_assert(Vector::template IsContain<IArray>());
+		static_assert(Vector::template Contains<IArray>());
 
 		using F = ImplTraits_F<Impl>;
 		static constexpr size_t N = ImplTraits_N<Impl>;
@@ -27,7 +27,7 @@ namespace Ubpa {
 		// column first
 		inline void init(const std::array<F, N* N>& data) noexcept {
 			auto& m = static_cast<Impl&>(*this);
-			detail::IMatrix_::init<N>::run(m, data);
+			details::IMatrix_::init<N>::run(m, data);
 		}
 
 		// row first
@@ -66,11 +66,11 @@ namespace Ubpa {
 		}
 
 		inline static const Impl eye() noexcept {
-			return detail::IMatrix_::eye<Impl, N>::run();
+			return details::IMatrix_::eye<Impl, N>::run();
 		}
 
 		inline static const Impl zero() noexcept {
-			return detail::IMatrix_::zero<N>::template run<Impl>();
+			return details::IMatrix_::zero<N>::template run<Impl>();
 		}
 
 		inline F& operator()(size_t r, size_t c) noexcept {
@@ -113,12 +113,12 @@ namespace Ubpa {
 
 		inline F trace() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix_::trace<N>::run(m);
+			return details::IMatrix_::trace<N>::run(m);
 		}
 
 		inline const Impl transpose() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix_::transpose<N>::run(m);
+			return details::IMatrix_::transpose<N>::run(m);
 		}
 
 		// return (U, S, V)
@@ -126,7 +126,7 @@ namespace Ubpa {
 		inline const std::tuple<Impl, Impl, Impl> SVD() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			static_assert(N == 2 || (N == 3 && std::is_same_v<F, float>)); // only support 2x2 and 3x3 matrix by now
-			return detail::IMatrix_::SVD<N>::run(m);
+			return details::IMatrix_::SVD<N>::run(m);
 		}
 
 		// return (U, S, V)
@@ -144,7 +144,7 @@ namespace Ubpa {
 
 		inline F det() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
-			return detail::IMatrix_::det<N>::run(m);
+			return details::IMatrix_::det<N>::run(m);
 		}
 
 		F* data() noexcept {
@@ -156,6 +156,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IMatrix,
+	InterfaceTraits_Register(IMatrix,
 		IArrayUtil);
 }

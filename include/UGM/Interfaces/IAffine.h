@@ -9,7 +9,7 @@ namespace Ubpa {
 
 		using Vector = ImplTraits_V<Point>;
 		
-		static_assert(Vector::template IsContain<ILinear>());
+		static_assert(Vector::template Contains<ILinear>());
 
 		using Base::operator-;
 
@@ -18,6 +18,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IAffine,
+	InterfaceTraits_Register(IAffine,
 		IAffineSubspace);
 }

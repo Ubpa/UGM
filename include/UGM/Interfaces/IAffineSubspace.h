@@ -9,7 +9,7 @@ namespace Ubpa {
 
 		using Vector = ImplTraits_V<Impl>;
 		
-		static_assert(Vector::template IsContain<ILinear>());
+		static_assert(Vector::template Contains<ILinear>());
 
 		inline const Impl operator+(const Vector& v) const noexcept {
 			return static_cast<const Impl*>(this)->impl_affine_subspace_add(v);

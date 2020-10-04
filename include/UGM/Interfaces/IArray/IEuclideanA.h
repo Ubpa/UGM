@@ -16,7 +16,7 @@ namespace Ubpa {
 		using F = ImplTraits_F<Point>;
 		using Vector = ImplTraits_V<Point>;
 
-		static_assert(Vector::template IsContain<IEuclideanV>());
+		static_assert(Vector::template Contains<IEuclideanV>());
 		static_assert(Vector::N == N);
 
 		inline static F distance2(const Point& x, const Point& y) noexcept {
@@ -120,6 +120,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IEuclideanA,
+	InterfaceTraits_Register(IEuclideanA,
 		IMetric, IAffine, IArray);
 }

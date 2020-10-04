@@ -99,4 +99,4 @@ namespace Ubpa {
 	static_assert(sizeof(transformf) == 16 * sizeof(float));
 }
 
-#include "detail/transform.inl"
+#include "details/transform.inl"

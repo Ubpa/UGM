@@ -56,4 +56,4 @@ namespace Ubpa {
 	static_assert(sizeof(hvecf4) == 4 * sizeof(float));
 }
 
-#include "detail/hvec.inl"
+#include "details/hvec.inl"

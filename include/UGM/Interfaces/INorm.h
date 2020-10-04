@@ -44,6 +44,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(INorm,
+	InterfaceTraits_Register(INorm,
 		IMetric, ILinear);
 }

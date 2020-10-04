@@ -63,4 +63,4 @@ namespace Ubpa {
 	inline constexpr T pow5(T x) noexcept;
 }
 
-#include "detail/basic.inl"
+#include "details/basic.inl"

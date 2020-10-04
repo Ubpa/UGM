@@ -28,4 +28,4 @@ namespace Ubpa {
 	static_assert(sizeof(normalf) == 3 * sizeof(float));
 }
 
-#include "detail/normal.inl"
+#include "details/normal.inl"

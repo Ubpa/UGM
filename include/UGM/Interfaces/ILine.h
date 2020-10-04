@@ -21,6 +21,6 @@ namespace Ubpa {
 		const Point at(F t) const noexcept { return this->point + t * this->dir; }
 	};
 
-	InterfaceTraits_Regist(ILine,
+	InterfaceTraits_Register(ILine,
 		IAffineRealSubspace, IOLine);
 }

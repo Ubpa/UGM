@@ -83,6 +83,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IArrayScalarMul,
+	InterfaceTraits_Register(IArrayScalarMul,
 		IScalarMul, IArray);
 }

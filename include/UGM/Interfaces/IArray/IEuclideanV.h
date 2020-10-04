@@ -272,6 +272,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IEuclideanV,
+	InterfaceTraits_Register(IEuclideanV,
 		IInnerProduct, IArrayLinear);
 }

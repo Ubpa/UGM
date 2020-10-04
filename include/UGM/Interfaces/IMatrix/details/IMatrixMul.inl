@@ -3,9 +3,9 @@
 #pragma region Eric_inverse
 #ifdef UBPA_USE_SIMD
 
-#include "../../val.h"
+#include "../../../val.h"
 
-namespace Ubpa::detail::IMatrixMul::Eric {
+namespace Ubpa::details::IMatrixMul::Eric {
     // for column major matrix
     // we use __m128 to represent 2x2 matrix as A = | A0  A2 |
     //                                              | A1  A3 |
@@ -116,7 +116,7 @@ namespace Ubpa::detail::IMatrixMul::Eric {
 #endif // UBPA_USE_SIMD
 #pragma endregion
 
-namespace Ubpa::detail::IMatrixMul {
+namespace Ubpa::details::IMatrixMul {
     template<size_t N>
 	struct inverse;
 

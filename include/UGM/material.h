@@ -136,4 +136,4 @@ namespace Ubpa {
 	//inline float microfacet_specular_refraction_dwh_dwi(const svecf& wh, const svecf& wi, const svecf& wo, float etai, float etao) noexcept;
 }
 
-#include "detail/material.inl"
+#include "details/material.inl"

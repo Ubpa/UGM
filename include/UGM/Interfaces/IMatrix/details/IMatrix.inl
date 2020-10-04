@@ -1,8 +1,8 @@
 #pragma once
 
-#include "detail/svd3.h"
+#include "svd3.h"
 
-namespace Ubpa::detail::IMatrix_ {
+namespace Ubpa::details::IMatrix_ {
 	template<typename M, size_t N>
 	struct eye;
 

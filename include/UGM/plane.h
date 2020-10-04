@@ -34,4 +34,4 @@ namespace Ubpa {
 	static_assert(sizeof(planef) == 6 * sizeof(float));
 }
 
-#include "detail/plane.inl"
+#include "details/plane.inl"

@@ -37,6 +37,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(ICross,
+	InterfaceTraits_Register(ICross,
 		IEuclideanV);
 }

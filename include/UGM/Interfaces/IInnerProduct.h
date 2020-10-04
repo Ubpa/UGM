@@ -77,6 +77,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IInnerProduct,
+	InterfaceTraits_Register(IInnerProduct,
 		INorm);
 }

@@ -73,4 +73,4 @@ namespace Ubpa {
 	static_assert(sizeof(bboxf3) == 6 * sizeof(float));
 }
 
-#include "detail/bbox.inl"
+#include "details/bbox.inl"

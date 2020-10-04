@@ -80,4 +80,4 @@ namespace Ubpa {
 	static_assert(sizeof(svecf) == 3 * sizeof(float));
 }
 
-#include "detail/svec.inl"
+#include "details/svec.inl"

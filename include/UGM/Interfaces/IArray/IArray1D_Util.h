@@ -123,6 +123,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IArray1D_Util,
+	InterfaceTraits_Register(IArray1D_Util,
 		IArray1D, IArrayUtil);
 }

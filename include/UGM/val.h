@@ -1,6 +1,6 @@
 #pragma once
 
-#include "detail/traits.h"
+#include "details/traits.h"
 
 #include "Interfaces/IArray/IArrayLinear.h"
 #include "Interfaces/IArray/IArrayHadamardProduct.h"
@@ -76,4 +76,4 @@ namespace Ubpa {
 	static_assert(sizeof(valf4) == 4 * sizeof(float));
 }
 
-#include "detail/val.inl"
+#include "details/val.inl"

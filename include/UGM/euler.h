@@ -29,4 +29,4 @@ namespace Ubpa {
 	static_assert(sizeof(eulerf) == 3 * sizeof(float));
 }
 
-#include "detail/euler.inl"
+#include "details/euler.inl"

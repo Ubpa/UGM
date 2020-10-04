@@ -59,4 +59,4 @@ namespace Ubpa {
 	static_assert(sizeof(linef3) == 6 * sizeof(float));
 }
 
-#include "detail/line.inl"
+#include "details/line.inl"

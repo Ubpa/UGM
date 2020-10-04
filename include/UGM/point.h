@@ -58,4 +58,4 @@ namespace Ubpa {
 	static_assert(sizeof(pointf3) == sizeof(float) * 3);
 }
 
-#include "detail/point.inl"
+#include "details/point.inl"

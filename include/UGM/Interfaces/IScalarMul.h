@@ -5,9 +5,9 @@
 
 #include <cassert>
 
-namespace Ubpa::detail::IScalarMul_ {
+namespace Ubpa::details::IScalarMul_ {
 	template<typename Impl, typename U>
-	static constexpr bool need_mul = !std::is_integral_v<U> || !SI_IsContain_v<Impl, IAdd>;
+	static constexpr bool need_mul = !std::is_integral_v<U> || !SI_Contains_v<Impl, IAdd>;
 }
 
 namespace Ubpa {
@@ -17,7 +17,7 @@ namespace Ubpa {
 
 		//static_assert(std::is_floating_point_v<F>);
 		template<typename U>
-		static constexpr bool support = std::is_same_v<U, F> && detail::IScalarMul_::need_mul<Impl, U>;
+		static constexpr bool support = std::is_same_v<U, F> && details::IScalarMul_::need_mul<Impl, U>;
 
 		using Base::Base;
 

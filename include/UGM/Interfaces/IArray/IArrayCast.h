@@ -13,7 +13,7 @@ namespace Ubpa {
 		template<typename To>
 		const To cast_to() const noexcept {
 			constexpr size_t M = To::N;
-			static_assert(M <= N && SI_IsContain_v<Impl, IArray1D> == SI_IsContain_v<To, IArray1D>);
+			static_assert(M <= N && SI_Contains_v<Impl, IArray1D> == SI_Contains_v<To, IArray1D>);
 			return cast_to<To>(std::make_index_sequence<M>{});
 		}
 
@@ -38,6 +38,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IArrayCast,
+	InterfaceTraits_Register(IArrayCast,
 		IArray);
 }

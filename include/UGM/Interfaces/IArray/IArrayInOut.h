@@ -33,6 +33,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Regist(IArrayInOut,
+	InterfaceTraits_Register(IArrayInOut,
 		IArray, IInOut);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "detail/traits.h"
+#include "details/traits.h"
 
 #include "Interfaces/IArray/ICross.h"
 #include "Interfaces/IArray/IArray1D_Util.h"

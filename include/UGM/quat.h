@@ -73,4 +73,4 @@ namespace Ubpa {
 	static_assert(sizeof(quatf) == 4 * sizeof(float));
 }
 
-#include "detail/quat.inl"
+#include "details/quat.inl"

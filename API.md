@@ -81,12 +81,14 @@
 
 该组件包含依赖组件：`IMetric`, `ILinear`  
 
-| 接口                     | 说明                           |
-| ------------------------ | ------------------------------ |
-| `F norm()`               | 范数                           |
-| `Impl normalize()`       | 范化                           |
-| `bool is_normalized()`   | 检测是否已范化，容忍度为 0.001 |
-| `Impl& normalize_self()` | 范化自身                       |
+| 接口                          | 说明                             |
+| ----------------------------- | -------------------------------- |
+| `F norm()`                    | 范数                             |
+| `Impl normalize()`            | 范化                             |
+| `bool is_normalized()`        | 检测是否已范化，容忍度为 0.001   |
+| `Impl& normalize_self()`      | 范化自身                         |
+| `Impl safe_normalize()`       | 范化，如果范数为 0，则结果为 0   |
+| `Impl& safe_normalize_self()` | 范化自身，如果范数为 0，则不改变 |
 
 #### IInnerProduct
 

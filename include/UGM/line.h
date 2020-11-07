@@ -25,12 +25,14 @@ namespace Ubpa {
 		void print(std::ostream& os = std::cout) const;
 
 		// (isIntersect, (w, u, v), t)
-		UBPA_FORCEINLINE const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
+		std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
 		// (isIntersect, t0, t1)
-		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+		std::tuple<bool, T, T> intersect(
+			const bbox<T, N>& box,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
-		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+		std::tuple<bool, T, T> intersect(
+			const bbox<T, N>& box,
 			const vec<T, N>& inv_dir,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
@@ -45,7 +47,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IAffineRealSubspace;
 
-		static const line impl_move(const line& line, const point<T, N>& p) noexcept;
+		static line impl_move(const line& line, const point<T, N>& p) noexcept;
 	};
 
 	template<size_t N>

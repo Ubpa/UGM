@@ -16,7 +16,7 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	template<typename Container>
-	const point<T, N> triangle<T, N>::lerp(const Container& wuv) const noexcept {
+	point<T, N> triangle<T, N>::lerp(const Container& wuv) const noexcept {
 		assert(wuv.size() == 3);
 		return point<T, N>::combine(*this, wuv);
 	}

@@ -16,7 +16,7 @@ namespace Ubpa {
 		T area() const noexcept;
 
 		template<typename Container>
-		const point<T, N> lerp(const Container& wuv) const noexcept;
+		point<T, N> lerp(const Container& wuv) const noexcept;
 	};
 
 	template<size_t N>

@@ -2,7 +2,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	const mat<T, 3> svec<T>::TBN(const vec<T, 3>& n, const vec<T, 3>& t) noexcept {
+	mat<T, 3> svec<T>::TBN(const vec<T, 3>& n, const vec<T, 3>& t) noexcept {
 		auto nN = n.normalize();
 		auto nT = t.normalize();
 
@@ -41,24 +41,24 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const svec<T> svec<T>::mid(const svec<T>& x, const svec<T>& y) noexcept {
+	svec<T> svec<T>::mid(const svec<T>& x, const svec<T>& y) noexcept {
 		assert(x.is_normalized() && y.is_normalized());
 		return (x + y).normalize();
 	}
 
 	template<typename T>
-	const svec<T> svec<T>::mid(const svec<T>& y) const noexcept {
+	svec<T> svec<T>::mid(const svec<T>& y) const noexcept {
 		const auto& x = *static_cast<svec<T>*>(this);
 		return mid(x, y);
 	}
 
 	template<typename T>
-	const svec<T> svec<T>::reflect() const noexcept {
+	svec<T> svec<T>::reflect() const noexcept {
 		return { -(*this)[0], -(*this)[1], (*this)[2] };
 	}
 
 	template<typename T>
-	const std::tuple<bool, svec<T>> svec<T>::refract(T etai, T etao) const noexcept {
+	std::tuple<bool, svec<T>> svec<T>::refract(T etai, T etao) const noexcept {
 		const svec& wi = *this;
 
 		auto sin_sthetai = sin_stheta();
@@ -81,12 +81,12 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const std::tuple<bool, svec<T>> svec<T>::refract(T eta) const noexcept {
+	std::tuple<bool, svec<T>> svec<T>::refract(T eta) const noexcept {
 		return is_above() ? refract(eta, 1) : refract(1, eta);
 	}
 
 	template<typename T>
-	const vec<T, 3> operator*(const mat<T, 3>& m, const svec<T>& sv) noexcept {
+	vec<T, 3> operator*(const mat<T, 3>& m, const svec<T>& sv) noexcept {
 		assert(sv.is_normalized());
 		return m * sv.cast_to<vec<T, 3>>();
 	}

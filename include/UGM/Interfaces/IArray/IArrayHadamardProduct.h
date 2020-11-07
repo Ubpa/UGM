@@ -93,5 +93,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArrayHadamardProduct,
-		IMul, IArray);
+		IMul,
+		IArray
+	);
 }

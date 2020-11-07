@@ -11,7 +11,7 @@ Ubpa_InitProject()
 option(Ubpa_UGM_UseSIMD "use SIMD" TRUE)
 option(Ubpa_UGM_UseSSE_4_1 "use SSE 4.1" TRUE)
 
-Ubpa_AddDep(UTemplate 0.4.8)
+Ubpa_AddDep(UTemplate 0.4.9)
 
 Ubpa_AddSubDirsRec(include)
 Ubpa_AddSubDirsRec(src)

@@ -1,13 +1,5 @@
 #pragma once
 
-#ifndef UBPA_FORCEINLINE
-#if (_MSC_VER >= 1200)
-#define UBPA_FORCEINLINE __forceinline
-#else
-#define UBPA_FORCEINLINE __inline
-#endif
-#endif // !UBPA_FORCEINLINE
-
 #ifndef UBPA_UGM_NOT_USE_SIMD
 #define UBPA_UGM_USE_SIMD
 #include <emmintrin.h>

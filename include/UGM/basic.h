@@ -26,7 +26,7 @@ namespace Ubpa {
 	};
 
 	template<typename T>
-	const T rmv_epsilon(T val) noexcept;
+	T rmv_epsilon(T val) noexcept;
 
 	template<typename T>
 	constexpr T to_radian(T degree) noexcept;

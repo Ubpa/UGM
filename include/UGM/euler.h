@@ -20,7 +20,7 @@ namespace Ubpa {
 	struct euler : SI<euler<T>> {
 		using SI<euler<T>>::SI;
 
-		const quat<T> to_quat() const noexcept;
+		quat<T> to_quat() const noexcept;
 	};
 
 	using eulerf = euler<float>;

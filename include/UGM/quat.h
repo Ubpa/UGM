@@ -20,7 +20,7 @@ namespace Ubpa {
 		using Base::Base;
 		using Base::operator*;
 
-		static const quat imag_real(const vec<T, 3>& imag, T real) noexcept;
+		static quat imag_real(const vec<T, 3>& imag, T real) noexcept;
 
 		quat(const vec<T, 3>& axis, T theta) noexcept;
 
@@ -37,10 +37,10 @@ namespace Ubpa {
 
 		// radian
 		T theta() const noexcept;
-		const vec<T, 3> axis() const noexcept;
+		vec<T, 3> axis() const noexcept;
 
 		bool is_identity() const noexcept;
-		static const quat identity() noexcept;
+		static quat identity() noexcept;
 
 		bool is_unit() const noexcept;
 
@@ -48,18 +48,18 @@ namespace Ubpa {
 		// theta : radian
 		// example: quatf::rotate_with<Axis::X>(to_radian(45.f))
 		template<Axis axis>
-		static const quat rotate_with(T theta) noexcept;
+		static quat rotate_with(T theta) noexcept;
 
-		const euler<T> to_euler() const noexcept;
+		euler<T> to_euler() const noexcept;
 
-		const vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
+		vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
 
 	private:
 		template<typename Base, typename quat>
 		friend struct IMul;
 
-		const quat impl_mul(const quat& y) const noexcept;
-		const quat impl_inverse() const noexcept;
+		quat impl_mul(const quat& y) const noexcept;
+		quat impl_inverse() const noexcept;
 
 		template<typename Base, typename quat>
 		friend struct IInOut;

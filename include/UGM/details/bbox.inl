@@ -11,7 +11,7 @@ namespace Ubpa {
 		: Base{ minP, maxP } {}
 
 	template<typename F, size_t N>
-	const bbox<F, N> bbox<F, N>::minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept {
+	bbox<F, N> bbox<F, N>::minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept {
 		return { point<F, N>::min(p0, p1), point<F, N>::max(p0, p1) };
 	}
 
@@ -37,7 +37,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const point<F, N> bbox<F, N>::corner(size_t idx) const noexcept {
+	point<F, N> bbox<F, N>::corner(size_t idx) const noexcept {
 		assert(idx < std::pow(2, N));
 		point<F, N> rst;
 		for (size_t i = 0; i < N; i++) {
@@ -48,15 +48,15 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const point<F, N> bbox<F, N>::center() const noexcept {
+	point<F, N> bbox<F, N>::center() const noexcept {
 		return point<F, N>::mid(minP(), maxP());
 	}
 
 	template<typename F, size_t N>
-	const vec<F, N> bbox<F, N>::diagonal() const noexcept { return maxP() - minP(); };
+	vec<F, N> bbox<F, N>::diagonal() const noexcept { return maxP() - minP(); };
 
 	template<typename F, size_t N>
-	const F bbox<F, N>::area() const noexcept {
+	F bbox<F, N>::area() const noexcept {
 		static_assert(N == 2 || N == 3);
 		if (!is_valid())
 			return ZERO<F>;
@@ -83,7 +83,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const point<F, N> bbox<F, N>::lerp(const val<F, N>& t) const noexcept {
+	point<F, N> bbox<F, N>::lerp(const val<F, N>& t) const noexcept {
 		point<F, N> rst{};
 		for (size_t i = 0; i < N; i++)
 			rst[i] = Ubpa::lerp(minP()[i], maxP()[i], t[i]);
@@ -91,7 +91,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const vec<F, N> bbox<F, N>::offset(const point<F, N>& p) const noexcept {
+	vec<F, N> bbox<F, N>::offset(const point<F, N>& p) const noexcept {
 		vec<F, N> o = p - minP();
 		const auto d = diagonal();
 		for (size_t i = 0; i < N; i++)
@@ -100,7 +100,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const bbox<F, N> bbox<F, N>::combine(const bbox& rhs) const noexcept {
+	bbox<F, N> bbox<F, N>::combine(const bbox& rhs) const noexcept {
 		return { point<F, N>::min(minP(), rhs.minP()), point<F, N>::max(maxP(), rhs.maxP()) };
 	}
 
@@ -112,7 +112,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const bbox<F, N> bbox<F, N>::combine(const point<F, N>& p) const noexcept {
+	bbox<F, N> bbox<F, N>::combine(const point<F, N>& p) const noexcept {
 		return { point<F, N>::min(minP(), p), point<F, N>::max(maxP(), p) };
 	}
 
@@ -124,7 +124,7 @@ namespace Ubpa {
 	}
 
 	template<typename F, size_t N>
-	const bbox<F, N> bbox<F, N>::intersect(const bbox& lhs, const bbox& rhs) noexcept {
+	bbox<F, N> bbox<F, N>::intersect(const bbox& lhs, const bbox& rhs) noexcept {
 		return { point<F, N>::max(lhs.minP(), rhs.minP()),point<F, N>::min(lhs.maxP(), rhs.maxP()) };
 	}
 

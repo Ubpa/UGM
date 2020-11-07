@@ -129,5 +129,7 @@ namespace Ubpa {
 	};
 
 	InterfaceTraits_Register(IArrayAdd,
-		IAdd, IArray);
+		IAdd,
+		IArray
+	);
 }

@@ -21,30 +21,30 @@ namespace Ubpa {
 			this->dir = dir;
 		}
 
-		const line<T, N> to_line() const noexcept;
+		line<T, N> to_line() const noexcept;
 
 		void print(std::ostream& os = std::cout) const;
 
 		// (isIntersect, (w, u, v), t)
-		const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
+		std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
 		// (isIntersect, t0, t1)
-		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box) const noexcept;
+		std::tuple<bool, T, T> intersect(const bbox<T, N>& box) const noexcept;
 
 		// intersect with standard sphere (center: [0, 0, 0], radius: 1)
 		// (isIntersect, t)
-		const std::tuple<bool, T> intersect_std_sphere() const noexcept;
+		std::tuple<bool, T> intersect_std_sphere() const noexcept;
 
 		// intersect with sphere
 		// (isIntersect, t)
-		const std::tuple<bool, T> intersect_sphere(const point<T, 3>& center, T radius) const noexcept;
+		std::tuple<bool, T> intersect_sphere(const point<T, 3>& center, T radius) const noexcept;
 
 		// intersect with standard square (center: [0, 0, 0], side length: 2, normal: [0, 1, 0])
 		// (isIntersect, t, hit point(x,z))
-		const std::tuple<bool, T, point<T, 2>> intersect_std_square() const noexcept;
+		std::tuple<bool, T, point<T, 2>> intersect_std_square() const noexcept;
 
 		// intersect with standard disk (center: [0, 0, 0], radius: 1, normal: [0, 1, 0])
 		// (isIntersect, t, hit point(x,z))
-		const std::tuple<bool, T, point<T, 2>> intersect_std_disk() const noexcept;
+		std::tuple<bool, T, point<T, 2>> intersect_std_disk() const noexcept;
 
 	private:
 		template<typename Base, typename Impl>
@@ -56,7 +56,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IAffineRealSubspace;
 
-		static const ray impl_move(const ray& r, const point<T, N>& p) noexcept;
+		static ray impl_move(const ray& r, const point<T, N>& p) noexcept;
 	};
 
 	template<size_t N>

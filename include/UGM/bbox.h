@@ -17,7 +17,7 @@ namespace Ubpa {
 		
 		bbox() noexcept;
 		bbox(const point<F, N>& minP, const point<F, N>& maxP) noexcept;
-		static const bbox minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept;
+		static bbox minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept;
 
 		point<F, N>& minP() noexcept;
 		const point<F, N>& minP() const noexcept;
@@ -26,25 +26,25 @@ namespace Ubpa {
 
 		bool is_valid() const noexcept;
 
-		const point<F, N> corner(size_t idx) const noexcept;
-		const point<F, N> center() const noexcept;
-		const vec<F, N> diagonal() const noexcept;
-		const F area() const noexcept;
+		point<F, N> corner(size_t idx) const noexcept;
+		point<F, N> center() const noexcept;
+		vec<F, N> diagonal() const noexcept;
+		F area() const noexcept;
 		F volume() const noexcept;
 		size_t max_extent() const noexcept;
 
 		using Base::lerp;
-		const point<F, N> lerp(const val<F, N>& t) const noexcept;
+		point<F, N> lerp(const val<F, N>& t) const noexcept;
 
-		const vec<F, N> offset(const point<F, N>& p) const noexcept;
+		vec<F, N> offset(const point<F, N>& p) const noexcept;
 
-		const bbox combine(const bbox& rhs) const noexcept;
+		bbox combine(const bbox& rhs) const noexcept;
 		bbox& combine_to_self(const bbox& rhs) noexcept;
 
-		const bbox combine(const point<F, N>& p) const noexcept;
+		bbox combine(const point<F, N>& p) const noexcept;
 		bbox& combine_to_self(const point<F, N>& p) noexcept;
 
-		static const bbox intersect(const bbox& lhs, const bbox& rhs) noexcept;
+		static bbox intersect(const bbox& lhs, const bbox& rhs) noexcept;
 		bbox& intersect_to_self(const bbox& rhs) noexcept;
 	};
 

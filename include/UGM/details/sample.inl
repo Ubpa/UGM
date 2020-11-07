@@ -2,24 +2,24 @@
 
 namespace Ubpa {
 	template<typename T>
-	const val<T, 2> uniform_in_square() noexcept {
+	val<T, 2> uniform_in_square() noexcept {
 		return { rand01<T>(), rand01<T>() };
 	}
 
 	template<typename T>
-	const val<T, 2> uniform_on_disk() noexcept {
+	val<T, 2> uniform_on_disk() noexcept {
 		T theta = 2 * PI<T> * rand01<T>();
 		return { std::cos(theta), std::sin(theta) };
 	}
 
 	template<typename T>
-	const val<T, 2> uniform_in_disk() noexcept {
+	val<T, 2> uniform_in_disk() noexcept {
 		T r = rand01<T>();
 		return r * uniform_on_disk<T>();
 	}
 
 	template<typename T>
-	const val<T, 3> uniform_on_sphere() noexcept {
+	val<T, 3> uniform_on_sphere() noexcept {
 		T Xi1 = rand01<T>();
 		T Xi2 = rand01<T>();
 
@@ -34,14 +34,14 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	const val<T, 3> uniform_in_sphere() noexcept {
+	val<T, 3> uniform_in_sphere() noexcept {
 		T r = rand01<T>();
 		return r * uniform_on_sphere<T>();
 	}
 
 	// rst[Axis] > 0
 	template<typename T, Axis up>
-	const val<T, 3> cos_weighted_on_hemisphere() noexcept {
+	val<T, 3> cos_weighted_on_hemisphere() noexcept {
 		val<T, 2> ab = uniform_in_disk<T>();
 		T c = std::sqrt(1 - ab[0]*ab[0] - ab[1]*ab[1]);
 		if constexpr (up == Axis::X)
@@ -52,7 +52,7 @@ namespace Ubpa {
 			return { ab[0], ab[1], c };
 	}
 
-	const svecf sample_GGX_D(float alpha) noexcept {
+	inline svecf sample_GGX_D(float alpha) noexcept {
 		auto Xi = uniform_in_square<float>();
 		float cos2_sthetam = (1 - Xi[0]) / ((pow2(alpha) - 1) * Xi[0] + 1);
 		float cos_sthetam = std::sqrt(cos2_sthetam);

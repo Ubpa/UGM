@@ -12,7 +12,7 @@ namespace Ubpa::detail::Basic {
 
 namespace Ubpa {
 	template<typename T>
-	const T rmv_epsilon(T val) noexcept {
+	T rmv_epsilon(T val) noexcept {
 		return detail::Basic::rmv_epsilon<T>::run(val);
 	}
 
@@ -88,7 +88,7 @@ namespace Ubpa {
 namespace Ubpa::detail::Basic {
 	template<typename T>
 	struct rmv_epsilon {
-		static const T run(T val) noexcept {
+		static T run(T val) noexcept {
 			if (std::abs(std::round(val) - val) < EPSILON<T>)
 				return static_cast<T>(std::round(val + EPSILON<T>)); // + epsilon for -0 case
 			else
@@ -98,14 +98,14 @@ namespace Ubpa::detail::Basic {
 
 	template<typename T, size_t N, template<typename T, size_t N>class V >
 	struct rmv_epsilon<V<T, N>> {
-		static const V<T, N> run(const V<T, N>& val) noexcept {
+		static V<T, N> run(const V<T, N>& val) noexcept {
 			return val.rmv_epsilon();
 		}
 	};
 
 	template<typename T, template<typename T>class V >
 	struct rmv_epsilon<V<T>> {
-		static const V<T> run(const V<T>& val) noexcept {
+		static V<T> run(const V<T>& val) noexcept {
 			return val.rmv_epsilon();
 		}
 	};

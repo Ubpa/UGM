@@ -2,7 +2,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	const quat<T> euler<T>::to_quat() const noexcept {
+	quat<T> euler<T>::to_quat() const noexcept {
 		// slow
 		/*
 		auto qX = quat<T>::rotate_with<Axis::X>((*this)[0]);

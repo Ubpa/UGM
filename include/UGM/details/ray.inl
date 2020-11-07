@@ -2,12 +2,12 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	const line<T, N> ray<T, N>::to_line() const noexcept {
+	line<T, N> ray<T, N>::to_line() const noexcept {
 		return { this->point, this->dir };
 	}
 
 	template<typename T, size_t N>
-	const ray<T, N> ray<T, N>::impl_move(const ray& r, const point<T, N>& p) noexcept {
+	ray<T, N> ray<T, N>::impl_move(const ray& r, const point<T, N>& p) noexcept {
 		return { p, r.dir, r.tmin, r.tmax };
 	}
 
@@ -33,7 +33,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, std::array<T, 3>, T> ray<T, N>::intersect(const triangle<T, 3>& tri) const noexcept {
+	std::tuple<bool, std::array<T, 3>, T> ray<T, N>::intersect(const triangle<T, 3>& tri) const noexcept {
 		static_assert(N == 3);
 
 		auto rst = to_line().intersect(tri);
@@ -45,12 +45,12 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, T, T> ray<T, N>::intersect(const bbox<T, N>& box) const noexcept {
+	std::tuple<bool, T, T> ray<T, N>::intersect(const bbox<T, N>& box) const noexcept {
 		return to_line().intersect(box, tmin, tmax);
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, T> ray<T, N>::intersect_std_sphere() const noexcept {
+	std::tuple<bool, T> ray<T, N>::intersect_std_sphere() const noexcept {
 		constexpr auto r = static_cast<T>(1);
 		constexpr auto r2 = pow2(r);
 		const auto& p = this->point;
@@ -110,7 +110,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, T> ray<T, N>::intersect_sphere(const point<T, 3>& center, T radius) const noexcept {
+	std::tuple<bool, T> ray<T, N>::intersect_sphere(const point<T, 3>& center, T radius) const noexcept {
 		const T r2 = pow2(radius);
 		const auto& p = this->point;
 		const auto& d = this->dir;
@@ -167,7 +167,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_square() const noexcept {
+	std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_square() const noexcept {
 		static_assert(N == 3);
 
 		const auto& d = this->dir;
@@ -191,7 +191,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	const std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_disk() const noexcept {
+	std::tuple<bool, T, point<T, 2>> ray<T, N>::intersect_std_disk() const noexcept {
 		static_assert(N == 3);
 
 		const auto& d = this->dir;

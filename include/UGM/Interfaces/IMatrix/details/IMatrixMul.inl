@@ -10,14 +10,14 @@ namespace Ubpa::details::IMatrixMul::Eric {
     // we use __m128 to represent 2x2 matrix as A = | A0  A2 |
     //                                              | A1  A3 |
     // 2x2 column major Matrix multiply A*B
-    __force__m128 Mat2Mul(__m128 vec1, __m128 vec2)
+    inline __m128 Mat2Mul(__m128 vec1, __m128 vec2)
     {
         return
             _mm_add_ps(_mm_mul_ps(vec1, VecSwizzle(vec2, 0, 0, 3, 3)),
                 _mm_mul_ps(VecSwizzle(vec1, 2, 3, 0, 1), VecSwizzle(vec2, 1, 1, 2, 2)));
     }
     // 2x2 column major Matrix adjugate multiply (A#)*B
-    __force__m128 Mat2AdjMul(__m128 vec1, __m128 vec2)
+    inline __m128 Mat2AdjMul(__m128 vec1, __m128 vec2)
     {
         return
             _mm_sub_ps(_mm_mul_ps(VecSwizzle(vec1, 3, 0, 3, 0), vec2),
@@ -25,7 +25,7 @@ namespace Ubpa::details::IMatrixMul::Eric {
 
     }
     // 2x2 column major Matrix multiply adjugate A*(B#)
-    __force__m128 Mat2MulAdj(__m128 vec1, __m128 vec2)
+    inline __m128 Mat2MulAdj(__m128 vec1, __m128 vec2)
     {
         return
             _mm_sub_ps(_mm_mul_ps(vec1, VecSwizzle(vec2, 3, 3, 0, 0)),

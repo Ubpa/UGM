@@ -14,7 +14,6 @@ namespace Ubpa {
 		IListTraits<IMul, IArrayUtil>
 		{};
 
-	// TODO: SIMD
 	template<typename T>
 	struct quat : SI<quat<T>> {
 		using Base = SI<quat<T>>;

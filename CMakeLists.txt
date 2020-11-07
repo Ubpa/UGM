@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(UGM VERSION 0.6.12)
+project(UGM VERSION 0.6.13)
 message(STATUS "[Project] ${PROJECT_NAME}")
 
 include(cmake/InitUCMake.cmake)
@@ -8,8 +8,8 @@ Ubpa_InitUCMake()
 
 Ubpa_InitProject()
 
-set(Ubpa_USE_SIMD TRUE CACHE BOOL "use simd")
-set(Ubpa_USE_SSE_4_1 TRUE CACHE BOOL "use sse 4.1")
+option(Ubpa_UGM_UseSIMD "use SIMD" TRUE)
+option(Ubpa_UGM_UseSSE_4_1 "use SSE 4.1" TRUE)
 
 Ubpa_AddDep(UTemplate 0.4.8)
 

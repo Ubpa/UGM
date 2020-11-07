@@ -15,11 +15,11 @@ namespace Ubpa {
 
 		inline const Impl abs() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_abs_ps(x);
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -33,7 +33,7 @@ namespace Ubpa {
 		}
 
 		inline T min_component() const noexcept {
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
@@ -46,7 +46,7 @@ namespace Ubpa {
 				//return std::min(std::min((*this)[0], (*this)[1]), std::min((*this)[2], (*this)[3]));
 			}
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			return (*this)[min_dim()];
 		}
 
@@ -55,7 +55,7 @@ namespace Ubpa {
 		}
 
 		inline T max_component() const noexcept {
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
@@ -68,7 +68,7 @@ namespace Ubpa {
 				//return std::max(std::max((*this)[0], (*this)[1]), std::max((*this)[2], (*this)[3]));
 			}
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			return (*this)[max_dim()];
 		}
 
@@ -97,11 +97,11 @@ namespace Ubpa {
 		}
 
 		static const Impl min(const Impl& x, const Impl& y) noexcept {
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_min_ps(x, y);
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -112,11 +112,11 @@ namespace Ubpa {
 		}
 
 		static const Impl max(const Impl& x, const Impl& y) noexcept {
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_max_ps(x, y);
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)

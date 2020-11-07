@@ -8,7 +8,8 @@
 #endif
 #endif // !UBPA_FORCEINLINE
 
-#ifdef UBPA_USE_SIMD
+#ifndef UBPA_UGM_NOT_USE_SIMD
+#define UBPA_UGM_USE_SIMD
 #include <emmintrin.h>
 
 // ref: https://www.cnblogs.com/elvisxu/archive/2011/06/26/2090832.html
@@ -37,7 +38,8 @@ inline __m128 _mm_abs_ps(__m128 a)
 #define VecShuffle_0101(vec1, vec2)        _mm_movelh_ps(vec1, vec2)
 #define VecShuffle_2323(vec1, vec2)        _mm_movehl_ps(vec2, vec1)
 
-#ifdef UBPA_USE_SSE_4_1
+#ifndef UBPA_UGM_NOT_USE_SSE_4_1
+#define UBPA_UGM_USE_SSE_4_1
 /*
 <mmintrin.h>  MMX
 <xmmintrin.h> SSE
@@ -51,9 +53,9 @@ inline __m128 _mm_abs_ps(__m128 a)
 <immintrin.h> AVX, AVX2, FMA
 */
 #include <smmintrin.h>
-#endif // UBPA_USE_SSE_4_1
+#endif // !UBPA_UGM_NOT_USE_SSE_4_1
 
-#endif // UBPA_USE_SIMD
+#endif // !UBPA_UGM_NOT_USE_SIMD
 
 // opengl : -1
 // dx : 0

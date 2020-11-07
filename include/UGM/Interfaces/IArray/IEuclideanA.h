@@ -34,11 +34,11 @@ namespace Ubpa {
 
 		inline const Point impl_affine_subspace_add(const Vector& v) const noexcept {
 			auto& p = static_cast<const Point&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Point>)
 				return _mm_add_ps(p, v);
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Point rst;
 				for (size_t i = 0; i < N; i++)
@@ -49,11 +49,11 @@ namespace Ubpa {
 
 		inline Point& impl_affine_subspace_add_to_self(const Vector& v) noexcept {
 			auto& p = static_cast<Point&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Point>)
 				return p = p + v;
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			for (size_t i = 0; i < N; i++)
 				p[i] += v[i];
 			return p;
@@ -61,11 +61,11 @@ namespace Ubpa {
 
 		inline const Point impl_affine_subspace_minus(const Vector& v) const noexcept {
 			auto& p = static_cast<const Point&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Point>)
 				return _mm_sub_ps(p, v);
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Point rst;
 				for (size_t i = 0; i < N; i++)
@@ -76,11 +76,11 @@ namespace Ubpa {
 
 		inline Point& impl_affine_subspace_minus_to_self(const Vector& v) noexcept {
 			auto& p = static_cast<Point&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Point>)
 				return p = p - v;
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			for (size_t i = 0; i < N; i++)
 				p[i] -= v[i];
 			return p;
@@ -91,7 +91,7 @@ namespace Ubpa {
 
 		inline const Vector impl_affine_minus(const Point& y) const noexcept {
 			auto& x = static_cast<const Point&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Point>)
 				return _mm_sub_ps(x, y);
 			/* // no benefits
@@ -103,7 +103,7 @@ namespace Ubpa {
 				return { srst[0], srst[1],srst[2] };
 			}*/
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Vector rst;
 				for (size_t i = 0; i < N; i++)

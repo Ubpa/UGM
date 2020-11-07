@@ -25,11 +25,11 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	point<T, N - 1> hvec<T, N>::to_point() const noexcept {
 		assert((*this)[N - 1] != ZERO<T>);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (ImplTraits_SupportSIMD<hvec>)
 			return ((*this) / this->get<3>()).cast_to<pointf3>();
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		{
 			if constexpr (N >= 4) {
 				if ((*this)[N - 1] == ONE<T>)

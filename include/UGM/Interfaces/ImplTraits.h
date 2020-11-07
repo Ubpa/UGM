@@ -32,7 +32,7 @@ namespace Ubpa {
 }
 
 namespace Ubpa::details::ImplTraits_ {
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 	template<typename Enabler, typename Impl>
 	struct ImplTraits_SupportSIMD_Helper : std::true_type {};
 	template<typename Impl>

@@ -51,14 +51,18 @@ namespace Ubpa {
 
 	template<typename T, size_t N>
 	const std::tuple<bool, T> ray<T, N>::intersect_std_sphere() const noexcept {
-#ifdef UBPA_USE_SIMD
+		constexpr auto r = static_cast<T>(1);
+		constexpr auto r2 = pow2(r);
+		const auto& p = this->point;
+		const auto& d = this->dir;
+#ifdef UBPA_UGM_USE_SIMD
 		// 36 instructions
 		if constexpr (std::is_same_v<T, float> && N == 3) {
-			vecf4 oc = _mm_loadu_ps(this->point.data());
-			vecf4 dir = _mm_loadu_ps(this->dir.data());
-			T a = dir.v3_dot(dir);
+			vecf4 oc = _mm_loadu_ps(p.data());
+			vecf4 dir = _mm_loadu_ps(d.data());
+			T a = dir.v3_norm2();
 			T b = oc.v3_dot(dir);
-			T c = oc.v3_dot(oc) - 1;
+			T c = oc.v3_dot(oc) - r2;
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)
@@ -78,13 +82,70 @@ namespace Ubpa {
 			return { true, t };
 		}
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		// 51 instructions
 		{
-			vec<T, N> oc = this->point.cast_to<vec<T, N>>();
-			T a = this->dir.dot(this->dir);
-			T b = oc.dot(this->dir);
-			T c = oc.dot(oc) - 1;
+			vec<T, N> oc = p.cast_to<vec<T, N>>();
+			T a = d.norm2();
+			T b = oc.dot(d);
+			T c = oc.dot(oc) - r2;
+			T discriminant = b * b - a * c;
+
+			if (discriminant < 0)
+				return { false, ZERO<T> };
+
+			T sqrt_discriminant = std::sqrt(discriminant);
+			T inv_a = 1 / a;
+
+			T neg_b = -b;
+			T t = (neg_b - sqrt_discriminant) * inv_a;
+			if (t > tmax || t < tmin) {
+				t = (neg_b + sqrt_discriminant) * inv_a;
+				if (t > tmax || t < tmin)
+					return { false, ZERO<T> };
+			}
+
+			return { true, t };
+		}
+	}
+
+	template<typename T, size_t N>
+	inline const std::tuple<bool, T> ray<T, N>::intersect_sphere(const point<T, 3>& center, T radius) const noexcept {
+		const T r2 = pow2(radius);
+		const auto& p = this->point;
+		const auto& d = this->dir;
+#ifdef UBPA_UGM_USE_SIMD
+		if constexpr (std::is_same_v<T, float> && N == 3) {
+			vecf4 oc = _mm_loadu_ps((p - center).data());
+			vecf4 dir = _mm_loadu_ps(d.data());
+			T a = dir.v3_norm2();
+			T b = oc.v3_dot(dir);
+			T c = oc.v3_dot(oc) - r2;
+			T discriminant = b * b - a * c;
+
+			if (discriminant < 0)
+				return { false, ZERO<T> };
+
+			T sqrt_discriminant = std::sqrt(discriminant);
+			T inv_a = 1 / a;
+
+			T neg_b = -b;
+			T t = (neg_b - sqrt_discriminant) * inv_a;
+			if (t > tmax || t < tmin) {
+				t = (neg_b + sqrt_discriminant) * inv_a;
+				if (t > tmax || t < tmin)
+					return { false, ZERO<T> };
+			}
+
+			return { true, t };
+		}
+		else
+#endif // UBPA_UGM_USE_SIMD
+		{
+			vec<T, N> oc = p - center;
+			T a = d.norm2();
+			T b = oc.dot(d);
+			T c = oc.dot(oc) - r2;
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)

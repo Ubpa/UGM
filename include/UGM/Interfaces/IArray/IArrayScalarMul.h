@@ -12,7 +12,7 @@ namespace Ubpa {
 		static constexpr size_t N = ImplTraits_N<Impl>;
 		using F = ImplTraits_F<Impl>;
 		
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		using Base::operator*;
 		using Base::operator*=;
 		using Base::operator/;
@@ -47,7 +47,7 @@ namespace Ubpa {
 			const auto& x = static_cast<const Impl&>(*this);
 			return x = x / k;
 		}
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 
 	private:
 		template<typename Base, typename Impl>
@@ -55,11 +55,11 @@ namespace Ubpa {
 
 		inline Impl impl_scalar_mul(F k) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_mul_ps(x, Impl{ k });
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				Impl rst;
 				for (size_t i = 0; i < N; i++)
@@ -70,11 +70,11 @@ namespace Ubpa {
 
 		inline Impl& impl_scalar_mul_to_self(F k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return x = x * k;
 			else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 			{
 				for (size_t i = 0; i < N; i++)
 					x[i] *= k;

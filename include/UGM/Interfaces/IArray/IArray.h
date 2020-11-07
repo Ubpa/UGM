@@ -147,7 +147,7 @@ namespace Ubpa {
 		}
 	};
 
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 	template<typename IArray_Base, typename Impl>
 	struct alignas(16) IArray_Impl<true, IArray_Base, Impl> : IArray_Base {
 	public:

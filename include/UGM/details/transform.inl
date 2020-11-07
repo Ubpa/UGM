@@ -164,7 +164,7 @@ namespace Ubpa {
 		F zz = z * z;
 		F zw = z * w;
 
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<transform<F>>>) {
 			this->init(
 				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), t[0],
@@ -177,7 +177,7 @@ namespace Ubpa {
 			(*this)[2] *= s[2];
 		}
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		this->init(
 			s[0] * (1 - 2 * (yy + zz)), s[1] * (    2 * (xy - zw)), s[2] * (    2 * (xz + yw)), t[0],
 			s[0] * (    2 * (xy + zw)), s[1] * (1 - 2 * (zz + xx)), s[2] * (    2 * (yz - xw)), t[1],
@@ -272,7 +272,7 @@ namespace Ubpa {
 	template<typename F>
 	const transform<F> transform<F>::inverse_sim() const noexcept {
 		// ref: https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
 			transform<F> r;
 			const auto& inM = *this;
@@ -331,7 +331,7 @@ namespace Ubpa {
 	template<typename F>
 	const mat<F, 3> transform<F>::decompose_rotation_matrix() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
 			return { m[0].normalize().cast_to<vecf3>(),
 				m[1].normalize().cast_to<vecf3>(),
@@ -459,11 +459,11 @@ namespace Ubpa {
 	template<typename F>
 	const scale<F, 3> transform<F>::decompose_scale() const noexcept {
 		const auto& m = static_cast<const transform&>(*this);
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>)
 			return { m[0].norm(), m[1].norm(), m[2].norm() };
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		{
 			vec<F, 3> col0(m(0, 0), m(1, 0), m(2, 0));
 			vec<F, 3> col1(m(0, 1), m(1, 1), m(2, 1));
@@ -544,13 +544,13 @@ namespace Ubpa {
 		F y = p[1];
 		F z = p[2];
 
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
 			auto mp = m[0] * x + m[1] * y + m[2] * z + m[3];
 			return (mp / mp[3]).cast_to<pointf3>();
 		}
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		{
 			F xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z + m(0, 3);
 			F yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z + m(1, 3);
@@ -574,11 +574,11 @@ namespace Ubpa {
 		F y = v[1];
 		F z = v[2];
 
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>)
 			return (m[0] * x + m[1] * y + m[2] * z).cast_to<vecf3>();
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		{
 			F xp = m(0, 0) * x + m(0, 1) * y + m(0, 2) * z;
 			F yp = m(1, 0) * x + m(1, 1) * y + m(1, 2) * z;
@@ -612,7 +612,7 @@ namespace Ubpa {
 		// See Christer Ericson's Real-time Collision Detection, p. 87, or
 		// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
 		// http://www.graphicsgems.org/
-#ifdef UBPA_USE_SIMD
+#ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
 			vecf<4> Bmin = m[3];
 			vecf<4> Bmax = m[3];
@@ -634,7 +634,7 @@ namespace Ubpa {
 			return { pointf3{Bmin[0], Bmin[1], Bmin[2]}, pointf3{Bmax[0], Bmax[1], Bmax[2]} };
 		}
 		else
-#endif // UBPA_USE_SIMD
+#endif // UBPA_UGM_USE_SIMD
 		{
 			point<F, 3> Amin = A.minP();
 			point<F, 3> Amax = A.maxP();

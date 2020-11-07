@@ -110,7 +110,7 @@ namespace Ubpa {
 	}
 
 	template<typename T, size_t N>
-	inline const std::tuple<bool, T> ray<T, N>::intersect_sphere(const point<T, 3>& center, T radius) const noexcept {
+	const std::tuple<bool, T> ray<T, N>::intersect_sphere(const point<T, 3>& center, T radius) const noexcept {
 		const T r2 = pow2(radius);
 		const auto& p = this->point;
 		const auto& d = this->dir;

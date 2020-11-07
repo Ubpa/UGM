@@ -2,11 +2,11 @@
 
 namespace Ubpa {
 	template<typename F>
-	inline transform<F>::transform(const mat<F, 4>& m) noexcept
+	transform<F>::transform(const mat<F, 4>& m) noexcept
 		: transform(m[0], m[1], m[2], m[3]) {}
 
 	template<typename F>
-	inline transform<F>::transform(const mat<F, 3>& m) noexcept :
+	transform<F>::transform(const mat<F, 3>& m) noexcept :
 		transform{
 			m[0][0], m[1][0], m[2][0],    0,
 			m[0][1], m[1][1], m[2][1],    0,

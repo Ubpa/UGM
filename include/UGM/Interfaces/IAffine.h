@@ -13,7 +13,7 @@ namespace Ubpa {
 
 		using Base::operator-;
 
-		inline const Vector operator-(const Point& y) const noexcept {
+		const Vector operator-(const Point& y) const noexcept {
 			return static_cast<const Point*>(this)->impl_affine_minus(y);
 		}
 	};

@@ -2,7 +2,7 @@
 #pragma once
 
 namespace Ubpa {
-	float fresnel_schlick(float cos_theta, float eta) noexcept {
+	inline float fresnel_schlick(float cos_theta, float eta) noexcept {
 		float x = (eta - 1) / (eta + 1);
 		float R0 = x * x; // reflectance at normal incidence, 'R' means specular [r]eflection coefficient
 		float one_cos_theta = 1 - cos_theta;
@@ -17,26 +17,26 @@ namespace Ubpa {
 		return R0 + one_R0 * pow5(one_cos_theta);
 	}
 
-	rgbf fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance) noexcept {
+	inline rgbf fresnel_schlick(float cos_theta, float metalness, const rgbf& metal_color, float reflectance) noexcept {
 		rgbf R0 = rgbf::lerp(rgbf{ reflectance }, metal_color, metalness);
 		float one_cos_theta = 1 - cos_theta;
 		return R0 + (rgbf{ 1.f } - R0) * pow5(one_cos_theta);
 	}
 
-	float specular_reflection(float Fr, float cos_theta) noexcept {
+	inline float specular_reflection(float Fr, float cos_theta) noexcept {
 		return Fr / cos_theta;
 	}
 
-	const rgbf specular_reflection(const rgbf& Fr, float cos_theta) noexcept {
+	inline const rgbf specular_reflection(const rgbf& Fr, float cos_theta) noexcept {
 		return Fr / cos_theta;
 	}
 
-	float specular_refraction(float Fr, float etai, float etao, float cos_thetai) noexcept {
+	inline float specular_refraction(float Fr, float etai, float etao, float cos_thetai) noexcept {
 		float etao_etai = etao / etai;
 		return etao_etai * etao_etai * (1 - Fr) / cos_thetai;
 	}
 
-	float specular_refraction(float Fr, float eta, const svecf& wi) noexcept {
+	inline float specular_refraction(float Fr, float eta, const svecf& wi) noexcept {
 		if (wi.is_above()) // from surface to air
 			return specular_refraction(Fr, 1, eta, wi.cos_stheta());
 		else // from air to surface
@@ -67,7 +67,7 @@ namespace Ubpa {
 		return 2 / (std::sqrt(1 + alpha2 * tan2_sthetai) + std::sqrt(1 + alpha2 * tan2_sthetao));
 	}
 
-	float GGX_D(float alpha, const svecf& wm) noexcept {
+	inline float GGX_D(float alpha, const svecf& wm) noexcept {
 		float cos_stheta = wm.cos_stheta();
 		if (cos_stheta <= 0)
 			return 0.f;
@@ -75,17 +75,4 @@ namespace Ubpa {
 		float denominator = PI<float> * pow2(1 + (alpha2 - 1) * pow2(cos_stheta));
 		return alpha2 / denominator;
 	}
-
-	/*float microfacet_specualr_reflection_dwh_dwi(const svecf& wh, const svecf& wi) noexcept {
-		return 1 / (4 * std::abs(wh.dot(wi)));
-	}
-
-	float microfacet_specular_refraction_dwh_dwi(const svecf& wh, const svecf& wi, const svecf& wo, float etai, float etao) noexcept {
-		float wo_dot_wh = wo.dot(wh);
-		float wi_dot_wh = wi.dot(wh);
-		float numerator = etai * etai * std::abs(wo_dot_wh);
-		float sqrt_denominator = etao * wo_dot_wh + etai * wi_dot_wh;
-		float denominator = sqrt_denominator * sqrt_denominator;
-		return numerator / denominator;
-	}*/
 }

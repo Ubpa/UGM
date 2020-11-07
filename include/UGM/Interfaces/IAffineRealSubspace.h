@@ -16,11 +16,11 @@ namespace Ubpa {
 
 		ImplTraits_P<Impl> point;
 
-		static const Impl move(const Impl& impl, const Point& p) noexcept {
+		static Impl move(const Impl& impl, const Point& p) noexcept {
 			return Impl::impl_move(impl, p);
 		}
 
-		const Impl move(const Point& p) const noexcept {
+		Impl move(const Point& p) const noexcept {
 			auto& impl = static_cast<const Impl&>(*this);
 			return move(impl, p);
 		}
@@ -34,7 +34,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IAffineSubspace;
 
-		const Impl impl_affine_subspace_add(const Vector& v) const noexcept {
+		Impl impl_affine_subspace_add(const Vector& v) const noexcept {
 			auto moved_p = point + v;
 			return move(moved_p);
 		}
@@ -44,7 +44,7 @@ namespace Ubpa {
 			return static_cast<Impl&>(*this);
 		}
 
-		const Impl impl_affine_subspace_minus(const Vector& v) const noexcept {
+		Impl impl_affine_subspace_minus(const Vector& v) const noexcept {
 			auto moved_p = point - v;
 			return move(moved_p);
 		}

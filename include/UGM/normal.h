@@ -18,9 +18,9 @@ namespace Ubpa {
 		// (theta, phi)
 		// theta : 0 - pi
 		// phi   : 0 - 2 pi
-		inline const point<T, 2> to_sphere_coordinate() const noexcept;
+		const point<T, 2> to_sphere_coordinate() const noexcept;
 
-		inline const vec<T, 3> to_sphere_tangent() const noexcept;
+		const vec<T, 3> to_sphere_tangent() const noexcept;
 	};
 
 	using normalf = normal<float>;

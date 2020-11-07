@@ -15,17 +15,17 @@ namespace Ubpa {
 		static_assert(N > 1);
 
 		template<typename Container, size_t... Ns>
-		inline hvec(const Container& c, T h, std::index_sequence<Ns...>) noexcept;
+		hvec(const Container& c, T h, std::index_sequence<Ns...>) noexcept;
 		template<typename Container, size_t... Ns>
-		inline hvec(const Container& c, std::index_sequence<Ns...>) noexcept;
+		hvec(const Container& c, std::index_sequence<Ns...>) noexcept;
 
 	public:
-		inline hvec(const point<T, N - 1>& p) noexcept;
-		inline hvec(const vec<T, N - 1>& v) noexcept;
-		inline hvec(const vec<T, N>& v) noexcept;
+		hvec(const point<T, N - 1>& p) noexcept;
+		hvec(const vec<T, N - 1>& v) noexcept;
+		hvec(const vec<T, N>& v) noexcept;
 
-		inline point<T, N - 1> to_point() const noexcept;
-		inline vec<T, N - 1> to_vec() const noexcept;
+		point<T, N - 1> to_point() const noexcept;
+		vec<T, N - 1> to_vec() const noexcept;
 	};
 
 	template<size_t N>

@@ -10,14 +10,14 @@ namespace Ubpa::details::IMatrixMul::Eric {
     // we use __m128 to represent 2x2 matrix as A = | A0  A2 |
     //                                              | A1  A3 |
     // 2x2 column major Matrix multiply A*B
-    __forceinline __m128 Mat2Mul(__m128 vec1, __m128 vec2)
+    __force__m128 Mat2Mul(__m128 vec1, __m128 vec2)
     {
         return
             _mm_add_ps(_mm_mul_ps(vec1, VecSwizzle(vec2, 0, 0, 3, 3)),
                 _mm_mul_ps(VecSwizzle(vec1, 2, 3, 0, 1), VecSwizzle(vec2, 1, 1, 2, 2)));
     }
     // 2x2 column major Matrix adjugate multiply (A#)*B
-    __forceinline __m128 Mat2AdjMul(__m128 vec1, __m128 vec2)
+    __force__m128 Mat2AdjMul(__m128 vec1, __m128 vec2)
     {
         return
             _mm_sub_ps(_mm_mul_ps(VecSwizzle(vec1, 3, 0, 3, 0), vec2),
@@ -25,7 +25,7 @@ namespace Ubpa::details::IMatrixMul::Eric {
 
     }
     // 2x2 column major Matrix multiply adjugate A*(B#)
-    __forceinline __m128 Mat2MulAdj(__m128 vec1, __m128 vec2)
+    __force__m128 Mat2MulAdj(__m128 vec1, __m128 vec2)
     {
         return
             _mm_sub_ps(_mm_mul_ps(vec1, VecSwizzle(vec2, 3, 3, 0, 0)),
@@ -35,7 +35,7 @@ namespace Ubpa::details::IMatrixMul::Eric {
     // Inverse function is the same no matter column major or row major
     // this version treats it as column major
     template<typename M>
-    inline M GetInverse(const M& inM)
+    M GetInverse(const M& inM)
     {
         // use block matrix method
         // A is a matrix, then i(A) or iA means inverse of A, A# (or A_ in code) means adjugate of A, |A| (or detA in code) is determinant, tr(A) is trace
@@ -123,7 +123,7 @@ namespace Ubpa::details::IMatrixMul {
 	template<>
 	struct inverse<2> {
 		template<typename M>
-		static const M run(const M& m) noexcept {
+		static M run(const M& m) noexcept {
 			static_assert(M::N == 2);
 			using F = typename M::F;
             
@@ -143,7 +143,7 @@ namespace Ubpa::details::IMatrixMul {
     template<>
     struct inverse<3> {
         template<typename M>
-        static const M run(const M& m) noexcept {
+        static M run(const M& m) noexcept {
             static_assert(M::N == 3);
             using F = typename M::F;
 
@@ -173,7 +173,7 @@ namespace Ubpa::details::IMatrixMul {
     struct inverse<4> {
         // https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
         template<typename M>
-        static const M run(const M& m) noexcept {
+        static M run(const M& m) noexcept {
             static_assert(M::N == 4);
             using F = typename M::F;
 
@@ -423,7 +423,7 @@ namespace Ubpa::details::IMatrixMul {
 	template<>
 	struct mul<2> {
 		template<typename M>
-		static const M run(const M& x, const M& y) noexcept {
+		static M run(const M& x, const M& y) noexcept {
 			static_assert(M::N == 2);
 			using F = typename M::F;
 
@@ -456,7 +456,7 @@ namespace Ubpa::details::IMatrixMul {
     template<>
     struct mul<3> {
         template<typename M>
-        static const M run(const M& x, const M& y) noexcept {
+        static M run(const M& x, const M& y) noexcept {
             static_assert(M::N == 3);
             using F = typename M::F;
 
@@ -498,7 +498,7 @@ namespace Ubpa::details::IMatrixMul {
     template<>
     struct mul<4> {
         template<typename M>
-        static const M run(const M& x, const M& y) noexcept {
+        static M run(const M& x, const M& y) noexcept {
             static_assert(M::N == 4);
             using F = typename M::F;
 #ifdef UBPA_UGM_USE_SIMD

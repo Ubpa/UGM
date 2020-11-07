@@ -11,7 +11,7 @@ namespace Ubpa {
 		static constexpr size_t N = ImplTraits_N<Impl>;
 
 		template<typename To>
-		const To cast_to() const noexcept {
+		To cast_to() const noexcept {
 			constexpr size_t M = To::N;
 			static_assert(M <= N && SI_Contains_v<Impl, IArray1D> == SI_Contains_v<To, IArray1D>);
 			return cast_to<To>(std::make_index_sequence<M>{});
@@ -33,7 +33,7 @@ namespace Ubpa {
 
 	private:
 		template<typename To, size_t... Ns>
-		const To cast_to(std::index_sequence<Ns...>) const noexcept {
+		To cast_to(std::index_sequence<Ns...>) const noexcept {
 			return { static_cast<typename To::T>((*this)[Ns])... };
 		}
 	};

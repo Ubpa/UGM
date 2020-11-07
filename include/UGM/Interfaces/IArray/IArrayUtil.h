@@ -12,14 +12,14 @@ namespace Ubpa {
 		static constexpr size_t N = ImplTraits_N<Impl>;
 		using F = ImplTraits_F<Impl>;
 
-		inline const Impl rmv_epsilon() const noexcept {
+		Impl rmv_epsilon() const noexcept {
 			Impl rst;
 			for (size_t i = 0; i < N; i++)
 				rst[i] = Ubpa::rmv_epsilon((*this)[i]);
 			return rst;
 		}
 
-		inline bool is_all_zero() const noexcept {
+		bool is_all_zero() const noexcept {
 			for (size_t i = 0; i < N; i++) {
 				if (is_zero((*this)[i]))
 					return false;
@@ -27,7 +27,7 @@ namespace Ubpa {
 			return true;
 		}
 
-		inline bool has_nan() const noexcept {
+		bool has_nan() const noexcept {
 			for (size_t i = 0; i < N; i++) {
 				if (is_nan((*this)[i]))
 					return true;
@@ -35,7 +35,7 @@ namespace Ubpa {
 			return false;
 		}
 
-		static const Impl lerp(const Impl& x, const Impl& y, F t) noexcept {
+		static Impl lerp(const Impl& x, const Impl& y, F t) noexcept {
 			F one_minus_t = static_cast<F>(1) - t;
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -50,17 +50,17 @@ namespace Ubpa {
 			}
 		}
 
-		inline const Impl lerp(const Impl& y, F t) const noexcept {
+		Impl lerp(const Impl& y, F t) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return lerp(x, y, t);
 		}
 
-		static const Impl mid(const Impl& x, const Impl& y) noexcept {
+		static Impl mid(const Impl& x, const Impl& y) noexcept {
 			return lerp(x, y, static_cast<F>(0.5));
 		}
 
 		template<typename ValContainer, typename WeightContainer>
-		static const Impl mix(const ValContainer& vals, const WeightContainer& weights) noexcept {
+		static Impl mix(const ValContainer& vals, const WeightContainer& weights) noexcept {
 			assert(vals.size() > 0 && vals.size() == weights.size());
 			auto val_iter = vals.begin();
 			auto weight_iter = weights.begin();

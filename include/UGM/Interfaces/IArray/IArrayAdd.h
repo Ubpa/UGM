@@ -16,7 +16,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IAdd;
 
-		inline const Impl impl_add(const Impl& y) const noexcept {
+		Impl impl_add(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -31,7 +31,7 @@ namespace Ubpa {
 			}
 		}
 
-		inline Impl& impl_add_to_self(const Impl& y) noexcept {
+		Impl& impl_add_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -45,7 +45,7 @@ namespace Ubpa {
 			}
 		}
 
-		inline const Impl impl_add_inverse() const noexcept {
+		Impl impl_add_inverse() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -65,7 +65,7 @@ namespace Ubpa {
 			}
 		}
 
-		inline const Impl impl_minus(const Impl& y) const noexcept {
+		Impl impl_minus(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
@@ -81,7 +81,7 @@ namespace Ubpa {
 			}
 		}
 
-		inline Impl& impl_minus_to_self(const Impl& y) noexcept {
+		Impl& impl_minus_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
@@ -97,7 +97,7 @@ namespace Ubpa {
 		}
 
 		template<typename U, std::enable_if_t<std::is_integral_v<U>>* = nullptr>
-		inline Impl impl_add_mul(U v) const noexcept {
+		Impl impl_add_mul(U v) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -113,7 +113,7 @@ namespace Ubpa {
 		}
 
 		template<typename U, std::enable_if_t<std::is_integral_v<U>>* = nullptr>
-		inline Impl& impl_add_mul_to_self(U v) noexcept {
+		Impl& impl_add_mul_to_self(U v) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)

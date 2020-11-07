@@ -7,7 +7,7 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	inline quat<T>::quat(const vec<T, 3>& from, const vec<T, 3>& to) noexcept {
+	quat<T>::quat(const vec<T, 3>& from, const vec<T, 3>& to) noexcept {
 		assert(from.is_normalized() && to.is_normalized());
 		auto sin_theta_axis = from.cross(to);
 		float cos_theta = from.dot(to);

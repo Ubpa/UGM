@@ -12,24 +12,24 @@ namespace Ubpa::detail::Basic {
 
 namespace Ubpa {
 	template<typename T>
-	inline const T rmv_epsilon(T val) noexcept {
+	const T rmv_epsilon(T val) noexcept {
 		return detail::Basic::rmv_epsilon<T>::run(val);
 	}
 
 	template<typename T>
-	inline constexpr T to_radian(T degree) noexcept {
+	constexpr T to_radian(T degree) noexcept {
 		static_assert(std::is_floating_point_v<T>);
 		return degree * (PI<T> / static_cast<T>(180));
 	}
 
 	template<typename T>
-	inline constexpr T to_degree(T radian) noexcept {
+	constexpr T to_degree(T radian) noexcept {
 		static_assert(std::is_floating_point_v<T>);
 		return radian * (static_cast<T>(180) / PI<T>);
 	}
 
 	template<typename T>
-	inline T sgn(T v) noexcept {
+	T sgn(T v) noexcept {
 		if (v > ZERO<T>)
 			return ONE<T>;
 		else if (v < ZERO<T>)

@@ -15,37 +15,37 @@ namespace Ubpa {
 		using Base = SI<bbox<F, N>>;
 		using Base::Base;
 		
-		inline bbox() noexcept;
-		inline bbox(const point<F, N>& minP, const point<F, N>& maxP) noexcept;
-		inline static const bbox minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept;
+		bbox() noexcept;
+		bbox(const point<F, N>& minP, const point<F, N>& maxP) noexcept;
+		static const bbox minmax(const point<F, N>& p0, const point<F, N>& p1) noexcept;
 
-		inline point<F, N>& minP() noexcept;
-		inline const point<F, N>& minP() const noexcept;
-		inline point<F, N>& maxP() noexcept;
-		inline const point<F, N>& maxP() const noexcept;
+		point<F, N>& minP() noexcept;
+		const point<F, N>& minP() const noexcept;
+		point<F, N>& maxP() noexcept;
+		const point<F, N>& maxP() const noexcept;
 
-		inline bool is_valid() const noexcept;
+		bool is_valid() const noexcept;
 
-		inline const point<F, N> corner(size_t idx) const noexcept;
-		inline const point<F, N> center() const noexcept;
-		inline const vec<F, N> diagonal() const noexcept;
-		inline const F area() const noexcept;
-		inline F volume() const noexcept;
-		inline size_t max_extent() const noexcept;
+		const point<F, N> corner(size_t idx) const noexcept;
+		const point<F, N> center() const noexcept;
+		const vec<F, N> diagonal() const noexcept;
+		const F area() const noexcept;
+		F volume() const noexcept;
+		size_t max_extent() const noexcept;
 
 		using Base::lerp;
-		inline const point<F, N> lerp(const val<F, N>& t) const noexcept;
+		const point<F, N> lerp(const val<F, N>& t) const noexcept;
 
-		inline const vec<F, N> offset(const point<F, N>& p) const noexcept;
+		const vec<F, N> offset(const point<F, N>& p) const noexcept;
 
-		inline const bbox combine(const bbox& rhs) const noexcept;
-		inline bbox& combine_to_self(const bbox& rhs) noexcept;
+		const bbox combine(const bbox& rhs) const noexcept;
+		bbox& combine_to_self(const bbox& rhs) noexcept;
 
-		inline const bbox combine(const point<F, N>& p) const noexcept;
-		inline bbox& combine_to_self(const point<F, N>& p) noexcept;
+		const bbox combine(const point<F, N>& p) const noexcept;
+		bbox& combine_to_self(const point<F, N>& p) noexcept;
 
 		static const bbox intersect(const bbox& lhs, const bbox& rhs) noexcept;
-		inline bbox& intersect_to_self(const bbox& rhs) noexcept;
+		bbox& intersect_to_self(const bbox& rhs) noexcept;
 	};
 
 	template<size_t N>

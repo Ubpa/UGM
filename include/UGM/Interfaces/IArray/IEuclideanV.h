@@ -16,7 +16,7 @@ namespace Ubpa {
 
 #ifdef UBPA_UGM_USE_SIMD
 		// w == 0
-		inline static const Impl v3_cross(const Impl& x, const Impl& y) noexcept {
+		static Impl v3_cross(const Impl& x, const Impl& y) noexcept {
 			static_assert(ImplTraits_SupportSIMD<Impl>);
 			/*
 			|a.x|   |b.x|   | a.y * b.z - a.z * b.y |
@@ -29,76 +29,76 @@ namespace Ubpa {
 		}
 
 		// w == 0
-		inline const Impl v3_cross(const Impl& y) const noexcept {
+		Impl v3_cross(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_cross(x, y);
 		}
 
 		// x = y = z = w
-		inline static Impl v3_dot(const Impl& x, const Impl& y) noexcept {
+		static Impl v3_dot(const Impl& x, const Impl& y) noexcept {
 			static_assert(ImplTraits_SupportSIMD<Impl>);
 			// 0x7f : 011111111
 			return _mm_dp_ps(x, y, 0x7f);
 		}
 
 		// x = y = z = w
-		inline Impl v3_dot(const Impl& y) const noexcept {
+		Impl v3_dot(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_dot(x, y);
 		}
 
 		// x = y = z = w
-		inline Impl v3_norm2() const noexcept {
+		Impl v3_norm2() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_dot(x, x);
 		}
 
 		// x = y = z = w
-		inline Impl v3_norm() const noexcept {
+		Impl v3_norm() const noexcept {
 			return _mm_sqrt_ps(v3_norm2());
 		}
 
-		inline const Impl v3_normalize() const noexcept {
+		Impl v3_normalize() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			auto n = x.v3_norm();
 			assert(n.get<0>() > static_cast<F>(0));
 			return x / n; // ILinear
 		}
 
-		inline bool v3_is_normalized() const noexcept {
+		bool v3_is_normalized() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return std::abs(x.v3_norm().get<0>() - 1) < EPSILON<F>;
 		}
 
-		inline Impl& v3_normalize_self() noexcept {
+		Impl& v3_normalize_self() noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			return x = v3_normalize();
 		}
 
 		// x = y = z = w
-		inline static Impl v3_distance2(const Impl& x, const Impl& y) noexcept {
+		static Impl v3_distance2(const Impl& x, const Impl& y) noexcept {
 			return (x - y).v3_norm2();
 		}
 
 		// x = y = z = w
-		inline Impl v3_distance2(const Impl& y) const noexcept {
+		Impl v3_distance2(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_distance2(x, y);
 		}
 
 		// x = y = z = w
-		inline static Impl v3_distance(const Impl& x, const Impl& y) noexcept {
+		static Impl v3_distance(const Impl& x, const Impl& y) noexcept {
 			return _mm_sqrt_ps(v3_distance2(x, y));
 		}
 
 		// x = y = z = w
-		inline Impl v3_distance(const Impl& y) const noexcept {
+		Impl v3_distance(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_distance(x, y);
 		}
 
 		// x = y = z = w
-		inline static Impl v3_cos_theta(const Impl& x, const Impl& y) noexcept {
+		static Impl v3_cos_theta(const Impl& x, const Impl& y) noexcept {
 			auto xN = x.v3_norm();
 			auto yN = y.v3_norm();
 			auto xyN = _mm_mul_ps(xN, yN);
@@ -107,17 +107,17 @@ namespace Ubpa {
 		}
 
 		// x = y = z = w
-		inline Impl v3_cos_theta(const Impl& y) const noexcept {
+		Impl v3_cos_theta(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return v3_cos_theta(x, y);
 		}
 
-		const Impl v3_project(const Impl& n) const noexcept {
+		Impl v3_project(const Impl& n) const noexcept {
 			assert(n.v3_is_normalized());
 			return v3_dot(n) * n;
 		}
 
-		const Impl v3_perpendicular(const Impl& n) const noexcept {
+		Impl v3_perpendicular(const Impl& n) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return x - x.v3_project(n);
 		}
@@ -243,7 +243,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IInnerProduct;
 
-		inline static F impl_dot(const Impl& x, const Impl& y) noexcept {
+		static F impl_dot(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// ref

@@ -13,7 +13,7 @@ namespace Ubpa {
 		using F = ImplTraits_F<Impl>;
 		static constexpr size_t N = ImplTraits_N<Impl>;
 
-		inline const Impl abs() const noexcept {
+		Impl abs() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -28,11 +28,11 @@ namespace Ubpa {
 			}
 		}
 
-		inline T& min_component() noexcept {
+		T& min_component() noexcept {
 			return (*this)[min_dim()];
 		}
 
-		inline T min_component() const noexcept {
+		T min_component() const noexcept {
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
@@ -50,11 +50,11 @@ namespace Ubpa {
 			return (*this)[min_dim()];
 		}
 
-		inline T& max_component() noexcept {
+		T& max_component() noexcept {
 			return (*this)[max_dim()];
 		}
 
-		inline T max_component() const noexcept {
+		T max_component() const noexcept {
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
@@ -72,7 +72,7 @@ namespace Ubpa {
 			return (*this)[max_dim()];
 		}
 
-		inline constexpr size_t min_dim() const noexcept {
+		constexpr size_t min_dim() const noexcept {
 			T minVal = (*this)[0];
 			size_t minDim = 0;
 			for (size_t i = 1; i < N; i++) {
@@ -84,7 +84,7 @@ namespace Ubpa {
 			return minDim;
 		}
 
-		inline constexpr size_t max_dim() const noexcept {
+		constexpr size_t max_dim() const noexcept {
 			T maxVal = (*this)[0];
 			size_t maxDim = 0;
 			for (size_t i = 1; i < N; i++) {
@@ -96,7 +96,7 @@ namespace Ubpa {
 			return maxDim;
 		}
 
-		static const Impl min(const Impl& x, const Impl& y) noexcept {
+		static Impl min(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_min_ps(x, y);
@@ -111,7 +111,7 @@ namespace Ubpa {
 			}
 		}
 
-		static const Impl max(const Impl& x, const Impl& y) noexcept {
+		static Impl max(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
 				return _mm_max_ps(x, y);

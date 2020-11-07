@@ -31,15 +31,15 @@ namespace Ubpa {
 		using IArray_Base::operator[];
 
 		template<size_t... Ns>
-		inline IArray_Impl(const T* arr, std::index_sequence<Ns...>) noexcept {
+		IArray_Impl(const T* arr, std::index_sequence<Ns...>) noexcept {
 			(((*this)[Ns] = arr[Ns]), ...);
 		}
 		template<size_t... Ns>
-		inline IArray_Impl(const T& t, std::index_sequence<Ns...>) noexcept {
+		IArray_Impl(const T& t, std::index_sequence<Ns...>) noexcept {
 			(((*this)[Ns] = t), ...);
 		};
 		template<size_t... Ns>
-		inline IArray_Impl(const IArray_Impl& arr, std::index_sequence<Ns...>) noexcept {
+		IArray_Impl(const IArray_Impl& arr, std::index_sequence<Ns...>) noexcept {
 			(((*this)[Ns] = arr[Ns]), ...);
 		};
 	public:

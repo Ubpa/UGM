@@ -9,11 +9,11 @@ namespace Ubpa {
 
 		using Base::Base;
 
-		inline static F distance(const Impl& x, const Impl& y) noexcept {
+		static F distance(const Impl& x, const Impl& y) noexcept {
 			return Impl::impl_distance(x, y);
 		}
 
-		inline F distance(const Impl& y) const noexcept {
+		F distance(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return distance(x, y);
 		}

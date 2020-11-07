@@ -13,10 +13,10 @@ namespace Ubpa {
 	struct triangle : SI<triangle<T, N>> {
 		using SI<triangle<T, N>>::SI;
 
-		inline T area() const noexcept;
+		T area() const noexcept;
 
 		template<typename Container>
-		inline const point<T, N> lerp(const Container& wuv) const noexcept;
+		const point<T, N> lerp(const Container& wuv) const noexcept;
 	};
 
 	template<size_t N>

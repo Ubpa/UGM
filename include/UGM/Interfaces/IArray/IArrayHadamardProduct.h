@@ -28,7 +28,7 @@ namespace Ubpa {
 			return x;
 		}
 
-		const Impl operator/(const Impl& y) const noexcept {
+		Impl operator/(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (ImplTraits_SupportSIMD<Impl>)
@@ -55,7 +55,7 @@ namespace Ubpa {
 			return x;
 		}
 
-		inline const Impl inverse() const noexcept {
+		Impl inverse() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 
 #ifdef UBPA_UGM_USE_SIMD
@@ -75,7 +75,7 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IMul;
 
-		inline const Impl impl_mul(const Impl& y) const noexcept {
+		Impl impl_mul(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 
 #ifdef UBPA_UGM_USE_SIMD

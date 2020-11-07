@@ -20,17 +20,17 @@ namespace Ubpa {
 	struct line : SI<line<T, N>> {
 		using SI<line<T, N>>::SI;
 
-		inline line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->point = p; this->dir = dir; }
+		line(const point<T, N>& p, const vec<T, N>& dir) noexcept { this->point = p; this->dir = dir; }
 
-		inline void print(std::ostream& os = std::cout) const;
+		void print(std::ostream& os = std::cout) const;
 
 		// (isIntersect, (w, u, v), t)
 		UBPA_FORCEINLINE const std::tuple<bool, std::array<T, 3>, T> intersect(const triangle<T, 3>& tri) const noexcept;
 		// (isIntersect, t0, t1)
-		inline const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
-		inline const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
+		const std::tuple<bool, T, T> intersect(const bbox<T, N>& box,
 			const vec<T, N>& inv_dir,
 			T tmin = std::numeric_limits<T>::max(),
 			T tmax = std::numeric_limits<T>::min()) const noexcept;
@@ -39,13 +39,13 @@ namespace Ubpa {
 		template<typename Base, typename Impl>
 		friend struct IInOut;
 
-		inline std::ostream& impl_out(std::ostream& os) const;
-		inline std::istream& impl_in(std::istream& is);
+		std::ostream& impl_out(std::ostream& os) const;
+		std::istream& impl_in(std::istream& is);
 
 		template<typename Base, typename Impl>
 		friend struct IAffineRealSubspace;
 
-		inline static const line impl_move(const line& line, const point<T, N>& p) noexcept;
+		static const line impl_move(const line& line, const point<T, N>& p) noexcept;
 	};
 
 	template<size_t N>

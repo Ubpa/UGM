@@ -26,41 +26,41 @@ namespace Ubpa {
 	};
 
 	template<typename T>
-	inline const T rmv_epsilon(T val) noexcept;
+	const T rmv_epsilon(T val) noexcept;
 
 	template<typename T>
-	inline constexpr T to_radian(T degree) noexcept;
+	constexpr T to_radian(T degree) noexcept;
 
 	template<typename T>
-	inline constexpr T to_degree(T radian) noexcept;
+	constexpr T to_degree(T radian) noexcept;
 
 	template<typename T>
-	inline T sgn(T v) noexcept;
+	T sgn(T v) noexcept;
 
 	template<typename T>
-	inline bool is_zero(T v) noexcept;
+	bool is_zero(T v) noexcept;
 
 	template<typename T>
-	inline bool is_nan(T v) noexcept;
+	bool is_nan(T v) noexcept;
 
 	template<typename T, typename F>
-	inline T lerp(T x, T y, F t) noexcept;
+	T lerp(T x, T y, F t) noexcept;
 
 	// 1 - epsilon, T: float / double
 	template<typename T>
-	inline constexpr T one_epsilon() noexcept;
+	constexpr T one_epsilon() noexcept;
 
 	// range: [0, 1), T: float / double
 	template<typename T>
-	inline T rand01() noexcept;
+	T rand01() noexcept;
 
 	// range: [0, 2^64-1]
-	inline size_t randi() noexcept;
+	size_t randi() noexcept;
 
 	template<typename T>
-	inline constexpr T pow2(T x) noexcept;
+	constexpr T pow2(T x) noexcept;
 	template<typename T>
-	inline constexpr T pow5(T x) noexcept;
+	constexpr T pow5(T x) noexcept;
 }
 
 #include "details/basic.inl"

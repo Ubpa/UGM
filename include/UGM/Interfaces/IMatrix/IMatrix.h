@@ -22,10 +22,10 @@ namespace Ubpa {
 		static_assert(Vector::N == N);
 
 		// column first
-		inline IMatrix(const std::array<F, N * N>& data) noexcept { init(data); }
+		IMatrix(const std::array<F, N * N>& data) noexcept { init(data); }
 
 		// column first
-		inline void init(const std::array<F, N* N>& data) noexcept {
+		void init(const std::array<F, N* N>& data) noexcept {
 			auto& m = static_cast<Impl&>(*this);
 			details::IMatrix_::init<N>::run(m, data);
 		}
@@ -40,7 +40,7 @@ namespace Ubpa {
 
 		// row first
 		template<typename... Us, std::enable_if_t<sizeof...(Us) == N * N>* = nullptr>
-		inline void init(Us... vals) noexcept {
+		void init(Us... vals) noexcept {
 			auto t = std::make_tuple(static_cast<F>(vals)...);
 			if constexpr (N == 2) {
 				init(std::array<F, 2 * 2>{
@@ -65,65 +65,65 @@ namespace Ubpa {
 			}
 		}
 
-		inline static const Impl eye() noexcept {
+		static Impl eye() noexcept {
 			return details::IMatrix_::eye<Impl, N>::run();
 		}
 
-		inline static const Impl zero() noexcept {
+		static Impl zero() noexcept {
 			return details::IMatrix_::zero<N>::template run<Impl>();
 		}
 
-		inline F& operator()(size_t r, size_t c) noexcept {
+		F& operator()(size_t r, size_t c) noexcept {
 			assert(r < N && c < N);
 			return (*this)[c][r];
 		}
 
-		inline F operator()(size_t r, size_t c) const noexcept {
+		F operator()(size_t r, size_t c) const noexcept {
 			assert(r < N && c < N);
 			return (*this)[c][r];
 		}
 
-		inline F& at(size_t r, size_t c) noexcept {
+		F& at(size_t r, size_t c) noexcept {
 			return this->operator()(r, c);
 		}
 
-		inline F at(size_t r, size_t c) const noexcept {
+		F at(size_t r, size_t c) const noexcept {
 			return this->operator()(r, c);
 		}
 
-		inline F& operator()(size_t n) noexcept {
+		F& operator()(size_t n) noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		inline F operator()(size_t n) const noexcept {
+		F operator()(size_t n) const noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		inline F& at(size_t n) noexcept {
+		F& at(size_t n) noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		inline F at(size_t n) const noexcept {
+		F at(size_t n) const noexcept {
 			assert(n < N * N);
 			return (*this)[n % N][n / N];
 		}
 
-		inline F trace() const noexcept {
+		F trace() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			return details::IMatrix_::trace<N>::run(m);
 		}
 
-		inline const Impl transpose() const noexcept {
+		Impl transpose() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			return details::IMatrix_::transpose<N>::run(m);
 		}
 
 		// return (U, S, V)
 		// not accurate in 3x3 but fast (1~2 ms)
-		inline const std::tuple<Impl, Impl, Impl> SVD() const noexcept {
+		const std::tuple<Impl, Impl, Impl> SVD() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			static_assert(N == 2 || (N == 3 && std::is_same_v<F, float>)); // only support 2x2 and 3x3 matrix by now
 			return details::IMatrix_::SVD<N>::run(m);
@@ -132,7 +132,7 @@ namespace Ubpa {
 		// return (U, S, V)
 		// det(UV^T) > 0, last sigma may be negative
 		// not accurate in 3x3 but fast (1~2 ms)
-		inline const std::tuple<Impl, Impl, Impl> signed_SVD() const noexcept {
+		const std::tuple<Impl, Impl, Impl> signed_SVD() const noexcept {
 			auto [U, S, V] = SVD();
 			auto U_VT = U * V.transpose();
 			if (U_VT.det() < 0) {
@@ -142,7 +142,7 @@ namespace Ubpa {
 			return { U,S,V };
 		}
 
-		inline F det() const noexcept {
+		F det() const noexcept {
 			const auto& m = static_cast<const Impl&>(*this);
 			return details::IMatrix_::det<N>::run(m);
 		}

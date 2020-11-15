@@ -7,11 +7,11 @@ namespace Ubpa {
 	struct IAffine : Base {
 		using Base::Base;
 
-		using Vector = ImplTraits_V<Point>;
-		
-		static_assert(Vector::template Contains<ILinear>());
-
 		using Base::operator-;
+
+		using Vector = ImplTraits_V<Point>;
+
+		static_assert(SI_Contains_v<Vector, ILinear>);
 
 		const Vector operator-(const Point& y) const noexcept {
 			return static_cast<const Point*>(this)->impl_affine_minus(y);

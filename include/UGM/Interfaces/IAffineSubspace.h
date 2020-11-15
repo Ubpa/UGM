@@ -7,9 +7,14 @@ namespace Ubpa {
 	struct IAffineSubspace : Base {
 		using Base::Base;
 
+		using Base::operator+;
+		using Base::operator+=;
+		using Base::operator-;
+		using Base::operator-=;
+
 		using Vector = ImplTraits_V<Impl>;
-		
-		static_assert(Vector::template Contains<ILinear>());
+
+		static_assert(SI_Contains_v<Vector, ILinear>);
 
 		Impl operator+(const Vector& v) const noexcept {
 			return static_cast<const Impl*>(this)->impl_affine_subspace_add(v);

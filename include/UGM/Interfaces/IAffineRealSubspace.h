@@ -10,9 +10,9 @@ namespace Ubpa {
 		using Point = ImplTraits_P<Impl>;
 		using Vector = ImplTraits_V<Impl>;
 
-		static_assert(Point::template Contains<IAffine>());
-		static_assert(Vector::template Contains<ILinear>());
-		static_assert(Point::N == Vector::N);
+		static_assert(SI_Contains_v<Point, IAffine>);
+		static_assert(SI_Contains_v<Vector, ILinear>);
+		static_assert(ImplTraits_N<Point> == ImplTraits_N<Vector>);
 
 		ImplTraits_P<Impl> point;
 

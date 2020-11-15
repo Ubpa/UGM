@@ -16,8 +16,8 @@ namespace Ubpa {
 		using F = ImplTraits_F<Point>;
 		using Vector = ImplTraits_V<Point>;
 
-		static_assert(Vector::template Contains<IEuclideanV>());
-		static_assert(Vector::N == N);
+		static_assert(SI_Contains_v<Vector, ILinear>);
+		static_assert(ImplTraits_N<Vector> == N);
 
 		static F distance2(const Point& x, const Point& y) noexcept {
 			return (x - y).norm2();

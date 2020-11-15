@@ -14,7 +14,7 @@ namespace Ubpa {
 		using Vector = ImplTraits_V<Impl>;
 		using F = ImplTraits_F<Impl>;
 
-		static_assert(Vector::template Contains<ILinear>());
+		static_assert(SI_Contains_v<Vector, ILinear>);
 
 		ImplTraits_V<Impl> dir;
 

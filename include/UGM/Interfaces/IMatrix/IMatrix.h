@@ -13,7 +13,7 @@ namespace Ubpa {
 
 		using Vector = ImplTraits_T<Impl>;
 
-		static_assert(Vector::template Contains<IArray>());
+		static_assert(SI_Contains_v<Vector, IArray>);
 
 		using F = ImplTraits_F<Impl>;
 		static constexpr size_t N = ImplTraits_N<Impl>;

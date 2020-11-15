@@ -14,7 +14,7 @@ namespace Ubpa {
 		using Normal = ImplTraits_V<Impl>;
 		using F = ImplTraits_F<Impl>;
 
-		static_assert(Normal::template Contains<ILinear>());
+		static_assert(SI_Contains_v<Normal, ILinear>);
 
 		ImplTraits_V<Impl> normal;
 	};

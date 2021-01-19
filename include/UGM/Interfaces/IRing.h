@@ -6,7 +6,7 @@
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	CombineInterface(IRing,
+	SI_CombineInterface(IRing,
 		IAdd,
 		IMul
 	);

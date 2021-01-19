@@ -13,7 +13,7 @@ namespace Ubpa::details::IScalarMul_ {
 namespace Ubpa {
 	template<typename Base, typename Impl>
 	struct IScalarMul : Base  {
-		using F = ImplTraits_F<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		//static_assert(std::is_floating_point_v<F>);
 		template<typename U>

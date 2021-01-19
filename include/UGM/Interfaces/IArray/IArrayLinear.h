@@ -5,7 +5,7 @@
 #include "../ILinear.h"
 
 namespace Ubpa {
-	CombineInterface(IArrayLinear,
+	SI_CombineInterface(IArrayLinear,
 		IArrayAdd,
 		IArrayScalarMul,
 		ILinear

@@ -9,12 +9,12 @@ namespace Ubpa {
 	struct IMatrixMul : Base {
 		using Base::Base;
 
-		static constexpr size_t N = ImplTraits_N<Impl>;
-		using F = ImplTraits_F<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		using Base::operator*;
 
-		using Vector = ImplTraits_T<Impl>;
+		using Vector = SI_ImplTraits_T<Impl>;
 
 		const Vector operator*(const Vector& v) const noexcept {
 			auto& m = static_cast<const Impl&>(*this);
@@ -36,7 +36,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IMatrixMul,
+	SI_InterfaceTraits_Register(IMatrixMul,
 		IMul,
 		IMatrix
 	);

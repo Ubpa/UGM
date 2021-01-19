@@ -4,7 +4,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<svec<T>>
+	struct SI_ImplTraits<svec<T>>
 		: Array1DTraits<T, 3>,
 		IListTraits<IArray1D_Util, ICross> {};
 

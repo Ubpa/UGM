@@ -4,7 +4,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<normal<T>> : ImplTraits<vec<T, 3>> {};
+	struct SI_ImplTraits<normal<T>> : SI_ImplTraits<vec<T, 3>> {};
 
 	// it's necessary to distinguish vector and normal(bivector) when transformings
 	// ref

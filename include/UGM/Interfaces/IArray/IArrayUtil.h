@@ -8,9 +8,9 @@ namespace Ubpa {
 	struct IArrayUtil : Base {
 		using Base::Base;
 
-		using T = ImplTraits_T<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
-		using F = ImplTraits_F<Impl>;
+		using T = SI_ImplTraits_T<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		Impl rmv_epsilon() const noexcept {
 			Impl rst;
@@ -38,7 +38,7 @@ namespace Ubpa {
 		static Impl lerp(const Impl& x, const Impl& y, F t) noexcept {
 			F one_minus_t = static_cast<F>(1) - t;
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_add_ps(_mm_mul_ps(x, _mm_set1_ps(one_minus_t)), _mm_mul_ps(y, _mm_set1_ps(t)));
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -66,7 +66,7 @@ namespace Ubpa {
 			auto weight_iter = weights.begin();
 
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>) {
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>) {
 				__m128 rst = _mm_mul_ps(*val_iter, *weight_iter);
 				++val_iter;
 				++weight_iter;
@@ -94,7 +94,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IArrayUtil,
+	SI_InterfaceTraits_Register(IArrayUtil,
 		IArrayCast,
 		IArrayInOut
 	);

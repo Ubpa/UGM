@@ -9,14 +9,14 @@ namespace Ubpa {
 	struct IArray1D_Util : Base {
 		using Base::Base;
 
-		using T = ImplTraits_T<Impl>;
-		using F = ImplTraits_F<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
+		using T = SI_ImplTraits_T<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
 		Impl abs() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_abs_ps(x);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -34,7 +34,7 @@ namespace Ubpa {
 
 		T min_component() const noexcept {
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>) {
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
@@ -56,7 +56,7 @@ namespace Ubpa {
 
 		T max_component() const noexcept {
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>) {
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>) {
 				// 5 instructions
 				const auto& s0 = *this;
 				auto s1 = VecSwizzle(s0, 1, 0, 3, 2);
@@ -98,7 +98,7 @@ namespace Ubpa {
 
 		static Impl min(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_min_ps(x, y);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -113,7 +113,7 @@ namespace Ubpa {
 
 		static Impl max(const Impl& x, const Impl& y) noexcept {
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_max_ps(x, y);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -126,7 +126,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IArray1D_Util,
+	SI_InterfaceTraits_Register(IArray1D_Util,
 		IArray1D,
 		IArrayUtil
 	);

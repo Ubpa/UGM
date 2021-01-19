@@ -15,17 +15,17 @@ namespace Ubpa {
 	struct IArray_Impl;
 
 	template<typename Base, typename Impl>
-	struct IArray : IArray_Impl<ImplTraits_SupportSIMD<Impl>, Base, Impl> {
-		using IArray_Impl<ImplTraits_SupportSIMD<Impl>, Base, Impl>::IArray_Impl;
+	struct IArray : IArray_Impl<SI_ImplTraits_SupportSIMD<Impl>, Base, Impl> {
+		using IArray_Impl<SI_ImplTraits_SupportSIMD<Impl>, Base, Impl>::IArray_Impl;
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct alignas(alignof(ImplTraits_T<Impl>)) IArray_Impl<false, IArray_Base, Impl>
-		: IArray_Base, std::array<ImplTraits_T<Impl>, ImplTraits_N<Impl>>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<false, IArray_Base, Impl>
+		: IArray_Base, std::array<SI_ImplTraits_T<Impl>, SI_ImplTraits_N<Impl>>
 	{
-		using T = ImplTraits_T<Impl>;
-		using F = ImplTraits_F<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
+		using T = SI_ImplTraits_T<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
 	private:
 		using IArray_Base::operator[];

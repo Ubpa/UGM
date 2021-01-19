@@ -9,7 +9,7 @@ namespace Ubpa {
 
 		using Base::operator-;
 
-		using Vector = ImplTraits_V<Point>;
+		using Vector = SI_ImplTraits_V<Point>;
 
 		static_assert(SI_Contains_v<Vector, ILinear>);
 
@@ -18,7 +18,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IAffine,
+	SI_InterfaceTraits_Register(IAffine,
 		IAffineSubspace
 	);
 }

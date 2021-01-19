@@ -9,14 +9,14 @@ namespace Ubpa {
 	struct ILine : Base {
 		using Base::Base;
 
-		using Point = ImplTraits_P<Impl>;
-		using Vector = ImplTraits_V<Impl>;
-		using F = ImplTraits_F<Impl>;
+		using Point = SI_ImplTraits_P<Impl>;
+		using Vector = SI_ImplTraits_V<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		Point at(F t) const noexcept { return this->point + t * this->dir; }
 	};
 
-	InterfaceTraits_Register(ILine,
+	SI_InterfaceTraits_Register(ILine,
 		IAffineRealSubspace,
 		IOLine
 	);

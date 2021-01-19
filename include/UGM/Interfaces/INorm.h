@@ -8,7 +8,7 @@
 namespace Ubpa {
 	template<typename Base, typename Impl>
 	struct INorm : Base {
-		using F = ImplTraits_F<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		using Base::Base;
 
@@ -62,6 +62,6 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(INorm,
+	SI_InterfaceTraits_Register(INorm,
 		IMetric, ILinear);
 }

@@ -2,50 +2,50 @@
 
 #include <UTemplate/SI.h>
 
-namespace Ubpa::details::ImplTraits_ {
-	template<typename Impl> struct ImplTraits_SupportSIMD;
+namespace Ubpa::details {
+	template<typename Impl> struct SI_ImplTraits_SupportSIMD;
 }
 
 namespace Ubpa {
 	// element type
 	template<typename Impl>
-	using ImplTraits_T = typename ImplTraits<Impl>::T;
+	using SI_ImplTraits_T = typename SI_ImplTraits<Impl>::T;
 
 	// element num
 	template<typename Impl>
-	constexpr size_t ImplTraits_N = ImplTraits<Impl>::N;
+	constexpr size_t SI_ImplTraits_N = SI_ImplTraits<Impl>::N;
 
 	// number field
 	template<typename Impl>
-	using ImplTraits_F = typename ImplTraits<Impl>::F;
+	using SI_ImplTraits_F = typename SI_ImplTraits<Impl>::F;
 
 	// vector
 	template<typename Impl>
-	using ImplTraits_V = typename ImplTraits<Impl>::V;
+	using SI_ImplTraits_V = typename SI_ImplTraits<Impl>::V;
 
 	// point
 	template<typename Impl>
-	using ImplTraits_P = typename ImplTraits<Impl>::P;
+	using SI_ImplTraits_P = typename SI_ImplTraits<Impl>::P;
 
 	template<typename Impl>
-	constexpr bool ImplTraits_SupportSIMD = details::ImplTraits_::ImplTraits_SupportSIMD<Impl>::value;
+	constexpr bool SI_ImplTraits_SupportSIMD = details::SI_ImplTraits_SupportSIMD<Impl>::value;
 }
 
-namespace Ubpa::details::ImplTraits_ {
+namespace Ubpa::details {
 #ifdef UBPA_UGM_USE_SIMD
 	template<typename Enabler, typename Impl>
-	struct ImplTraits_SupportSIMD_Helper : std::true_type {};
+	struct SI_ImplTraits_SupportSIMD_Helper : std::true_type {};
 	template<typename Impl>
-	struct ImplTraits_SupportSIMD_Helper<std::enable_if_t<!ImplTraits<Impl>::support_SIMD>, Impl>
+	struct SI_ImplTraits_SupportSIMD_Helper<std::enable_if_t<!SI_ImplTraits<Impl>::support_SIMD>, Impl>
 		: std::false_type {};
 
 	template<typename Impl>
-	struct ImplTraits_SupportSIMD : IValue<bool,
-		ImplTraits_SupportSIMD_Helper<void, Impl>::value
-		&& std::is_same_v<ImplTraits_T<Impl>, float>
-		&& ImplTraits_N<Impl> == 4> {};
+	struct SI_ImplTraits_SupportSIMD : IValue<bool,
+		SI_ImplTraits_SupportSIMD_Helper<void, Impl>::value
+		&& std::is_same_v<SI_ImplTraits_T<Impl>, float>
+		&& SI_ImplTraits_N<Impl> == 4> {};
 #else
 	template<typename Impl>
-	struct ImplTraits_SupportSIMD : std::false_type {};
+	struct SI_ImplTraits_SupportSIMD : std::false_type {};
 #endif
 }

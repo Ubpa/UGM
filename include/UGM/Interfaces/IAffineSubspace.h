@@ -12,7 +12,7 @@ namespace Ubpa {
 		using Base::operator-;
 		using Base::operator-=;
 
-		using Vector = ImplTraits_V<Impl>;
+		using Vector = SI_ImplTraits_V<Impl>;
 
 		static_assert(SI_Contains_v<Vector, ILinear>);
 

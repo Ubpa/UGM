@@ -7,12 +7,12 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ImplTraits<vec<T, N>>
+	struct SI_ImplTraits<vec<T, N>>
 		: Array1DTraits<T, N>,
 		IListTraits<IArray1D_Util, IEuclideanV> {};
 
 	template<typename T>
-	struct ImplTraits<vec<T, 3>>
+	struct SI_ImplTraits<vec<T, 3>>
 		: Array1DTraits<T, 3>,
 		IListTraits<IArray1D_Util, ICross> {};
 

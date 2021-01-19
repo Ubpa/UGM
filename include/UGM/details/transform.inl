@@ -165,7 +165,7 @@ namespace Ubpa {
 		F zw = z * w;
 
 #ifdef UBPA_UGM_USE_SIMD
-		if constexpr (ImplTraits_SupportSIMD<ImplTraits_T<transform<F>>>) {
+		if constexpr (SI_ImplTraits_SupportSIMD<SI_ImplTraits_T<transform<F>>>) {
 			this->init(
 				1 - 2 * (yy + zz),     2 * (xy - zw),     2 * (xz + yw), t[0],
 				    2 * (xy + zw), 1 - 2 * (zz + xx),     2 * (yz - xw), t[1],

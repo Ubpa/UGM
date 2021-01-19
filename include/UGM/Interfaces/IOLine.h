@@ -11,17 +11,17 @@ namespace Ubpa {
 	struct IOLine : Base {
 		using Base::Base;
 
-		using Vector = ImplTraits_V<Impl>;
-		using F = ImplTraits_F<Impl>;
+		using Vector = SI_ImplTraits_V<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		static_assert(SI_Contains_v<Vector, ILinear>);
 
-		ImplTraits_V<Impl> dir;
+		SI_ImplTraits_V<Impl> dir;
 
-		ImplTraits_V<Impl> inv_dir() const noexcept {
+		SI_ImplTraits_V<Impl> inv_dir() const noexcept {
 			// TODO: SIMD speedup
-			ImplTraits_V<Impl> rst;
-			for (size_t i = 0; i < ImplTraits_V<Impl>::N; i++)
+			SI_ImplTraits_V<Impl> rst;
+			for (size_t i = 0; i < SI_ImplTraits_V<Impl>::N; i++)
 				rst[i] = ONE<F> / dir[i];
 			return rst;
 		}

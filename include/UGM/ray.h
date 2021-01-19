@@ -4,7 +4,7 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ImplTraits<ray<T, N>> : ImplTraits<line<T, N>> {};
+	struct SI_ImplTraits<ray<T, N>> : SI_ImplTraits<line<T, N>> {};
 
 	template<typename T, size_t N>
 	struct ray : SI<ray<T, N>> {

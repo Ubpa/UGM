@@ -7,7 +7,7 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct ImplTraits<point<T, N>>
+	struct SI_ImplTraits<point<T, N>>
 		: Array1DTraits<T, N>,
 		IListTraits<IArray1D_Util, IEuclideanA>
 	{

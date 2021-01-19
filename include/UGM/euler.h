@@ -6,7 +6,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<euler<T>>
+	struct SI_ImplTraits<euler<T>>
 		: Array1DTraits<T, 3>,
 		IListTraits<IArray1D_Util> {};
 

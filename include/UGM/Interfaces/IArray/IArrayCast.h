@@ -8,7 +8,7 @@ namespace Ubpa {
 	struct IArrayCast : Base {
 		using Base::Base;
 
-		static constexpr size_t N = ImplTraits_N<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
 		template<typename To>
 		To cast_to() const noexcept {
@@ -21,7 +21,7 @@ namespace Ubpa {
 		template<typename To>
 		To& as() & noexcept {
 			static_assert(sizeof(To) == sizeof(Impl)
-				// && std::is_same_v<ImplTraits_T<To>, ImplTraits_T<Impl>>
+				// && std::is_same_v<SI_ImplTraits_T<To>, SI_ImplTraits_T<Impl>>
 				&& alignof(Impl) >= alignof(To));
 			return reinterpret_cast<To&>(*this);
 		}
@@ -38,7 +38,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IArrayCast,
+	SI_InterfaceTraits_Register(IArrayCast,
 		IArray
 	);
 }

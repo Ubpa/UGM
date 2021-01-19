@@ -11,11 +11,11 @@ namespace Ubpa {
 	struct IOPlane : Base {
 		using Base::Base;
 
-		using Normal = ImplTraits_V<Impl>;
-		using F = ImplTraits_F<Impl>;
+		using Normal = SI_ImplTraits_V<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		static_assert(SI_Contains_v<Normal, ILinear>);
 
-		ImplTraits_V<Impl> normal;
+		SI_ImplTraits_V<Impl> normal;
 	};
 }

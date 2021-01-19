@@ -11,12 +11,12 @@ namespace Ubpa {
 	struct IMatrix : Base {
 		using Base::Base;
 
-		using Vector = ImplTraits_T<Impl>;
+		using Vector = SI_ImplTraits_T<Impl>;
 
 		static_assert(SI_Contains_v<Vector, IArray>);
 
-		using F = ImplTraits_F<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
 		static_assert(N >= 2 && N <= 4);
 		static_assert(Vector::N == N);
@@ -156,7 +156,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IMatrix,
+	SI_InterfaceTraits_Register(IMatrix,
 		IArrayUtil
 	);
 }

@@ -11,13 +11,13 @@ namespace Ubpa {
 	struct IEuclideanA : Base {
 		using Base::Base;
 
-		using T = ImplTraits_T<Point>;
-		static constexpr size_t N = ImplTraits_N<Point>;
-		using F = ImplTraits_F<Point>;
-		using Vector = ImplTraits_V<Point>;
+		using T = SI_ImplTraits_T<Point>;
+		static constexpr size_t N = SI_ImplTraits_N<Point>;
+		using F = SI_ImplTraits_F<Point>;
+		using Vector = SI_ImplTraits_V<Point>;
 
 		static_assert(SI_Contains_v<Vector, ILinear>);
-		static_assert(ImplTraits_N<Vector> == N);
+		static_assert(SI_ImplTraits_N<Vector> == N);
 
 		static F distance2(const Point& x, const Point& y) noexcept {
 			return (x - y).norm2();
@@ -35,7 +35,7 @@ namespace Ubpa {
 		Point impl_affine_subspace_add(const Vector& v) const noexcept {
 			auto& p = static_cast<const Point&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Point>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Point>)
 				return _mm_add_ps(p, v);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -50,7 +50,7 @@ namespace Ubpa {
 		Point& impl_affine_subspace_add_to_self(const Vector& v) noexcept {
 			auto& p = static_cast<Point&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Point>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Point>)
 				return p = p + v;
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -62,7 +62,7 @@ namespace Ubpa {
 		Point impl_affine_subspace_minus(const Vector& v) const noexcept {
 			auto& p = static_cast<const Point&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Point>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Point>)
 				return _mm_sub_ps(p, v);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -77,7 +77,7 @@ namespace Ubpa {
 		Point& impl_affine_subspace_minus_to_self(const Vector& v) noexcept {
 			auto& p = static_cast<Point&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Point>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Point>)
 				return p = p - v;
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -92,7 +92,7 @@ namespace Ubpa {
 		const Vector impl_affine_minus(const Point& y) const noexcept {
 			auto& x = static_cast<const Point&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Point>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Point>)
 				return _mm_sub_ps(x, y);
 			/* // no benefits
 			else if constexpr (std::is_same_v<T, float> && N == 3) {
@@ -120,7 +120,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IEuclideanA,
+	SI_InterfaceTraits_Register(IEuclideanA,
 		IMetric,
 		IAffine,
 		IArray

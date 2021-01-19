@@ -10,7 +10,7 @@ namespace Ubpa {
 	struct line;
 
 	template<typename T, size_t N>
-	struct ImplTraits<line<T, N>> : IListTraits<IInOut, ILine> {
+	struct SI_ImplTraits<line<T, N>> : IListTraits<IInOut, ILine> {
 		using V = vec<T, N>;
 		using P = point<T, N>;
 		using F = T;

@@ -17,7 +17,7 @@
 
 namespace Ubpa {
 	template<typename F>
-	struct ImplTraits<transform<F>>
+	struct SI_ImplTraits<transform<F>>
 		: ArrayTraits<vec<F, 4>, 4, F>,
 		IListTraits<IMatrixInOut, IMatrixMul> {};
 

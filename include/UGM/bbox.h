@@ -5,7 +5,7 @@
 
 namespace Ubpa {
 	template<typename F, size_t N>
-	struct ImplTraits<bbox<F, N>>
+	struct SI_ImplTraits<bbox<F, N>>
 		: ArrayTraits<point<F, N>, 2, F>,
 		IListTraits<IArrayUtil> {};
 

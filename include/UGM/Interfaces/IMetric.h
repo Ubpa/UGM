@@ -5,7 +5,7 @@
 namespace Ubpa {
 	template<typename Base, typename Impl>
 	struct IMetric : Base {
-		using F = ImplTraits_F<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 
 		using Base::Base;
 

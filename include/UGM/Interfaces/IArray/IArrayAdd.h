@@ -8,8 +8,8 @@ namespace Ubpa {
 	struct IArrayAdd : Base {
 		using Base::Base;
 
-		using T = ImplTraits_T<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
+		using T = SI_ImplTraits_T<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
 
 	private:
@@ -19,7 +19,7 @@ namespace Ubpa {
 		Impl impl_add(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_add_ps(x, y);
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -34,7 +34,7 @@ namespace Ubpa {
 		Impl& impl_add_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return x = x + y;
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -48,7 +48,7 @@ namespace Ubpa {
 		Impl impl_add_inverse() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				// ref: https://stackoverflow.com/questions/20083997/how-to-negate-change-sign-of-the-floating-point-elements-in-a-m128-type-vari
 				return _mm_sub_ps(Impl{ 0.f }, x);
 			else
@@ -68,7 +68,7 @@ namespace Ubpa {
 		Impl impl_minus(const Impl& y) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>) {
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>) {
 				return _mm_sub_ps(x, y);
 			}
 			else
@@ -84,7 +84,7 @@ namespace Ubpa {
 		Impl& impl_minus_to_self(const Impl& y) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>) {
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>) {
 				return x = x - y;
 			}
 			else
@@ -100,7 +100,7 @@ namespace Ubpa {
 		Impl impl_add_mul(U v) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_mul_ps(x, Impl{ v });
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -116,7 +116,7 @@ namespace Ubpa {
 		Impl& impl_add_mul_to_self(U v) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return x = x * v;
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -128,7 +128,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IArrayAdd,
+	SI_InterfaceTraits_Register(IArrayAdd,
 		IAdd,
 		IArray
 	);

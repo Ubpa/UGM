@@ -6,7 +6,7 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct ImplTraits<rgba<T>>
+	struct SI_ImplTraits<rgba<T>>
 		: Array1DTraits<T, 4>,
 		IListTraits<IArray1D_Util> {};
 

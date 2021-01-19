@@ -5,7 +5,7 @@
 
 namespace Ubpa {
 	// plane in real affine subspace
-	CombineInterface(IPlane,
+	SI_CombineInterface(IPlane,
 		IAffineRealSubspace,
 		IOPlane
 	);

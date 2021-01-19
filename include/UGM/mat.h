@@ -9,7 +9,7 @@
 
 namespace Ubpa {
 	template<typename F, size_t N>
-	struct ImplTraits<mat<F, N>>
+	struct SI_ImplTraits<mat<F, N>>
 		: ArrayTraits<vec<F, N>, N, F>,
 		IListTraits<IMatrixInOut, IMatrixMul, IArrayLinear, IRing>{};
 

@@ -8,9 +8,9 @@ namespace Ubpa {
 	struct IArrayScalarMul : Base {
 		using Base::Base;
 
-		using T = ImplTraits_T<Impl>;
-		static constexpr size_t N = ImplTraits_N<Impl>;
-		using F = ImplTraits_F<Impl>;
+		using T = SI_ImplTraits_T<Impl>;
+		static constexpr size_t N = SI_ImplTraits_N<Impl>;
+		using F = SI_ImplTraits_F<Impl>;
 		
 #ifdef UBPA_UGM_USE_SIMD
 		using Base::operator*;
@@ -19,13 +19,13 @@ namespace Ubpa {
 		using Base::operator/=;
 
 		bool is_scalar() const noexcept {
-			static_assert(ImplTraits_SupportSIMD<Impl>);
+			static_assert(SI_ImplTraits_SupportSIMD<Impl>);
 			const auto& x = static_cast<const Impl&>(*this);
 			return x == x.replicate<0>();
 		}
 
 		Impl operator*(const __m128& k) const noexcept {
-			static_assert(ImplTraits_SupportSIMD<Impl>);
+			static_assert(SI_ImplTraits_SupportSIMD<Impl>);
 			const auto& x = static_cast<const Impl&>(*this);
 			assert(Impl{ k }.is_scalar() || x.is_scalar());
 			return _mm_mul_ps(x, k);
@@ -37,7 +37,7 @@ namespace Ubpa {
 		}
 
 		Impl operator/(const __m128& k) const noexcept {
-			static_assert(ImplTraits_SupportSIMD<Impl>);
+			static_assert(SI_ImplTraits_SupportSIMD<Impl>);
 			const auto& x = static_cast<const Impl&>(*this);
 			assert(Impl{ k }.is_scalar());
 			return _mm_div_ps(x, k);
@@ -56,7 +56,7 @@ namespace Ubpa {
 		Impl impl_scalar_mul(F k) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return _mm_mul_ps(x, Impl{ k });
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -71,7 +71,7 @@ namespace Ubpa {
 		Impl& impl_scalar_mul_to_self(F k) noexcept {
 			auto& x = static_cast<Impl&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
-			if constexpr (ImplTraits_SupportSIMD<Impl>)
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
 				return x = x * k;
 			else
 #endif // UBPA_UGM_USE_SIMD
@@ -83,7 +83,7 @@ namespace Ubpa {
 		}
 	};
 
-	InterfaceTraits_Register(IArrayScalarMul,
+	SI_InterfaceTraits_Register(IArrayScalarMul,
 		IScalarMul,
 		IArray
 	);

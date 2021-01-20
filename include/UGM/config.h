@@ -2,7 +2,7 @@
 
 #ifndef UBPA_UGM_NOT_USE_SIMD
 #define UBPA_UGM_USE_SIMD
-#include <emmintrin.h>
+#include <pmmintrin.h>
 
 // ref: https://www.cnblogs.com/elvisxu/archive/2011/06/26/2090832.html
 inline __m128 _mm_abs_ps(__m128 a)

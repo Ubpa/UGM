@@ -125,9 +125,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArray1D_Util,
-		IArray1D,
-		IArrayUtil
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArray1D_Util,
+	Ubpa::IArray1D,
+	Ubpa::IArrayUtil
+);

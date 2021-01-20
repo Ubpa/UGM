@@ -8,8 +8,8 @@ namespace Ubpa {
 		using Base::Base;
 		static_assert(!SI_Contains_v<SI_ImplTraits_T<Impl>, IArray>);
 	};
-
-	SI_InterfaceTraits_Register(IArray1D,
-		IArray
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArray1D,
+	Ubpa::IArray
+);

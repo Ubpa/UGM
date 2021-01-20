@@ -6,8 +6,10 @@
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	SI_CombineInterface(ILinear,
-		IAdd,
-		IScalarMul
-	);
+	template<typename Base, typename Impl> struct ILinear;
 }
+
+SI_CombineInterface(Ubpa::ILinear,
+	Ubpa::IAdd,
+	Ubpa::IScalarMul
+);

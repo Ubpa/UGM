@@ -31,7 +31,7 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IAffineSubspace;
 
 		Impl impl_affine_subspace_add(const Vector& v) const noexcept {
@@ -54,8 +54,8 @@ namespace Ubpa {
 			return static_cast<Impl&>(*this);
 		}
 	};
-	
-	SI_InterfaceTraits_Register(IAffineRealSubspace,
-		IAffineSubspace
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IAffineRealSubspace,
+	Ubpa::IAffineSubspace
+);

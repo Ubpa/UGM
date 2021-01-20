@@ -23,8 +23,8 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IMatrixInOut,
-		IMatrix
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IMatrixInOut,
+	Ubpa::IMatrix
+);

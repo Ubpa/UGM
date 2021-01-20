@@ -17,8 +17,8 @@ namespace Ubpa {
 			return static_cast<const Point*>(this)->impl_affine_minus(y);
 		}
 	};
-
-	SI_InterfaceTraits_Register(IAffine,
-		IAffineSubspace
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IAffine,
+	Ubpa::IAffineSubspace
+);

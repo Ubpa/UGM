@@ -37,8 +37,16 @@ namespace Ubpa {
 		// x = y = z = w
 		static Impl v3_dot(const Impl& x, const Impl& y) noexcept {
 			static_assert(SI_ImplTraits_SupportSIMD<Impl>);
-			// 0x7f : 011111111
-			return _mm_dp_ps(x, y, 0x7f);
+			// ref
+			// https://stackoverflow.com/questions/4120681/how-to-calculate-single-vector-dot-product-using-sse-intrinsic-functions-in-c
+#ifdef UBPA_UGM_USE_SSE_4_1
+			return _mm_dp_ps(x, y, 0x7f); // 0x7f : 011111111
+#else
+			auto a2 = x.template get<0>() + y.template get<0>();
+			auto b2 = x.template get<1>() + y.template get<1>();
+			auto c2 = x.template get<2>() + y.template get<2>();
+			return Impl{ a2 + b2 + c2 };
+#endif // UBPA_UGM_USE_SSE_4_1
 		}
 
 		// x = y = z = w
@@ -61,13 +69,13 @@ namespace Ubpa {
 		Impl v3_normalize() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			auto n = x.v3_norm();
-			assert(n.get<0>() > static_cast<F>(0));
+			assert(n.template get<0>() > static_cast<F>(0));
 			return x / n; // ILinear
 		}
 
 		bool v3_is_normalized() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return std::abs(x.v3_norm().get<0>() - 1) < EPSILON<F>;
+			return std::abs(x.v3_norm().template get<0>() - 1) < EPSILON<F>;
 		}
 
 		Impl& v3_normalize_self() noexcept {
@@ -240,7 +248,7 @@ namespace Ubpa {
 #endif
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IInnerProduct;
 
 		static F impl_dot(const Impl& x, const Impl& y) noexcept {
@@ -271,9 +279,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IEuclideanV,
-		IInnerProduct,
-		IArrayLinear
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IEuclideanV,
+	Ubpa::IInnerProduct,
+	Ubpa::IArrayLinear
+);

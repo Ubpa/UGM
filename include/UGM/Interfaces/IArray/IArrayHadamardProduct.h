@@ -72,7 +72,7 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IMul;
 
 		Impl impl_mul(const Impl& y) const noexcept {
@@ -91,9 +91,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayHadamardProduct,
-		IMul,
-		IArray
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayHadamardProduct,
+	Ubpa::IMul,
+	Ubpa::IArray
+);

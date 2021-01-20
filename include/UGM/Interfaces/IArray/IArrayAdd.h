@@ -13,7 +13,7 @@ namespace Ubpa {
 
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IAdd;
 
 		Impl impl_add(const Impl& y) const noexcept {
@@ -127,9 +127,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayAdd,
-		IAdd,
-		IArray
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayAdd,
+	Ubpa::IAdd,
+	Ubpa::IArray
+);

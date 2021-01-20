@@ -5,9 +5,11 @@
 #include "../ILinear.h"
 
 namespace Ubpa {
-	SI_CombineInterface(IArrayLinear,
-		IArrayAdd,
-		IArrayScalarMul,
-		ILinear
-	);
+	template<typename Base, typename Impl> struct IArrayLinear;
 }
+
+SI_CombineInterface(Ubpa::IArrayLinear,
+	Ubpa::IArrayAdd,
+	Ubpa::IArrayScalarMul,
+	Ubpa::ILinear
+);

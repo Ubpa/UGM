@@ -88,8 +88,16 @@ namespace Ubpa::details::IMatrixMul::Eric {
 
         // tr((A#B)(D#C))
         __m128 tr = _mm_mul_ps(A_B, VecSwizzle(D_C, 0, 2, 1, 3));
+        
+#ifdef UBPA_UGM_USE_SSE_4_1
         tr = _mm_hadd_ps(tr, tr);
         tr = _mm_hadd_ps(tr, tr);
+#else
+        // ref: github.com/cjlin1/libmf/pull/10/files
+        __m128 tmp_tr = _mm_add_ps(tr, _mm_shuffle_ps(tr, tr, 177)); // 177 : 0b10110001
+        tr = _mm_add_ps(tr, _mm_shuffle_ps(tmp_tr, tmp_tr, 78));// 78 : 0b01001110
+#endif // UBPA_UGM_USE_SSE_4_1
+        
         // |M| = |A|*|D| + |B|*|C| - tr((A#B)(D#C))
         detM = _mm_sub_ps(detM, tr);
 

@@ -21,7 +21,7 @@ namespace Ubpa {
 		bool is_scalar() const noexcept {
 			static_assert(SI_ImplTraits_SupportSIMD<Impl>);
 			const auto& x = static_cast<const Impl&>(*this);
-			return x == x.replicate<0>();
+			return x == x.template replicate<0>();
 		}
 
 		Impl operator*(const __m128& k) const noexcept {
@@ -50,7 +50,7 @@ namespace Ubpa {
 #endif // UBPA_UGM_USE_SIMD
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IScalarMul;
 
 		Impl impl_scalar_mul(F k) const noexcept {
@@ -82,9 +82,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayScalarMul,
-		IScalarMul,
-		IArray
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayScalarMul,
+	Ubpa::IScalarMul,
+	Ubpa::IArray
+);

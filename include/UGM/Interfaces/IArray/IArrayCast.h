@@ -37,8 +37,8 @@ namespace Ubpa {
 			return { static_cast<typename To::T>((*this)[Ns])... };
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayCast,
-		IArray
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayCast,
+	Ubpa::IArray
+);

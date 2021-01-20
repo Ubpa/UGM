@@ -8,8 +8,10 @@ Ubpa_InitUCMake(VERSION 0.6.4)
 
 Ubpa_InitProject()
 
-option(Ubpa_UGM_UseSIMD "use SIMD" TRUE)
-option(Ubpa_UGM_UseSSE_4_1 "use SSE 4.1" TRUE)
+option(Ubpa_UGM_UseSIMD "use SIMD" ON)
+option(Ubpa_UGM_UseSSE_4_1 "use SSE 4.1" OFF)
+message(STATUS "Ubpa_UGM_UseSIMD    : ${Ubpa_UGM_UseSIMD}")
+message(STATUS "Ubpa_UGM_UseSSE_4_1 : ${Ubpa_UGM_UseSSE_4_1}")
 
 Ubpa_AddDep(UTemplate 0.6.0)
 

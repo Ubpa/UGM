@@ -32,9 +32,9 @@ namespace Ubpa {
 			return is;
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayInOut,
-		IArray,
-		IInOut
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayInOut,
+	Ubpa::IArray,
+	Ubpa::IInOut
+);

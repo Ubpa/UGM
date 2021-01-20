@@ -32,33 +32,33 @@ namespace Ubpa {
 	struct val : SI<val<T, N>> {
 		using SI<val<T, N>>::SI;
 
-		val(const euler<T>& v) noexcept { *this = v.as<val>(); }
-		val(const hvec<T, N>& v) noexcept { *this = v.as<val>(); }
+		val(const euler<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const hvec<T, N>& v) noexcept { *this = v.template as<val>(); }
 		template<size_t M>
-		val(const mat<T, M>& v) noexcept { *this = v.as<val>(); }
-		val(const normal<T>& v) noexcept { *this = v.as<val>(); }
-		val(const point<T, N>& v) noexcept { *this = v.as<val>(); }
-		val(const quat<T>& v) noexcept { *this = v.as<val>(); }
-		val(const rgb<T>& v) noexcept { *this = v.as<val>(); }
-		val(const rgba<T>& v) noexcept { *this = v.as<val>(); }
-		val(const scale<T, N>& v) noexcept { *this = v.as<val>(); }
-		val(const svec<T>& v) noexcept { *this = v.as<val>(); }
-		val(const transform<T>& v) noexcept { *this = v.as<val>(); }
-		val(const vec<T, N>& v) noexcept { *this = v.as<val>(); }
+		val(const mat<T, M>& v) noexcept { *this = v.template as<val>(); }
+		val(const normal<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const point<T, N>& v) noexcept { *this = v.template as<val>(); }
+		val(const quat<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const rgb<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const rgba<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const scale<T, N>& v) noexcept { *this = v.template as<val>(); }
+		val(const svec<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const transform<T>& v) noexcept { *this = v.template as<val>(); }
+		val(const vec<T, N>& v) noexcept { *this = v.template as<val>(); }
 
-		operator euler<T> () const noexcept { return this->cast_to<euler<T>>(); }
-		operator hvec<T, N> () const noexcept { return this->cast_to<hvec<T, N>>(); }
+		operator euler<T> () const noexcept { return this->template cast_to<euler<T>>(); }
+		operator hvec<T, N> () const noexcept { return this->template cast_to<hvec<T, N>>(); }
 		template<size_t M>
 		operator mat<T, M>() const noexcept;
-		operator normal<T> () const noexcept { return this->cast_to<normal<T>>(); }
-		operator point<T, N> () const noexcept { return this->cast_to<point<T, N>>(); }
-		operator quat<T> () const noexcept { return this->cast_to<quat<T>>(); }
-		operator rgb<T> () const noexcept { return this->cast_to<rgb<T>>(); }
-		operator rgba<T> () const noexcept { return this->cast_to<rgba<T>>(); }
-		operator scale<T, N> () const noexcept { return this->cast_to<scale<T, N>>(); }
-		operator svec<T> () const noexcept { return this->cast_to<svec<T>>(); }
+		operator normal<T> () const noexcept { return this->template cast_to<normal<T>>(); }
+		operator point<T, N> () const noexcept { return this->template cast_to<point<T, N>>(); }
+		operator quat<T> () const noexcept { return this->template cast_to<quat<T>>(); }
+		operator rgb<T> () const noexcept { return this->template cast_to<rgb<T>>(); }
+		operator rgba<T> () const noexcept { return this->template cast_to<rgba<T>>(); }
+		operator scale<T, N> () const noexcept { return this->template cast_to<scale<T, N>>(); }
+		operator svec<T> () const noexcept { return this->template cast_to<svec<T>>(); }
 		operator transform<T>() const noexcept;
-		operator vec<T, N> () const noexcept { return this->cast_to<vec<T, N>>(); }
+		operator vec<T, N> () const noexcept { return this->template cast_to<vec<T, N>>(); }
 	};
 
 	template<size_t N>

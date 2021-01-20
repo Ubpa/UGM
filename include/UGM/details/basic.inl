@@ -96,14 +96,14 @@ namespace Ubpa::detail::Basic {
 		}
 	};
 
-	template<typename T, size_t N, template<typename T, size_t N>class V >
+	template<typename T, size_t N, template<typename, size_t>class V >
 	struct rmv_epsilon<V<T, N>> {
 		static V<T, N> run(const V<T, N>& val) noexcept {
 			return val.rmv_epsilon();
 		}
 	};
 
-	template<typename T, template<typename T>class V >
+	template<typename T, template<typename>class V >
 	struct rmv_epsilon<V<T>> {
 		static V<T> run(const V<T>& val) noexcept {
 			return val.rmv_epsilon();
@@ -117,14 +117,14 @@ namespace Ubpa::detail::Basic {
 		}
 	};
 
-	template<typename T, size_t N, template<typename T, size_t N>class V >
+	template<typename T, size_t N, template<typename, size_t>class V >
 	struct is_zero<V<T, N>> {
 		static bool run(const V<T, N>& val) noexcept {
 			return val.is_all_zero();
 		}
 	};
 
-	template<typename T, template<typename T>class V >
+	template<typename T, template<typename>class V >
 	struct is_zero<V<T>> {
 		static bool run(const V<T>& val) noexcept {
 			return val.is_all_zero();
@@ -138,14 +138,14 @@ namespace Ubpa::detail::Basic {
 		}
 	};
 
-	template<typename T, size_t N, template<typename T, size_t N>class V >
+	template<typename T, size_t N, template<typename, size_t>class V >
 	struct is_nan<V<T, N>> {
 		static bool run(const V<T, N>& val) noexcept {
 			return val.has_nan();
 		}
 	};
 
-	template<typename T, template<typename T>class V >
+	template<typename T, template<typename>class V >
 	struct is_nan<V<T>> {
 		static bool run(const V<T>& val) noexcept {
 			return val.has_nan();
@@ -159,14 +159,14 @@ namespace Ubpa::detail::Basic {
 		}
 	};
 
-	template<typename T, typename F, template<typename T>class V >
+	template<typename T, typename F, template<typename>class V >
 	struct lerp<V<T>, F> {
 		static V<T> run(V<T> x, V<T> y, F t) noexcept {
 			return V<T>::lerp(x, y, static_cast<T>(t));
 		}
 	};
 
-	template<typename T, size_t N, typename F, template<typename T, size_t N>class V >
+	template<typename T, size_t N, typename F, template<typename, size_t>class V >
 	struct lerp<V<T, N>, F> {
 		static V<T, N> run(V<T, N> x, V<T, N> y, F t) noexcept {
 			return V<T, N>::lerp(x, y, static_cast<T>(t));

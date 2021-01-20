@@ -93,9 +93,9 @@ namespace Ubpa {
 			}
 		}
 	};
-
-	SI_InterfaceTraits_Register(IArrayUtil,
-		IArrayCast,
-		IArrayInOut
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IArrayUtil,
+	Ubpa::IArrayCast,
+	Ubpa::IArrayInOut
+);

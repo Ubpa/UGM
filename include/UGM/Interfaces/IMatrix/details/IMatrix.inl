@@ -2,6 +2,8 @@
 
 #include "svd3.h"
 
+#include <cstring>
+
 namespace Ubpa::details::IMatrix_ {
 	template<typename M, size_t N>
 	struct eye;
@@ -194,7 +196,7 @@ namespace Ubpa::details::IMatrix_ {
 			static_assert(M::N == 4);
 #ifdef UBPA_UGM_USE_SIMD
 			if constexpr (SI_ImplTraits_SupportSIMD<SI_ImplTraits_T<M>>::value)
-				return m[0].get<0>() + m[1].get<1>() + m[2].get<2>() + m[3].get<3>();
+				return m[0].template get<0>() + m[1].template get<1>() + m[2].template get<2>() + m[3].template get<3>();
 			else
 #endif // UBPA_UGM_USE_SIMD
 				return m[0][0] + m[1][1] + m[2][2] + m[3][3];

@@ -6,8 +6,10 @@
 #include <UTemplate/SI.h>
 
 namespace Ubpa {
-	SI_CombineInterface(IRing,
-		IAdd,
-		IMul
-	);
+	template<typename Base, typename Impl> struct IRing;
 }
+
+SI_CombineInterface(Ubpa::IRing,
+	Ubpa::IAdd,
+	Ubpa::IMul
+);

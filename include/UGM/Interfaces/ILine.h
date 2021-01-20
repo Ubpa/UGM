@@ -15,9 +15,9 @@ namespace Ubpa {
 
 		Point at(F t) const noexcept { return this->point + t * this->dir; }
 	};
-
-	SI_InterfaceTraits_Register(ILine,
-		IAffineRealSubspace,
-		IOLine
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::ILine,
+	Ubpa::IAffineRealSubspace,
+	Ubpa::IOLine
+);

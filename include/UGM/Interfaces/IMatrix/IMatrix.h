@@ -41,26 +41,26 @@ namespace Ubpa {
 		// row first
 		template<typename... Us, std::enable_if_t<sizeof...(Us) == N * N>* = nullptr>
 		void init(Us... vals) noexcept {
-			auto t = std::make_tuple(static_cast<F>(vals)...);
+			F t[] {static_cast<F>(vals)...};
 			if constexpr (N == 2) {
 				init(std::array<F, 2 * 2>{
-					std::get<0>(t), std::get<2>(t),
-					std::get<1>(t), std::get<3>(t),
+					t[0], t[2],
+					t[1], t[3],
 				});
 			}else if constexpr (N == 3) {
 				init(std::array<F, 3 * 3>{
-					std::get<0>(t), std::get<3>(t), std::get<6>(t),
-					std::get<1>(t), std::get<4>(t), std::get<7>(t),
-					std::get<2>(t), std::get<5>(t), std::get<8>(t),
+					t[0], t[3], t[6],
+					t[1], t[4], t[7],
+					t[2], t[5], t[8],
 				});
 			}
 			else // if constexpr (N == 4)
 			{
 				init(std::array<F, 4 * 4>{
-					std::get< 0>(t), std::get< 4>(t), std::get< 8>(t), std::get<12>(t),
-					std::get< 1>(t), std::get< 5>(t), std::get< 9>(t), std::get<13>(t),
-					std::get< 2>(t), std::get< 6>(t), std::get<10>(t), std::get<14>(t),
-					std::get< 3>(t), std::get< 7>(t), std::get<11>(t), std::get<15>(t),
+					t[0], t[4], t[ 8], t[12],
+					t[1], t[5], t[ 9], t[13],
+					t[2], t[6], t[10], t[14],
+					t[3], t[7], t[11], t[15],
 				});
 			}
 		}
@@ -155,8 +155,8 @@ namespace Ubpa {
 			return const_cast<IMatrix*>(this)->data();
 		}
 	};
-
-	SI_InterfaceTraits_Register(IMatrix,
-		IArrayUtil
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IMatrix,
+	Ubpa::IArrayUtil
+);

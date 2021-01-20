@@ -9,13 +9,13 @@ endif()
 
 if(NOT Ubpa_UGM_UseSIMD)
   list(APPEND core_defines UBPA_UGM_NOT_USE_SIMD)
-  if(NOT Ubpa_UGM_UseSSE_4_1)
-    list(APPEND core_defines UBPA_UGM_NOT_USE_SSE_4_1)
-  endif()
+elseif(NOT Ubpa_UGM_UseSSE_4_1)
+  list(APPEND core_defines UBPA_UGM_NOT_USE_SSE_4_1)
 endif()
 
 Ubpa_AddTarget(
   MODE INTERFACE
+  RET_TARGET_NAME targetName
   SOURCE
     ${sources}
   DEFINE

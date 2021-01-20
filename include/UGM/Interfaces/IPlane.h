@@ -4,9 +4,11 @@
 #include "IAffineRealSubspace.h"
 
 namespace Ubpa {
-	// plane in real affine subspace
-	SI_CombineInterface(IPlane,
-		IAffineRealSubspace,
-		IOPlane
-	);
+	template<typename Base, typename Impl> struct IPlane;
 }
+
+// plane in real affine subspace
+SI_CombineInterface(Ubpa::IPlane,
+	Ubpa::IAffineRealSubspace,
+	Ubpa::IOPlane
+);

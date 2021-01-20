@@ -54,19 +54,19 @@ namespace Ubpa {
 
 	template<typename T>
 	bool quat<T>::is_unit() const noexcept {
-		return std::abs(real() * real() + imag().dot(imag()) - 1) < EPSILON;
+		return std::abs(real() * real() + imag().dot(imag()) - 1) < EPSILON<T>;
 	}
 
 	// rotate with axis x/y/z
 	// theta : radian
 	// example: quatf::rotate_with<Axis::X>(to_radian(45.f))
 	template<typename T>
-	template<Axis axis>
+	template<Axis axisIdx>
 	quat<T> quat<T>::rotate_with(T theta) noexcept {
 		T halfTheta = static_cast<T>(0.5)* theta;
 
 		vec<T, 3> imag;
-		constexpr size_t idx = static_cast<size_t>(axis);
+		constexpr size_t idx = static_cast<size_t>(axisIdx);
 		for (size_t i = 0; i < idx; i++)
 			imag[i] = ZERO<T>;
 		imag[idx] = std::sin(halfTheta);

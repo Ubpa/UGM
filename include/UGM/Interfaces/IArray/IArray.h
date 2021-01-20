@@ -354,11 +354,10 @@ namespace Ubpa {
 		}
 
 		template<size_t i>
-		void set(float v) const noexcept {
+		void set(float v) noexcept {
 			static_assert(i < 4);
-			if constexpr (i == 0) {
+			if constexpr (i == 0)
 				m = _mm_move_ss(m, _mm_set_ss(v));
-			}
 			else {
 				__m128 t = _mm_move_ss(m, _mm_set_ss(v));
 

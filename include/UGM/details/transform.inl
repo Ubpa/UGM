@@ -205,7 +205,7 @@ namespace Ubpa {
 		vec<F,3> front = (target - pos).normalize();
 		vec<F, 3> right = front.cross(up).normalize();
 		vec<F,3> camUp = right.cross(front);
-		auto posV = pos.cast_to<vec<F, 3>>();
+		auto posV = pos.template cast_to<vec<F, 3>>();
 
 		transform m;
 
@@ -333,9 +333,9 @@ namespace Ubpa {
 		const auto& m = static_cast<const transform&>(*this);
 #ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
-			return { m[0].normalize().cast_to<vecf3>(),
-				m[1].normalize().cast_to<vecf3>(),
-				m[2].normalize().cast_to<vecf3>(),
+			return { m[0].normalize().template cast_to<vecf3>(),
+				m[1].normalize().template cast_to<vecf3>(),
+				m[2].normalize().template cast_to<vecf3>(),
 			};
 		}
 #endif
@@ -527,13 +527,13 @@ namespace Ubpa {
 
 	template<typename F>
 	template<Axis axis>
-	static transform<F> transform<F>::rotate_with(F angle) noexcept {
+	transform<F> transform<F>::rotate_with(F angle) noexcept {
 		return detail::rotate_with<axis>::run(angle);
 	}
 
 	template<typename F>
 	hvec<F, 4> transform<F>::operator*(const hvec<F, 4>& hv) const noexcept {
-		return (*this) * hv.as<vec<F, 4>>();
+		return (*this) * hv.template as<vec<F, 4>>();
 	}
 
 	template<typename F>
@@ -547,7 +547,7 @@ namespace Ubpa {
 #ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>) {
 			auto mp = m[0] * x + m[1] * y + m[2] * z + m[3];
-			return (mp / mp[3]).cast_to<pointf3>();
+			return (mp / mp[3]).template cast_to<pointf3>();
 		}
 		else
 #endif // UBPA_UGM_USE_SIMD
@@ -576,7 +576,7 @@ namespace Ubpa {
 
 #ifdef UBPA_UGM_USE_SIMD
 		if constexpr (std::is_same_v<F, float>)
-			return (m[0] * x + m[1] * y + m[2] * z).cast_to<vecf3>();
+			return (m[0] * x + m[1] * y + m[2] * z).template cast_to<vecf3>();
 		else
 #endif // UBPA_UGM_USE_SIMD
 		{

@@ -36,8 +36,8 @@ namespace Ubpa {
 			return sin_theta(x, y);
 		}
 	};
-
-	SI_InterfaceTraits_Register(ICross,
-		IEuclideanV
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::ICross,
+	Ubpa::IEuclideanV
+);

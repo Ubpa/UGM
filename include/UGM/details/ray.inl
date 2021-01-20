@@ -85,7 +85,7 @@ namespace Ubpa {
 #endif // UBPA_UGM_USE_SIMD
 		// 51 instructions
 		{
-			vec<T, N> oc = p.cast_to<vec<T, N>>();
+			vec<T, N> oc = p.template cast_to<vec<T, N>>();
 			T a = d.norm2();
 			T b = oc.dot(d);
 			T c = oc.dot(oc) - r2;

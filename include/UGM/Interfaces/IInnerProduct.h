@@ -69,15 +69,15 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct INorm;
 
 		F impl_norm() const noexcept {
 			return std::sqrt(norm2());
 		}
 	};
-
-	SI_InterfaceTraits_Register(IInnerProduct,
-		INorm
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IInnerProduct,
+	Ubpa::INorm
+);

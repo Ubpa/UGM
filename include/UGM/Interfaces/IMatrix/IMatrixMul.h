@@ -22,7 +22,7 @@ namespace Ubpa {
 		}
 
 	private:
-		template<typename Base, typename Impl>
+		template<typename, typename>
 		friend struct IMul;
 
 		Impl impl_mul(const Impl& y) const noexcept {
@@ -35,9 +35,9 @@ namespace Ubpa {
 			return details::IMatrixMul::inverse<N>::run(m);
 		}
 	};
-
-	SI_InterfaceTraits_Register(IMatrixMul,
-		IMul,
-		IMatrix
-	);
 }
+
+SI_InterfaceTraits_Register(Ubpa::IMatrixMul,
+	Ubpa::IMul,
+	Ubpa::IMatrix
+);

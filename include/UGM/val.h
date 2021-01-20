@@ -15,7 +15,8 @@ namespace Ubpa {
 	struct SI_ImplTraits<val<T, N>>
 		: Array1DTraits<T, N>,
 		SIMDTraits<false>, // float4 not use SIMD
-		IListTraits<IEuclideanV, IEuclideanA, IArrayHadamardProduct, IArray1D_Util>
+		IListTraits<IEuclideanV, IEuclideanA, IArrayHadamardProduct, IArray1D_Util>,
+		ArrayImplNTraits<val, T>
 	{
 		using V = val<T, N>;
 	};
@@ -23,7 +24,8 @@ namespace Ubpa {
 	template<typename T>
 	struct SI_ImplTraits<val<T, 3>>
 		: Array1DTraits<T, 3>,
-		IListTraits<IEuclideanV, IEuclideanA, ICross, IArrayHadamardProduct, IArray1D_Util>
+		IListTraits<IEuclideanV, IEuclideanA, ICross, IArrayHadamardProduct, IArray1D_Util>,
+		ArrayImplNTraits<val, T>
 	{
 		using V = val<T, 3>;
 	};

@@ -19,10 +19,10 @@
 #ifndef SVD3_H
 #define SVD3_H
 
-#define EricJang_gamma 5.828427124 // FOUR_GAMMA_SQUARED = sqrt(8)+3;
-#define EricJang_cstar 0.923879532 // cos(pi/8)
-#define EricJang_sstar 0.3826834323 // sin(p/8)
-#define EricJang_EPSILON 1e-6
+#define EricJang_gamma 5.828427124f // FOUR_GAMMA_SQUARED = sqrt(8)+3;
+#define EricJang_cstar 0.923879532f // cos(pi/8)
+#define EricJang_sstar 0.3826834323f // sin(p/8)
+#define EricJang_EPSILON 1e-6f
 
 #include <cmath>
 
@@ -153,7 +153,7 @@ namespace EricJang {
         */
         ch = 2 * (a11 - a22);
         sh = a12;
-        bool b = EricJang_gamma * sh * sh < ch* ch;
+        bool b = EricJang_gamma * sh * sh < ch * ch;
         // fast rsqrt function suffices
         // rsqrt2 (https://code.google.com/p/lppython/source/browse/algorithm/HDcode/newCode/rsqrt.c?r=26)
         // is even faster but results in too much error

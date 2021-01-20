@@ -4,7 +4,8 @@
 
 namespace Ubpa {
 	template<typename T, size_t N>
-	struct SI_ImplTraits<hvec<T, N>> : SI_ImplTraits<vec<T, N>> {};
+	struct SI_ImplTraits<hvec<T, N>> :
+		SI_ImplTraits<vec<T, N>> {};
 
 	template<typename T, size_t N>
 	struct hvec : SI<hvec<T, N>> {

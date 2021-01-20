@@ -9,7 +9,8 @@ namespace Ubpa {
 	template<typename T, size_t N>
 	struct SI_ImplTraits<point<T, N>>
 		: Array1DTraits<T, N>,
-		IListTraits<IArray1D_Util, IEuclideanA>
+		IListTraits<IArray1D_Util, IEuclideanA>,
+		ArrayImplNTraits<point, T>
 	{
 		using V = vec<T, N>;
 	};

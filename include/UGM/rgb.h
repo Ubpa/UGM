@@ -11,7 +11,8 @@ namespace Ubpa {
 	template<typename T>
 	struct SI_ImplTraits<rgb<T>>
 		: Array1DTraits<T, 3>,
-		IListTraits<IArray1D_Util, IArrayHadamardProduct, IArrayLinear> {};
+		IListTraits<IArray1D_Util, IArrayHadamardProduct, IArrayLinear>,
+		ArrayImplNTraits<val, T> {};
 
 	template<typename T>
 	struct rgb : SI<rgb<T>> {

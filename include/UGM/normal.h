@@ -4,7 +4,9 @@
 
 namespace Ubpa {
 	template<typename T>
-	struct SI_ImplTraits<normal<T>> : SI_ImplTraits<vec<T, 3>> {};
+	struct SI_ImplTraits<normal<T>>
+		: Array1DTraits<T, 3>,
+		IListTraits<IArray1D_Util, ICross> {};
 
 	// it's necessary to distinguish vector and normal(bivector) when transformings
 	// ref

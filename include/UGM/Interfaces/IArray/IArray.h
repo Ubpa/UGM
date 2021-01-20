@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <cassert>
+#include <compare>
 
 namespace Ubpa {
 	template<typename Base, typename Impl>
@@ -126,12 +127,12 @@ namespace Ubpa::details {
 		using IStdArrayBasic<Base, Impl>::operator<;
 		using IStdArrayBasic<Base, Impl>::operator<=;
 
-		bool operator==(const Impl& rhs) const { return this->to_array() == rhs.to_array(); }
-		bool operator!=(const Impl& rhs) const { return this->to_array() != rhs.to_array(); }
-		bool operator< (const Impl& rhs) const { return this->to_array() < rhs.to_array(); }
-		bool operator> (const Impl& rhs) const { return this->to_array() > rhs.to_array(); }
-		bool operator<=(const Impl& rhs) const { return this->to_array() <= rhs.to_array(); }
-		bool operator>=(const Impl& rhs) const { return this->to_array() >= rhs.to_array(); }
+		friend bool operator==(const Impl& lhs, const Impl& rhs) { return lhs.to_array() == rhs.to_array(); }
+		friend bool operator!=(const Impl& lhs, const Impl& rhs) { return lhs.to_array() != rhs.to_array(); }
+		friend bool operator< (const Impl& lhs, const Impl& rhs) { return lhs.to_array() <  rhs.to_array(); }
+		friend bool operator> (const Impl& lhs, const Impl& rhs) { return lhs.to_array() >  rhs.to_array(); }
+		friend bool operator<=(const Impl& lhs, const Impl& rhs) { return lhs.to_array() <= rhs.to_array(); }
+		friend bool operator>=(const Impl& lhs, const Impl& rhs) { return lhs.to_array() >= rhs.to_array(); }
 	};
 
 	template<typename Base, typename Impl>
@@ -311,7 +312,7 @@ namespace Ubpa::details {
 				(lhs.template set<Ns>(rhs.template get<Ms>()), ...);
 				return lhs;
 			};
-			return assign_impl(reinterpret_cast<Impl&>(*this), rhs, std::make_integer_sequence<sizeof...(Ns)>{});
+			return assign_impl(reinterpret_cast<Impl&>(*this), rhs, std::make_index_sequence<sizeof...(Ns)>{});
 		}
 	};
 

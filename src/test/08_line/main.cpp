@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <UGM/line.h>
-#include <UGM/transform.h>
+#include <UGM/line.hpp>
+#include <UGM/transform.hpp>
 
 using namespace std;
 using namespace Ubpa;

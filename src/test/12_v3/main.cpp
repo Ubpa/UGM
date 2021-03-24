@@ -1,5 +1,5 @@
 #include <iostream>
-#include <UGM/vec.h>
+#include <UGM/vec.hpp>
 
 using namespace Ubpa;
 using namespace std;

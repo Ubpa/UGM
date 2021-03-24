@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <UGM/rgba.h>
-#include <UGM/scale.h>
+#include <UGM/rgba.hpp>
+#include <UGM/scale.hpp>
 
 using namespace std;
 using namespace Ubpa;

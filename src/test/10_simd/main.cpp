@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include <UGM/vec.h>
-#include <UGM/point.h>
-#include <UGM/mat.h>
+#include <UGM/vec.hpp>
+#include <UGM/point.hpp>
+#include <UGM/mat.hpp>
 
 using namespace Ubpa;
 using namespace std;

@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include <UGM/bbox.h>
-#include <UGM/val.h>
-#include <UGM/transform.h>
+#include <UGM/bbox.hpp>
+#include <UGM/val.hpp>
+#include <UGM/transform.hpp>
 
 using namespace std;
 using namespace Ubpa;

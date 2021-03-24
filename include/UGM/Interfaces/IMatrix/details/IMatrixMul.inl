@@ -3,7 +3,7 @@
 #pragma region Eric_inverse
 #ifdef UBPA_UGM_USE_SIMD
 
-#include "../../../val.h"
+#include "../../../val.hpp"
 
 namespace Ubpa::details::IMatrixMul::Eric {
     // for column major matrix

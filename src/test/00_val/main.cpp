@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <UGM/val.h>
+#include <UGM/val.hpp>
 
 using namespace std;
 using namespace Ubpa;

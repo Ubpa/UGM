@@ -1,2 +1,2 @@
-#include <UGM/UGM.h>
+#include <UGM/UGM.hpp>
 int main() {}

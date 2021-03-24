@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <UGM/mat.h>
+#include <UGM/mat.hpp>
 
 using namespace std;
 using namespace Ubpa;

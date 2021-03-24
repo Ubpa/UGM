@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <UGM/quat.h>
-#include <UGM/euler.h>
+#include <UGM/quat.hpp>
+#include <UGM/euler.hpp>
 
 using namespace std;
 using namespace Ubpa;

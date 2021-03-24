@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <UGM/point.h>
+#include <UGM/point.hpp>
 
 #include <vector>
 #include <array>

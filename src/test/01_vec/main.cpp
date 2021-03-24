@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include <UGM/vec.h>
-#include <UGM/val.h>
-#include <UGM/normal.h>
+#include <UGM/vec.hpp>
+#include <UGM/val.hpp>
+#include <UGM/normal.hpp>
 
 #include <array>
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <UGM/ray.h>
-#include <UGM/transform.h>
+#include <UGM/ray.hpp>
+#include <UGM/transform.hpp>
 
 using namespace std;
 using namespace Ubpa;

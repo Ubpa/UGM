@@ -1,6 +1,6 @@
 #pragma once
 
-#include "svd3.h"
+#include "svd3.hpp"
 
 #include <cstring>
 

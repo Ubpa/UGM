@@ -32,7 +32,7 @@ namespace Ubpa {
 		}
 
 		Impl& operator*=(const __m128& k) noexcept {
-			const auto& x = static_cast<const Impl&>(*this);
+			auto& x = static_cast<Impl&>(*this);
 			return x = x * k;
 		}
 
@@ -44,7 +44,7 @@ namespace Ubpa {
 		}
 
 		Impl& operator/=(const __m128& k) noexcept {
-			const auto& x = static_cast<const Impl&>(*this);
+			auto& x = static_cast<Impl&>(*this);
 			return x = x / k;
 		}
 #endif // UBPA_UGM_USE_SIMD

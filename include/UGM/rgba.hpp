@@ -8,6 +8,7 @@ namespace Ubpa {
 	template<typename T>
 	struct SI_ImplTraits<rgba<T>>
 		: Array1DTraits<T, 4>,
+		SIMDTraits<false>, // float4 not use SIMD
 		IListTraits<IArray1D_Util>,
 		ArrayImplNTraits<val, T> {};
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "val.hpp"
+
 #include "details/traits.hpp"
 
 #include "Interfaces/ILinear.hpp"

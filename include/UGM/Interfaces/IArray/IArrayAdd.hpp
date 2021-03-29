@@ -54,14 +54,22 @@ namespace Ubpa {
 			else
 #endif // UBPA_UGM_USE_SIMD
 			{
-				Impl rst;
-				for (size_t i = 0; i < N; i++) {
-					if constexpr(std::is_unsigned_v<T>)
-						rst[i] = static_cast<T>(-static_cast<std::make_signed_t<T>>(x[i]));
-					else
-						rst[i] = -x[i];
+				if constexpr (std::is_same_v<T, bool>) {
+					Impl rst;
+					for (size_t i = 0; i < N; i++)
+						rst[i] = !rst[i];
+					return rst;
 				}
-				return rst;
+				else {
+					Impl rst;
+					for (size_t i = 0; i < N; i++) {
+						if constexpr (std::is_unsigned_v<T>)
+							rst[i] = static_cast<T>(-static_cast<std::make_signed_t<T>>(x[i]));
+						else
+							rst[i] = -x[i];
+					}
+					return rst;
+				}
 			}
 		}
 

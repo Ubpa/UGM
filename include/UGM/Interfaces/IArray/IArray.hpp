@@ -72,11 +72,11 @@ namespace Ubpa::details {
 		using reference = T&;
 		using const_reference = const T&;
 
-		using iterator = std::array<float, 4>::iterator;
-		using const_iterator = std::array<float, 4>::const_iterator;
+		using iterator = std::array<T, N>::iterator;
+		using const_iterator = std::array<T, N>::const_iterator;
 
-		using reverse_iterator = std::array<float, 4>::reverse_iterator;
-		using const_reverse_iterator = std::array<float, 4>::const_reverse_iterator;
+		using reverse_iterator = std::array<T, N>::reverse_iterator;
+		using const_reverse_iterator = std::array<T, N>::const_reverse_iterator;
 
 		void fill(T v) noexcept { to_array().fill(v); }
 		void swap(Impl& other) noexcept { to_array().swap(other.to_array()); }
@@ -86,15 +86,15 @@ namespace Ubpa::details {
 		iterator end() noexcept { return to_array().end(); }
 		const_iterator end() const noexcept { return to_array().end(); }
 
-		iterator rbegin() noexcept { return to_array().rbegin(); }
-		const_iterator rbegin() const noexcept { return to_array().rbegin(); }
-		iterator rend() noexcept { return to_array().rend(); }
-		const_iterator rend() const noexcept { return to_array().rend(); }
+		reverse_iterator rbegin() noexcept { return to_array().rbegin(); }
+		const_reverse_iterator rbegin() const noexcept { return to_array().rbegin(); }
+		reverse_iterator rend() noexcept { return to_array().rend(); }
+		const_reverse_iterator rend() const noexcept { return to_array().rend(); }
 
 		const_iterator cbegin() const noexcept { return begin(); }
 		const_iterator cend() const noexcept { return end(); }
-		const_iterator crbegin() const noexcept { return rbegin(); }
-		const_iterator crend() const noexcept { return rend(); }
+		const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+		const_reverse_iterator crend() const noexcept { return rend(); }
 
 		constexpr size_t size() const noexcept { return N; }
 		constexpr size_t max_size() const noexcept { return N; }

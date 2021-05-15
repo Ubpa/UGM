@@ -21,7 +21,7 @@ namespace Ubpa {
 
 		bool is_all_zero() const noexcept {
 			for (size_t i = 0; i < N; i++) {
-				if (is_zero((*this)[i]))
+				if (!is_zero((*this)[i]))
 					return false;
 			}
 			return true;

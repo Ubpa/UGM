@@ -32,6 +32,22 @@ namespace Ubpa {
 				+ (*this)[1] * static_cast<T>(0.587)
 				+ (*this)[2] * static_cast<T>(0.114);
 		}
+
+		rgb gamma_to_linear() const noexcept {
+			return {
+				Ubpa::gamma_to_linear((*this)[0]),
+				Ubpa::gamma_to_linear((*this)[1]),
+				Ubpa::gamma_to_linear((*this)[2])
+			};
+		}
+
+		rgb linear_to_gamma() const noexcept {
+			return {
+				Ubpa::linear_to_gamma((*this)[0]),
+				Ubpa::linear_to_gamma((*this)[1]),
+				Ubpa::linear_to_gamma((*this)[2])
+			};
+		}
 	};
 
 	using rgbf = rgb<float>;

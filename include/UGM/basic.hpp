@@ -61,6 +61,12 @@ namespace Ubpa {
 	constexpr T pow2(T x) noexcept;
 	template<typename T>
 	constexpr T pow5(T x) noexcept;
+
+	template<typename T>
+	constexpr T gamma_to_linear(T value) noexcept;
+
+	template<typename T>
+	constexpr T linear_to_gamma(T value) noexcept;
 }
 
 #include "details/basic.inl"

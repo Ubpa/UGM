@@ -21,4 +21,9 @@ int main() {
 	cout << q.is_identity() << endl;
 	cout << quatf::rotate_with<Axis::X>(to_radian(45.f)) << endl;
 	cout << eulerf{ 45.f }.to_quat() << endl;
+	quatf p(vecf3{0,0,1}, 2 * to_radian(angle));
+	// verify: http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/index.htm
+	cout << q << endl;
+	cout << p << endl;
+	cout << q.slerp(p, 0.5f) << endl;
 }

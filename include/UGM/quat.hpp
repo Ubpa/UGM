@@ -10,10 +10,10 @@ namespace Ubpa {
 	template<typename T>
 	struct SI_ImplTraits<quat<T>>
 		: Array1DTraits<T, 4>,
-		SIMDTraits<false>, // float4 not use SIMD
-		IListTraits<IMul, IArrayUtil>
+		IListTraits<IMul, IArray1D_Util>
 		{};
 
+	// (x,y,z), w
 	template<typename T>
 	struct quat : SI<quat<T>> {
 		using Base = SI<quat<T>>;
@@ -53,6 +53,8 @@ namespace Ubpa {
 		euler<T> to_euler() const noexcept;
 
 		vec<T, 3> operator*(const vec<T, 3>& v) const noexcept;
+
+		quat slerp(const quat& rhs, T t) const noexcept;
 
 	private:
 		template<typename Base, typename quat>

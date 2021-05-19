@@ -154,4 +154,28 @@ namespace Ubpa {
 
 		return is;
 	}
+
+	template<typename T>
+	quat<T> quat<T>::slerp(const quat& y, T t) const noexcept {
+		const auto& x = this->as<vec<T,4>>();
+		auto z = y.as<vec<T, 4>>();
+		T cos_theta = x.dot(z);
+
+		if (cos_theta < static_cast<T>(0)) {
+			z = -z;
+			cos_theta = -cos_theta;
+		}
+
+		// Perform a linear interpolation when cos_theta is close to 1 to avoid side effect of sin(angle) becoming a zero denominator
+		if (cos_theta > static_cast<T>(1) - EPSILON<T>) {
+			// Linear interpolation
+			return x.lerp(z, t).as<quat>();
+		}
+		else
+		{
+			// Essential Mathematics, page 467
+			T angle = std::acos(cos_theta);
+			return ((std::sin((static_cast<T>(1) - t) * angle) * x + std::sin(t * angle) * z) / std::sin(angle)).as<quat>();
+		}
+	}
 }

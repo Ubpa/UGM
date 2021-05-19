@@ -83,6 +83,30 @@ namespace Ubpa {
 		T x2 = pow2(x);
 		return x2 * x2 * x;
 	}
+
+	template<typename T>
+	constexpr T gamma_to_linear(T value) noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		if (value <= static_cast<T>(0.04045))
+			return value / static_cast<T>(12.92);
+		else if (value < static_cast<T>(1))
+			return std::pow((value + static_cast<T>(0.055)) / static_cast<T>(1.055), static_cast<T>(2.4));
+		else
+			return std::pow(value, static_cast<T>(2.2));
+	}
+
+	template<typename T>
+	constexpr T linear_to_gamma(T value) noexcept {
+		static_assert(std::is_floating_point_v<T>);
+		if (value <= static_cast<T>(0))
+			return static_cast<T>(0);
+		else if (value <= static_cast<T>(0.0031308))
+			return static_cast<T>(12.92) * value;
+		else if (value < static_cast<T>(1))
+			return static_cast<T>(1.055) * std::pow(value, static_cast<T>(5.0/12.0)) - static_cast<T>(0.055);
+		else
+			return std::pow(value, static_cast<T>(5.0/11.0));
+	}
 }
 
 namespace Ubpa::detail::Basic {

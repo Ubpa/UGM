@@ -177,7 +177,7 @@ namespace Ubpa::details {
 		}
 
 		template<size_t i>
-		void set(T v) const noexcept {
+		void set(T v) noexcept {
 			static_assert(i < N);
 			(*this)[i] = v;
 		}
@@ -304,20 +304,24 @@ namespace Ubpa::details {
 		}
 	};
 
+	template<typename A, typename B, std::size_t... Ns, std::size_t... Ms>
+	void assign_impl(A& lhs, const B& rhs, std::index_sequence<Ns...>, std::index_sequence<Ms...>) {
+		(lhs.template set<Ns>(rhs.template get<Ms>()), ...);
+	}
+
 	template<typename Impl, std::size_t... Ns>
 	struct SwizzleImpl<false, true, Impl, Ns...> : SwizzleImpl<true, true, Impl, Ns...> {
 		using ImplN = SI_ImplTraits_ImplN<Impl, sizeof...(Ns)>;
-		Impl& operator=(const ImplN& rhs) noexcept {
-			constexpr auto assign_impl = []<std::size_t... Ms>(Impl & lhs, const ImplN & rhs, std::index_sequence<Ms...>) -> Impl& {
-				(lhs.template set<Ns>(rhs.template get<Ms>()), ...);
-				return lhs;
-			};
-			return assign_impl(reinterpret_cast<Impl&>(*this), rhs, std::make_index_sequence<sizeof...(Ns)>{});
+		auto& operator=(const ImplN& rhs) noexcept {
+			assign_impl(reinterpret_cast<Impl&>(*this), rhs, std::index_sequence<Ns...>{}, std::make_index_sequence<sizeof...(Ns)>{});
+			return *this;
 		}
 	};
 
 	template<typename Impl, std::size_t... Ns>
-	struct Swizzle : SwizzleImpl<is_duplicate(std::index_sequence<Ns...>{}), Ubpa::SI_ImplTraits_SupportImplN<Impl, sizeof...(Ns)>, Impl, Ns...> {};
+	struct Swizzle : SwizzleImpl<is_duplicate(std::index_sequence<Ns...>{}), Ubpa::SI_ImplTraits_SupportImplN<Impl, sizeof...(Ns)>, Impl, Ns...> {
+		using SwizzleImpl<is_duplicate(std::index_sequence<Ns...>{}), Ubpa::SI_ImplTraits_SupportImplN<Impl, sizeof...(Ns)>, Impl, Ns...>::operator=;
+	};
 }
 
 #define UBPA_ARRAY_SWIZZLE2_2(EI0, EI1, E0, E1) \

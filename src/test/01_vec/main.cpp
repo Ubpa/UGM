@@ -28,6 +28,8 @@ int main() {
 
 	// mul
 	cout << v * 3.f << endl;
+	cout << 2.5f * v << endl;
+	cout << 2.5 * vecf2{ 1.f,2.f } << endl;
 	cout << 4.f * v << endl;
 	v *= 5.f;
 	cout << v << endl;

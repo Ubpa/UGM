@@ -75,6 +75,7 @@ namespace Ubpa {
 	vec<T, 3> operator*(const mat<T, 3>& m, const svec<T>& sv) noexcept; // assert(normalized())
 
 	using svecf = svec<float>;
+	using svecd = svec<double>;
 
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(svecf) == 3 * sizeof(float));

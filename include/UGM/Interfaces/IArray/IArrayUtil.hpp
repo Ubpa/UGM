@@ -21,15 +21,15 @@ namespace Ubpa {
 
 		bool is_all_zero() const noexcept {
 			for (size_t i = 0; i < N; i++) {
-				if (!is_zero((*this)[i]))
+				if (!Ubpa::is_all_zero((*this)[i]))
 					return false;
 			}
 			return true;
 		}
 
-		bool has_nan() const noexcept {
+		bool is_any_nan() const noexcept {
 			for (size_t i = 0; i < N; i++) {
-				if (is_nan((*this)[i]))
+				if (Ubpa::is_any_nan((*this)[i]))
 					return true;
 			}
 			return false;
@@ -53,6 +53,25 @@ namespace Ubpa {
 		Impl lerp(const Impl& y, F t) const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			return lerp(x, y, t);
+		}
+
+		static Impl hadamard_product(const Impl& x, const Impl& y) noexcept {
+#ifdef UBPA_UGM_USE_SIMD
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
+				return _mm_mul_ps(x, y);
+			else
+#endif // UBPA_UGM_USE_SIMD
+			{
+				Impl rst;
+				for (size_t i = 0; i < N; i++)
+					rst[i] = Ubpa::hadamard_product(x[i], y[i]);
+				return rst;
+			}
+		}
+
+		Impl hadamard_product(const Impl& y) const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+			return hadamard_product(x, y);
 		}
 
 		static Impl mid(const Impl& x, const Impl& y) noexcept {
@@ -89,6 +108,21 @@ namespace Ubpa {
 					++val_iter;
 					++weight_iter;
 				}
+				return rst;
+			}
+		}
+
+		Impl abs() const noexcept {
+			const auto& x = static_cast<const Impl&>(*this);
+#ifdef UBPA_UGM_USE_SIMD
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
+				return _mm_abs_ps(x);
+			else
+#endif // UBPA_UGM_USE_SIMD
+			{
+				Impl rst;
+				for (size_t i = 0; i < N; i++)
+					rst[i] = Ubpa::abs(x[i]);
 				return rst;
 			}
 		}

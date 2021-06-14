@@ -3,17 +3,40 @@
 #include <type_traits>
 #include <limits>
 
-namespace Ubpa::detail::Basic {
-	template<typename T> struct rmv_epsilon;
-	template<typename T> struct is_zero;
-	template<typename T> struct is_nan;
-	template<typename T, typename F> struct lerp;
+#define UBPA_UGM_DEFINE_CONCEPT_BINARY_API(api_name)             \
+template<typename T>                                             \
+concept contains_##api_name = requires(const T& a, const T& b) { \
+	a.api_name(b);                                               \
+}
+
+#define UBPA_UGM_USE_CONCEPT_BINARY_API(api_name, type) contains_##api_name<type>
+
+namespace Ubpa::details {
+	template<typename T>
+	concept contains_rmv_epsilon = requires(const T & v) { v.rmv_epsilon(); };
+	template<typename T>
+	concept contains_is_all_zero = requires(const T & v) { v.is_all_zero(); };
+	template<typename T>
+	concept contains_is_any_nan = requires(const T & v) { v.is_any_nan(); };
+	template<typename T, typename F>
+	concept contains_lerp = requires(const T & a, const T& b, const F& t) { a.lerp(b, t); };
+	template<typename T>
+	concept contains_hadamard_product = requires(const T & a, const T & b) { a.hadamard_product(b); };
+	template<typename T>
+	concept contains_abs = requires(const T & v) { v.abs(); };
 }
 
 namespace Ubpa {
 	template<typename T>
 	T rmv_epsilon(T val) noexcept {
-		return detail::Basic::rmv_epsilon<T>::run(val);
+		if constexpr (details::contains_rmv_epsilon<T>)
+			return val.rmv_epsilon();
+		else {
+			if (std::abs(std::round(val) - val) < EPSILON<T>)
+				return static_cast<T>(std::round(val + EPSILON<T>)); // + epsilon for -0 case
+			else
+				return val;
+		}
 	}
 
 	template<typename T>
@@ -39,18 +62,45 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	bool is_zero(T v) noexcept {
-		return detail::Basic::is_zero<std::decay_t<T>>::run(v);
+	bool is_all_zero(T v) noexcept {
+		if constexpr (details::contains_is_all_zero<T>)
+			return v.is_all_zero();
+		else
+			return v == ZERO<T>;
 	}
 
 	template<typename T>
-	bool is_nan(T v) noexcept {
-		return detail::Basic::is_nan<std::decay_t<T>>::run(v);
+	bool is_any_nan(T v) noexcept {
+		if constexpr (details::contains_is_any_nan<T>)
+			return v.is_any_nan();
+		else
+			return std::isnan(v);
 	}
 
 	template<typename T, typename F>
 	T lerp(T x, T y, F t) noexcept {
-		return detail::Basic::lerp<T,F>::run(x, y, t);
+		if constexpr (details::contains_lerp<T, F>)
+			return x.lerp(y, t);
+		else if constexpr (std::is_floating_point_v<T> && std::is_floating_point_v<F>)
+			return std::lerp(x, y, t);
+		else
+			return static_cast<T>(std::lerp(static_cast<long double>(x), static_cast<long double>(y), static_cast<long double>(t)));
+	}
+
+	template<typename T>
+	T hadamard_product(T x, T y) noexcept {
+		if constexpr (details::contains_hadamard_product<T>)
+			return x.hadamard_product(y);
+		else
+			return x * y;
+	}
+
+	template<typename T>
+	T abs(T v) noexcept {
+		if constexpr (details::contains_abs<T>)
+			return v.abs();
+		else
+			return std::abs(v);
 	}
 
 	template<typename T>
@@ -107,93 +157,4 @@ namespace Ubpa {
 		else
 			return std::pow(value, static_cast<T>(5.0/11.0));
 	}
-}
-
-namespace Ubpa::detail::Basic {
-	template<typename T>
-	struct rmv_epsilon {
-		static T run(T val) noexcept {
-			if (std::abs(std::round(val) - val) < EPSILON<T>)
-				return static_cast<T>(std::round(val + EPSILON<T>)); // + epsilon for -0 case
-			else
-				return val;
-		}
-	};
-
-	template<typename T, size_t N, template<typename, size_t>class V >
-	struct rmv_epsilon<V<T, N>> {
-		static V<T, N> run(const V<T, N>& val) noexcept {
-			return val.rmv_epsilon();
-		}
-	};
-
-	template<typename T, template<typename>class V >
-	struct rmv_epsilon<V<T>> {
-		static V<T> run(const V<T>& val) noexcept {
-			return val.rmv_epsilon();
-		}
-	};
-
-	template<typename T>
-	struct is_zero {
-		static bool run(T v) noexcept {
-			return v == ZERO<T>;
-		}
-	};
-
-	template<typename T, size_t N, template<typename, size_t>class V >
-	struct is_zero<V<T, N>> {
-		static bool run(const V<T, N>& val) noexcept {
-			return val.is_all_zero();
-		}
-	};
-
-	template<typename T, template<typename>class V >
-	struct is_zero<V<T>> {
-		static bool run(const V<T>& val) noexcept {
-			return val.is_all_zero();
-		}
-	};
-
-	template<typename T>
-	struct is_nan {
-		static bool run(T val) noexcept {
-			return std::isnan(static_cast<float>(val));
-		}
-	};
-
-	template<typename T, size_t N, template<typename, size_t>class V >
-	struct is_nan<V<T, N>> {
-		static bool run(const V<T, N>& val) noexcept {
-			return val.has_nan();
-		}
-	};
-
-	template<typename T, template<typename>class V >
-	struct is_nan<V<T>> {
-		static bool run(const V<T>& val) noexcept {
-			return val.has_nan();
-		}
-	};
-
-	template<typename T, typename F>
-	struct lerp {
-		static T run(T x, T y, F t) noexcept {
-			return x * (static_cast<F>(1) - t) + y * t;
-		}
-	};
-
-	template<typename T, typename F, template<typename>class V >
-	struct lerp<V<T>, F> {
-		static V<T> run(V<T> x, V<T> y, F t) noexcept {
-			return V<T>::lerp(x, y, static_cast<T>(t));
-		}
-	};
-
-	template<typename T, size_t N, typename F, template<typename, size_t>class V >
-	struct lerp<V<T, N>, F> {
-		static V<T, N> run(V<T, N> x, V<T, N> y, F t) noexcept {
-			return V<T, N>::lerp(x, y, static_cast<T>(t));
-		}
-	};
 }

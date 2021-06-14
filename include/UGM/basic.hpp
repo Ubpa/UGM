@@ -38,13 +38,19 @@ namespace Ubpa {
 	T sgn(T v) noexcept;
 
 	template<typename T>
-	bool is_zero(T v) noexcept;
+	bool is_all_zero(T v) noexcept;
 
 	template<typename T>
-	bool is_nan(T v) noexcept;
+	bool is_any_nan(T v) noexcept;
 
 	template<typename T, typename F>
 	T lerp(T x, T y, F t) noexcept;
+
+	template<typename T>
+	T hadamard_product(T x, T y) noexcept;
+
+	template<typename T>
+	T abs(T x) noexcept;
 
 	// 1 - epsilon, T: float / double
 	template<typename T>

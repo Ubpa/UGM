@@ -41,7 +41,7 @@ int main() {
 	cout << m3 * vecf3(2, 1, 0) << endl;
 	cout << m4 * vecf4(2, 1, 0, 1) << endl;
 
-	cout << m3.has_nan() << endl;
+	cout << m3.is_any_nan() << endl;
 	cout << m3.is_all_zero() << endl;
 	cout << m3.rmv_epsilon() << endl;
 

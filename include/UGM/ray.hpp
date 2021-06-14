@@ -65,6 +65,12 @@ namespace Ubpa {
 	using rayf2 = rayf<2>;
 	using rayf3 = rayf<3>;
 
+	template<size_t N>
+	using rayd = ray<double, N>;
+	using rayd1 = rayd<1>;
+	using rayd2 = rayd<2>;
+	using rayd3 = rayd<3>;
+
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(rayf3) == 8 * sizeof(float));
 }

@@ -71,6 +71,7 @@ namespace Ubpa {
 	};
 
 	using quatf = quat<float>;
+	using quatd = quat<double>;
 
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(quatf) == 4 * sizeof(float));

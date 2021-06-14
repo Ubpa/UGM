@@ -26,6 +26,14 @@ namespace Ubpa {
 	using scalef3 = scalef<3>;
 	using scalef4 = scalef<4>;
 
+	template<size_t N>
+	using scaled = scale<double, N>;
+
+	using scaled1 = scaled<1>;
+	using scaled2 = scaled<2>;
+	using scaled3 = scaled<3>;
+	using scaled4 = scaled<4>;
+
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(scalef4) == 4 * sizeof(float));
 }

@@ -94,6 +94,7 @@ namespace Ubpa {
 	};
 
 	using transformf = transform<float>;
+	using transformd = transform<double>;
 
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(transformf) == 16 * sizeof(float));

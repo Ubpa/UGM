@@ -25,6 +25,12 @@ namespace Ubpa {
 	using trianglef2 = trianglef<2>;
 	using trianglef3 = trianglef<3>;
 
+	template<size_t N>
+	using triangled = triangle<double, N>;
+
+	using triangled2 = triangled<2>;
+	using triangled3 = triangled<3>;
+
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(trianglef3) == 9 * sizeof(float));
 }

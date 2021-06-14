@@ -57,6 +57,13 @@ namespace Ubpa {
 	using linef2 = linef<2>;
 	using linef3 = linef<3>;
 
+	template<size_t N>
+	using lined = line<double, N>;
+
+	using lined1 = lined<1>;
+	using lined2 = lined<2>;
+	using lined3 = lined<3>;
+
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(linef3) == 6 * sizeof(float));
 }

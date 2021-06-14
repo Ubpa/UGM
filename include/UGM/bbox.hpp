@@ -56,6 +56,13 @@ namespace Ubpa {
 	using bboxf3 = bboxf<3>;
 
 	template<size_t N>
+	using bboxd = bbox<double, N>;
+
+	using bboxd1 = bboxd<1>;
+	using bboxd2 = bboxd<2>;
+	using bboxd3 = bboxd<3>;
+
+	template<size_t N>
 	using bboxi = bbox<int, N>;
 
 	using bboxi1 = bboxi<1>;

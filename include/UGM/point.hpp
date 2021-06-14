@@ -40,6 +40,14 @@ namespace Ubpa {
 	using pointf4 = pointf<4>;
 
 	template<size_t N>
+	using pointd = point<double, N>;
+
+	using pointd1 = pointd<1>;
+	using pointd2 = pointd<2>;
+	using pointd3 = pointd<3>;
+	using pointd4 = pointd<4>;
+
+	template<size_t N>
 	using pointi = point<int, N>;
 
 	using pointi1 = pointi<1>;

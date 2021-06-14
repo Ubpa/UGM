@@ -24,6 +24,7 @@ namespace Ubpa {
 	};
 
 	using eulerf = euler<float>;
+	using eulerd = euler<double>;
 
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(eulerf) == 3 * sizeof(float));

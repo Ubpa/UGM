@@ -38,6 +38,14 @@ namespace Ubpa {
 	using hvecf4 = hvecf<4>;
 
 	template<size_t N>
+	using hvecd = hvec<double, N>;
+
+	using hvecd1 = hvecd<1>;
+	using hvecd2 = hvecd<2>;
+	using hvecd3 = hvecd<3>;
+	using hvecd4 = hvecd<4>;
+
+	template<size_t N>
 	using hveci = hvec<int, N>;
 
 	using hveci1 = hveci<1>;

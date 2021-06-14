@@ -13,21 +13,6 @@ namespace Ubpa {
 		using F = SI_ImplTraits_F<Impl>;
 		static constexpr size_t N = SI_ImplTraits_N<Impl>;
 
-		Impl abs() const noexcept {
-			const auto& x = static_cast<const Impl&>(*this);
-#ifdef UBPA_UGM_USE_SIMD
-			if constexpr (SI_ImplTraits_SupportSIMD<Impl>)
-				return _mm_abs_ps(x);
-			else
-#endif // UBPA_UGM_USE_SIMD
-			{
-				Impl rst;
-				for (size_t i = 0; i < N; i++)
-					rst[i] = std::abs(x[i]);
-				return rst;
-			}
-		}
-
 		T& min_component() noexcept {
 			return (*this)[min_dim()];
 		}

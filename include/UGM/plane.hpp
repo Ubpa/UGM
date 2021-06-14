@@ -32,6 +32,7 @@ namespace Ubpa {
 	};
 
 	using planef = plane<float>;
+	using planed = plane<double>;
 
 	// maybe error in editor, but no compile error
 	static_assert(sizeof(planef) == 6 * sizeof(float));

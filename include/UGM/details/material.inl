@@ -72,7 +72,7 @@ namespace Ubpa {
 		if (cos_stheta <= 0)
 			return 0.f;
 		float alpha2 = alpha * alpha;
-		float denominator = PI<float> * pow2(1 + (alpha2 - 1) * pow2(cos_stheta));
+		float denominator = Pi<float> * pow2(1 + (alpha2 - 1) * pow2(cos_stheta));
 		return alpha2 / denominator;
 	}
 }

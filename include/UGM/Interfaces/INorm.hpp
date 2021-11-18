@@ -26,15 +26,15 @@ namespace Ubpa {
 		Impl safe_normalize() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
 			F n = norm();
-			if (n == ZERO<F>)
-				return { ZERO<F> };
+			if (n == Zero<F>)
+				return { Zero<F> };
 			else
 				return x / n; // ILinear
 		}
 
 		bool is_normalized() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return std::abs(x.norm() - 1) < EPSILON<F>;
+			return std::abs(x.norm() - 1) < Epsilon<F>;
 		}
 
 		Impl& normalize_self() noexcept {
@@ -47,7 +47,7 @@ namespace Ubpa {
 		Impl& safe_normalize_self() noexcept {
 			auto& x = static_cast<Impl&>(*this);
 			F n = norm();
-			if (n == ZERO<F>)
+			if (n == Zero<F>)
 				return x;
 			else
 				return x /= n; // ILinear

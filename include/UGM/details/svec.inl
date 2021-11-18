@@ -6,7 +6,7 @@ namespace Ubpa {
 		auto nN = n.normalize();
 		auto nT = t.normalize();
 
-		assert(std::abs(nN.dot(nT)) < EPSILON<T>);
+		assert(std::abs(nN.dot(nT)) < Epsilon<T>);
 
 		return { nT, nN.cross(nT), nN };
 	}

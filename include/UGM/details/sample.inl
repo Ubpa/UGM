@@ -8,7 +8,7 @@ namespace Ubpa {
 
 	template<typename T>
 	val<T, 2> uniform_on_disk() noexcept {
-		T theta = 2 * PI<T> * rand01<T>();
+		T theta = 2 * Pi<T> * rand01<T>();
 		return { std::cos(theta), std::sin(theta) };
 	}
 
@@ -23,7 +23,7 @@ namespace Ubpa {
 		T Xi1 = rand01<T>();
 		T Xi2 = rand01<T>();
 
-		T phi = 2 * PI<T> * Xi2;
+		T phi = 2 * Pi<T> * Xi2;
 		T t = 2 * std::sqrt(Xi1 * (1 - Xi1));
 
 		T x = std::cos(phi) * t;
@@ -57,7 +57,7 @@ namespace Ubpa {
 		float cos2_sthetam = (1 - Xi[0]) / ((pow2(alpha) - 1) * Xi[0] + 1);
 		float cos_sthetam = std::sqrt(cos2_sthetam);
 		float sin_sthetam = std::sqrt(1 - cos2_sthetam);
-		float phi = 2 * PI<float> * Xi[1];
+		float phi = 2 * Pi<float> * Xi[1];
 		return { sin_sthetam * std::cos(phi), sin_sthetam * std::sin(phi), cos_sthetam };
 	}
 }

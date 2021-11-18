@@ -4,7 +4,7 @@
 using namespace Ubpa;
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
     vecf4 f0{ 1,2,3,4 };
     vecf4 f1{ 5,4,3,2 };

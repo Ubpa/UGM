@@ -75,7 +75,7 @@ namespace Ubpa {
 
 		bool v3_is_normalized() const noexcept {
 			const auto& x = static_cast<const Impl&>(*this);
-			return std::abs(x.v3_norm().template get<0>() - 1) < EPSILON<F>;
+			return std::abs(x.v3_norm().template get<0>() - 1) < Epsilon<F>;
 		}
 
 		Impl& v3_normalize_self() noexcept {

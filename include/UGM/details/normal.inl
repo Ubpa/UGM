@@ -6,7 +6,7 @@ namespace Ubpa {
 		assert(this->is_normalized());
 		// atan2: https://zh.wikipedia.org/wiki/Atan2
 		T theta = std::acos((*this)[1]);
-		T phi = std::atan2(-(*this)[0], -(*this)[2]) + PI<float>;
+		T phi = std::atan2(-(*this)[0], -(*this)[2]) + Pi<float>;
 		return { theta,phi };
 	}
 

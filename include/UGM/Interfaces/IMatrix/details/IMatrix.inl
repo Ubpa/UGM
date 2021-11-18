@@ -249,10 +249,10 @@ namespace Ubpa::details::IMatrix_ {
 	// =======================================================
 
 	template<size_t N>
-	struct zero;
+	struct Zero;
 
 	template<>
-	struct zero<2> {
+	struct Zero<2> {
 		template<typename M>
 		static M run() noexcept {
 			static_assert(M::N == 2);
@@ -264,7 +264,7 @@ namespace Ubpa::details::IMatrix_ {
 	};
 
 	template<>
-	struct zero<3> {
+	struct Zero<3> {
 		template<typename M>
 		static M run() noexcept {
 			static_assert(M::N == 3);
@@ -277,7 +277,7 @@ namespace Ubpa::details::IMatrix_ {
 	};
 
 	template<>
-	struct zero<4> {
+	struct Zero<4> {
 		template<typename M>
 		static M run() noexcept {
 			static_assert(M::N == 4);

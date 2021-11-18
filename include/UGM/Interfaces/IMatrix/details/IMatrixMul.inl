@@ -253,7 +253,7 @@ namespace Ubpa::details::IMatrixMul {
                 //  det = |A|*|D| + |B|*|C| - trace(A#*B*D#*C)
                 det = d1 + d2 - d;
                 rd = det.inverse();
-#ifdef ZERO_SINGULAR
+#ifdef Zero_SINGULAR
                 rd = _mm_and_ps(_mm_cmpneq_ss(det, _mm_setzero_ps()), rd);
 #endif
 

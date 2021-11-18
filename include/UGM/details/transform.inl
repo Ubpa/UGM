@@ -84,7 +84,7 @@ namespace Ubpa {
 
 		F sinTheta = std::sin(theta);
 		F cosTheta = std::cos(theta);
-		F OneMinusCosTheta = ONE<F> -cosTheta;
+		F OneMinusCosTheta = One<F> -cosTheta;
 
 		auto& m = static_cast<transform&>(*this);
 		// Compute rotation of first basis vector
@@ -297,7 +297,7 @@ namespace Ubpa {
 			__m128 rSizeSqr = _mm_blendv_ps(
 				_mm_div_ps(one, sizeSqr),
 				one,
-				_mm_cmplt_ps(sizeSqr, _mm_set1_ps(EPSILON<float>))
+				_mm_cmplt_ps(sizeSqr, _mm_set1_ps(Epsilon<float>))
 			);
 #else
 			__m128 rSizeSqr = _mm_div_ps(one, sizeSqr);
@@ -558,7 +558,7 @@ namespace Ubpa {
 			F wp = m(3, 0) * x + m(3, 1) * y + m(3, 2) * z + m(3, 3);
 
 			if (wp != 1) {
-				F invWP = ONE<F> / wp;
+				F invWP = One<F> / wp;
 				return { xp * invWP,yp * invWP,zp * invWP };
 			}
 			else

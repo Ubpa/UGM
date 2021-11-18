@@ -114,7 +114,7 @@ namespace Ubpa::details {
 	};
 
 	template<typename Base, typename Impl>
-	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IStdArray : IStdArrayBasic<Base, Impl> {
+	struct IStdArray : IStdArrayBasic<Base, Impl> {
 		using T = SI_ImplTraits_T<Impl>;
 		using F = SI_ImplTraits_F<Impl>;
 		static constexpr std::size_t N = SI_ImplTraits_N<Impl>;
@@ -166,7 +166,7 @@ namespace Ubpa::details {
 
 		constexpr IArrayCommon(const T& t) noexcept : IArrayCommon{ t, std::make_index_sequence<N>{} } {}
 
-		static constexpr Impl zero() noexcept {
+		static constexpr Impl Zero() noexcept {
 			return Impl{ T{static_cast<F>(0)} };
 		}
 
@@ -727,13 +727,17 @@ namespace Ubpa {
 	template<details::ArrayMode mode, typename IArray_Base, typename Impl>
 	struct IArray_Impl;
 
+	/*
+	* IArray -> IArray_Impl -> IArrayCommon -> IStdArray -> IStdArrayBasic -> Base
+	* IArray (SIMD) -> IArray_Impl -> IStdArrayBasic -> Base
+	*/
 	template<typename Base, typename Impl>
 	struct IArray : IArray_Impl<details::GetArrayMode<Impl>(), Base, Impl> {
 		using IArray_Impl<details::GetArrayMode<Impl>(), Base, Impl>::IArray_Impl;
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct IArray_Impl<details::ArrayMode::One, IArray_Base, Impl>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<details::ArrayMode::One, IArray_Base, Impl>
 		: details::IArrayCommon<IArray_Base, Impl>
 	{
 		using T = SI_ImplTraits_T<Impl>;
@@ -750,7 +754,7 @@ namespace Ubpa {
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct IArray_Impl<details::ArrayMode::Two, IArray_Base, Impl>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<details::ArrayMode::Two, IArray_Base, Impl>
 		: details::IArrayCommon<IArray_Base, Impl>
 	{
 		using T = SI_ImplTraits_T<Impl>;
@@ -774,7 +778,7 @@ namespace Ubpa {
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct IArray_Impl<details::ArrayMode::Three, IArray_Base, Impl>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<details::ArrayMode::Three, IArray_Base, Impl>
 		: details::IArrayCommon<IArray_Base, Impl>
 	{
 		using T = SI_ImplTraits_T<Impl>;
@@ -798,7 +802,7 @@ namespace Ubpa {
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct IArray_Impl<details::ArrayMode::Four, IArray_Base, Impl>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<details::ArrayMode::Four, IArray_Base, Impl>
 		: details::IArrayCommon<IArray_Base, Impl>
 	{
 		using T = SI_ImplTraits_T<Impl>;
@@ -822,7 +826,7 @@ namespace Ubpa {
 	};
 
 	template<typename IArray_Base, typename Impl>
-	struct IArray_Impl<details::ArrayMode::Basic, IArray_Base, Impl>
+	struct alignas(alignof(SI_ImplTraits_T<Impl>)) IArray_Impl<details::ArrayMode::Basic, IArray_Base, Impl>
 		: details::IArrayCommon<IArray_Base, Impl>
 	{
 		using T = SI_ImplTraits_T<Impl>;
@@ -983,7 +987,7 @@ namespace Ubpa {
 		IArray_Impl(Ux x, Uy y, Uz z, Uw w) noexcept
 			: IArray_Impl{ static_cast<float>(x),static_cast<float>(y),static_cast<float>(z),static_cast<float>(w) } {}
 
-		static Impl zero() noexcept {
+		static Impl Zero() noexcept {
 			return _mm_setzero_ps();
 		}
 

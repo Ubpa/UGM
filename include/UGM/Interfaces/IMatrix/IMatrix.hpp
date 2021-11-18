@@ -69,8 +69,8 @@ namespace Ubpa {
 			return details::IMatrix_::eye<Impl, N>::run();
 		}
 
-		static Impl zero() noexcept {
-			return details::IMatrix_::zero<N>::template run<Impl>();
+		static Impl Zero() noexcept {
+			return details::IMatrix_::Zero<N>::template run<Impl>();
 		}
 
 		F& operator()(size_t r, size_t c) noexcept {

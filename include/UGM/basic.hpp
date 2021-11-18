@@ -7,16 +7,16 @@
 
 namespace Ubpa {
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-	constexpr auto EPSILON = static_cast<T>(0.001);
+	constexpr auto Epsilon = static_cast<T>(0.001);
 
 	template<typename T, typename = std::enable_if_t<std::is_floating_point_v<T>>>
-	constexpr auto PI = static_cast<T>(3.141592653589793);
+	constexpr auto Pi = static_cast<T>(3.141592653589793);
 
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-	constexpr auto ZERO = static_cast<T>(0);
+	constexpr auto Zero = static_cast<T>(0);
 
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-	constexpr auto ONE = static_cast<T>(1);
+	constexpr auto One = static_cast<T>(1);
 
 	enum class Axis : uint8_t {
 		X = 0,

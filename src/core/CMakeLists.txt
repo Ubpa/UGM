@@ -3,7 +3,7 @@ set(core_c_options "")
 set(sources "")
 
 if(MSVC)
-  list(APPEND core_c_options "/fp:fast;/permissive-")
+  list(APPEND core_c_options "/fp:fast;/permissive-;/wd4201")
   list(APPEND sources "${PROJECT_SOURCE_DIR}/vs/UGM.natvis")
 endif()
 

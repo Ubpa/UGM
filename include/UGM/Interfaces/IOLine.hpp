@@ -22,7 +22,7 @@ namespace Ubpa {
 			// TODO: SIMD speedup
 			SI_ImplTraits_V<Impl> rst;
 			for (size_t i = 0; i < SI_ImplTraits_V<Impl>::N; i++)
-				rst[i] = ONE<F> / dir[i];
+				rst[i] = One<F> / dir[i];
 			return rst;
 		}
 	};

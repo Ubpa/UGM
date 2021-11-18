@@ -14,7 +14,7 @@ namespace Ubpa {
 		T tmax;
 
 		ray(const point<T, N>& p, const vec<T, N>& dir,
-			T tmin = EPSILON<T>, T tmax = std::numeric_limits<T>::max()) noexcept
+			T tmin = Epsilon<T>, T tmax = std::numeric_limits<T>::max()) noexcept
 			: tmin{ tmin }, tmax{ tmax }
 		{
 			this->point = p;

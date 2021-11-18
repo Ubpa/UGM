@@ -11,7 +11,7 @@ namespace Ubpa {
 		assert(from.is_normalized() && to.is_normalized());
 		auto sin_theta_axis = from.cross(to);
 		float cos_theta = from.dot(to);
-		float cos_half_theta = std::sqrt(std::max(ZERO<T>, (cos_theta + 1) / 2));
+		float cos_half_theta = std::sqrt(std::max(Zero<T>, (cos_theta + 1) / 2));
 		imag() = sin_theta_axis / (2 * cos_half_theta);
 		real() = cos_half_theta;
 	}
@@ -47,14 +47,14 @@ namespace Ubpa {
 	}
 
 	template<typename T>
-	bool quat<T>::is_identity() const noexcept { return real() == ONE<T>; }
+	bool quat<T>::is_identity() const noexcept { return real() == One<T>; }
 
 	template<typename T>
 	quat<T> quat<T>::identity() noexcept { return { 0,0,0,1 }; }
 
 	template<typename T>
 	bool quat<T>::is_unit() const noexcept {
-		return std::abs(real() * real() + imag().dot(imag()) - 1) < EPSILON<T>;
+		return std::abs(real() * real() + imag().dot(imag()) - 1) < Epsilon<T>;
 	}
 
 	// rotate with axis x/y/z
@@ -68,7 +68,7 @@ namespace Ubpa {
 		vec<T, 3> imag;
 		constexpr size_t idx = static_cast<size_t>(axisIdx);
 		for (size_t i = 0; i < idx; i++)
-			imag[i] = ZERO<T>;
+			imag[i] = Zero<T>;
 		imag[idx] = std::sin(halfTheta);
 		for (size_t i = idx + 1; i < 3; i++)
 			imag[i] = 0;
@@ -167,7 +167,7 @@ namespace Ubpa {
 		}
 
 		// Perform a linear interpolation when cos_theta is close to 1 to avoid side effect of sin(angle) becoming a zero denominator
-		if (cos_theta > static_cast<T>(1) - EPSILON<T>) {
+		if (cos_theta > static_cast<T>(1) - Epsilon<T>) {
 			// Linear interpolation
 			return x.lerp(z, t).as<quat>();
 		}

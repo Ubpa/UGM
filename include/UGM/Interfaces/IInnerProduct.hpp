@@ -36,7 +36,7 @@ namespace Ubpa {
 			F xN = x.norm();
 			F yN = y.norm();
 			F xyN = xN * yN;
-			assert(xyN != ZERO<F>);
+			assert(xyN != Zero<F>);
 			return Impl::dot(x, y) / xyN;
 		}
 
@@ -48,7 +48,7 @@ namespace Ubpa {
 		static F cot_theta(const Impl& x, const Impl& y) noexcept {
 			float c = cos_theta(x, y);
 			F s2 = 1 - pow2(c);
-			assert(s2 > ZERO<F>);
+			assert(s2 > Zero<F>);
 			F s = std::sqrt(s2);
 			return c / s;
 		}

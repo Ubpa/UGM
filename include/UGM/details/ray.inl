@@ -41,7 +41,7 @@ namespace Ubpa {
 		if (std::get<0>(rst) && std::get<2>(rst) > tmin && std::get<2>(rst) < tmax)
 			return rst;
 		else
-			return { false, std::array<T, 3>{ZERO<T>}, ZERO<T> };
+			return { false, std::array<T, 3>{Zero<T>}, Zero<T> };
 	}
 
 	template<typename T, size_t N>
@@ -66,7 +66,7 @@ namespace Ubpa {
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)
-				return { false, ZERO<T> };
+				return { false, Zero<T> };
 
 			T sqrt_discriminant = std::sqrt(discriminant);
 			T inv_a = 1 / a;
@@ -76,7 +76,7 @@ namespace Ubpa {
 			if (t > tmax || t < tmin) {
 				t = (neg_b + sqrt_discriminant) * inv_a;
 				if (t > tmax || t < tmin)
-					return { false, ZERO<T> };
+					return { false, Zero<T> };
 			}
 
 			return { true, t };
@@ -92,7 +92,7 @@ namespace Ubpa {
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)
-				return { false, ZERO<T> };
+				return { false, Zero<T> };
 
 			T sqrt_discriminant = std::sqrt(discriminant);
 			T inv_a = 1 / a;
@@ -102,7 +102,7 @@ namespace Ubpa {
 			if (t > tmax || t < tmin) {
 				t = (neg_b + sqrt_discriminant) * inv_a;
 				if (t > tmax || t < tmin)
-					return { false, ZERO<T> };
+					return { false, Zero<T> };
 			}
 
 			return { true, t };
@@ -124,7 +124,7 @@ namespace Ubpa {
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)
-				return { false, ZERO<T> };
+				return { false, Zero<T> };
 
 			T sqrt_discriminant = std::sqrt(discriminant);
 			T inv_a = 1 / a;
@@ -134,7 +134,7 @@ namespace Ubpa {
 			if (t > tmax || t < tmin) {
 				t = (neg_b + sqrt_discriminant) * inv_a;
 				if (t > tmax || t < tmin)
-					return { false, ZERO<T> };
+					return { false, Zero<T> };
 			}
 
 			return { true, t };
@@ -149,7 +149,7 @@ namespace Ubpa {
 			T discriminant = b * b - a * c;
 
 			if (discriminant < 0)
-				return { false, ZERO<T> };
+				return { false, Zero<T> };
 
 			T sqrt_discriminant = std::sqrt(discriminant);
 			T inv_a = 1 / a;
@@ -159,7 +159,7 @@ namespace Ubpa {
 			if (t > tmax || t < tmin) {
 				t = (neg_b + sqrt_discriminant) * inv_a;
 				if (t > tmax || t < tmin)
-					return { false, ZERO<T> };
+					return { false, Zero<T> };
 			}
 
 			return { true, t };
@@ -172,20 +172,20 @@ namespace Ubpa {
 
 		const auto& d = this->dir;
 		if (d[1] == 0)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		const auto& p = this->point;
 		T t = -p[1] / d[1];
 		if (t < tmin || t > tmax)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		auto x = p[0] + t * d[0];
 		if (x < -1 || x > 1)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		auto z = p[2] + t * d[2];
 		if (z < -1 || z > 1)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		return { true, t, point<T,2>{x,z} };
 	}
@@ -196,18 +196,18 @@ namespace Ubpa {
 
 		const auto& d = this->dir;
 		if (d[1] == 0)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		const auto& p = this->point;
 		T t = -p[1] / d[1];
 		if (t < tmin || t > tmax)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		auto x = p[0] + t * d[0];
 		auto z = p[2] + t * d[2];
 
 		if (x * x + z * z > 1)
-			return { false, ZERO<T>, point<T,2>{0,0} };
+			return { false, Zero<T>, point<T,2>{0,0} };
 
 		return { true, t, point<T,2>{x,z} };
 	}

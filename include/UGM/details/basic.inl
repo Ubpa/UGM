@@ -3,14 +3,6 @@
 #include <type_traits>
 #include <limits>
 
-#define UBPA_UGM_DEFINE_CONCEPT_BINARY_API(api_name)             \
-template<typename T>                                             \
-concept contains_##api_name = requires(const T& a, const T& b) { \
-	a.api_name(b);                                               \
-}
-
-#define UBPA_UGM_USE_CONCEPT_BINARY_API(api_name, type) contains_##api_name<type>
-
 namespace Ubpa::details {
 	template<typename T>
 	concept contains_rmv_epsilon = requires(const T & v) { v.rmv_epsilon(); };
@@ -32,8 +24,8 @@ namespace Ubpa {
 		if constexpr (details::contains_rmv_epsilon<T>)
 			return val.rmv_epsilon();
 		else {
-			if (std::abs(std::round(val) - val) < EPSILON<T>)
-				return static_cast<T>(std::round(val + EPSILON<T>)); // + epsilon for -0 case
+			if (std::abs(std::round(val) - val) < Epsilon<T>)
+				return static_cast<T>(std::round(val + Epsilon<T>)); // + epsilon for -0 case
 			else
 				return val;
 		}
@@ -42,23 +34,23 @@ namespace Ubpa {
 	template<typename T>
 	constexpr T to_radian(T degree) noexcept {
 		static_assert(std::is_floating_point_v<T>);
-		return degree * (PI<T> / static_cast<T>(180));
+		return degree * (Pi<T> / static_cast<T>(180));
 	}
 
 	template<typename T>
 	constexpr T to_degree(T radian) noexcept {
 		static_assert(std::is_floating_point_v<T>);
-		return radian * (static_cast<T>(180) / PI<T>);
+		return radian * (static_cast<T>(180) / Pi<T>);
 	}
 
 	template<typename T>
 	T sgn(T v) noexcept {
-		if (v > ZERO<T>)
-			return ONE<T>;
-		else if (v < ZERO<T>)
+		if (v > Zero<T>)
+			return One<T>;
+		else if (v < Zero<T>)
 			return static_cast<T>(-1);
 		else
-			return ZERO<T>;
+			return Zero<T>;
 	}
 
 	template<typename T>
@@ -66,7 +58,7 @@ namespace Ubpa {
 		if constexpr (details::contains_is_all_zero<T>)
 			return v.is_all_zero();
 		else
-			return v == ZERO<T>;
+			return v == Zero<T>;
 	}
 
 	template<typename T>
@@ -112,7 +104,7 @@ namespace Ubpa {
 	template<typename T>
 	T rand01() noexcept {
 		static_assert(std::is_floating_point_v<T>);
-		static std::uniform_real_distribution<T> distribution(ZERO<T>, one_epsilon<T>());
+		static std::uniform_real_distribution<T> distribution(Zero<T>, one_epsilon<T>());
 		static std::default_random_engine engine;
 		return distribution(engine);
 	}

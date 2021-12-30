@@ -83,4 +83,11 @@ int main() {
 
 	vecu3 ddd{ 1,2,3 };
 	cout << ddd + (-ddd) << endl;
+
+	{
+		vecf4 v(1, 2, 3, 0);
+		vecf4 u(2, 3, 4, 1);
+		vecf4 rst = v.hadamard_div(u);
+		cout << rst << endl;
+	}
 }

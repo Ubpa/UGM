@@ -126,6 +126,40 @@ namespace Ubpa {
 				return rst;
 			}
 		}
+
+		template<typename Other>
+		Impl hadamard_mul(const Other& y) const noexcept {
+			static_assert(SI_ImplTraits_N<Other> == N && std::is_same_v<SI_ImplTraits_T<Other>, T>);
+			const auto& x = static_cast<const Impl&>(*this);
+#ifdef UBPA_UGM_USE_SIMD
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl> && SI_ImplTraits_SupportSIMD<Other>)
+				return _mm_mul_ps(x, y);
+			else
+#endif // UBPA_UGM_USE_SIMD
+			{
+				Impl rst;
+				for (size_t i = 0; i < N; i++)
+					rst[i] = x[i] * y[i];
+				return rst;
+			}
+		}
+
+		template<typename Other>
+		Impl hadamard_div(const Other& y) const noexcept {
+			static_assert(SI_ImplTraits_N<Other> == N && std::is_same_v<SI_ImplTraits_T<Other>, T>);
+			const auto& x = static_cast<const Impl&>(*this);
+#ifdef UBPA_UGM_USE_SIMD
+			if constexpr (SI_ImplTraits_SupportSIMD<Impl> && SI_ImplTraits_SupportSIMD<Other>)
+				return _mm_div_ps(x, y);
+			else
+#endif // UBPA_UGM_USE_SIMD
+			{
+				Impl rst;
+				for (size_t i = 0; i < N; i++)
+					rst[i] = x[i] / y[i];
+				return rst;
+			}
+		}
 	};
 }
 

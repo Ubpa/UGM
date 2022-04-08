@@ -1,5 +1,5 @@
 // main.cpp
-#include <UGM/UGM.h>
+#include <UGM/UGM.hpp>
 #include <iostream>
 using namespace Ubpa;
 int main(){
